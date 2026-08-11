@@ -54,7 +54,7 @@ class LoginController extends Controller
       }
     } catch (\Exception $ex) {
       return redirect()->back()
-        ->with(['error' => 'عفوا حدث خطأ ما' . $ex->getMessage()])
+        ->with(['error' => 'Sorry, something went wrong: ' . $ex->getMessage()])
         ->withInput();
     }
   }

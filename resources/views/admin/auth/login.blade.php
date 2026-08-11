@@ -1,10 +1,10 @@
-@php $dir = app()->getLocale() === 'ar' ? 'rtl' : 'ltr'; @endphp
+@php $dir = 'ltr'; @endphp
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}" dir="{{ $dir }}">
+<html lang="en" dir="{{ $dir }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ __('messages.admin_login_title') }} — Flyerall</title>
+    <title>Admin Login — Ali Market</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -327,53 +327,36 @@
 <div class="l-panel">
 
     <div class="l-brand">
-        <div class="l-brand-icon"><i class="bi bi-mortarboard-fill"></i></div>
-        <div class="l-brand-name"><span>Flyerall</span></div>
+        <div class="l-brand-icon"><i class="bi bi-shop-window"></i></div>
+        <div class="l-brand-name"><span>Ali Market</span></div>
     </div>
 
     <div class="l-hero">
         <div class="l-badge">
-            <i class="bi bi-shield-check-fill"></i> {{ __('messages.admin_portal') }}
+            <i class="bi bi-shield-check-fill"></i> Admin Portal
         </div>
-        <h1 class="l-title">{{ __('messages.manage_platform_title') }}<br><span>{{ __('messages.manage_platform_subtitle') }}</span></h1>
+        <h1 class="l-title">Manage Your<br><span>Store Platform</span></h1>
         <p class="l-subtitle">
-            {{ __('messages.manage_platform_desc') }}
+            Oversee every store, its subscription, SMS credit, and staff from one place.
         </p>
         <ul class="l-features">
             <li>
-                <div class="feat-icon"><i class="bi bi-people-fill"></i></div>
-                {{ __('messages.feature_user_roles') }}
+                <div class="feat-icon"><i class="bi bi-shop"></i></div>
+                Store accounts &amp; subscriptions
             </li>
             <li>
-                <div class="feat-icon"><i class="bi bi-book-fill"></i></div>
-                {{ __('messages.feature_courses_lessons') }}
+                <div class="feat-icon"><i class="bi bi-chat-dots-fill"></i></div>
+                SMS credit management
             </li>
             <li>
                 <div class="feat-icon"><i class="bi bi-bar-chart-line-fill"></i></div>
-                {{ __('messages.feature_analytics') }}
+                Platform analytics
             </li>
             <li>
                 <div class="feat-icon"><i class="bi bi-gear-fill"></i></div>
-                {{ __('messages.feature_settings_perms') }}
+                Roles &amp; permissions
             </li>
         </ul>
-    </div>
-
-    <div class="l-stats">
-        <div class="l-stat">
-            <span class="l-stat-val">1,284</span>
-            <span class="l-stat-lbl">{{ __('messages.students') }}</span>
-        </div>
-        <div class="l-stat-divider"></div>
-        <div class="l-stat">
-            <span class="l-stat-val">94</span>
-            <span class="l-stat-lbl">{{ __('messages.teachers') }}</span>
-        </div>
-        <div class="l-stat-divider"></div>
-        <div class="l-stat">
-            <span class="l-stat-val">168</span>
-            <span class="l-stat-lbl">{{ __('messages.courses') }}</span>
-        </div>
     </div>
 
 </div>
@@ -384,10 +367,10 @@
 
         <div class="r-header">
             <div class="r-eyebrow">
-                <span class="dot"></span> {{ __('messages.secure_access') }}
+                <span class="dot"></span> Secure Access
             </div>
-            <h2 class="r-title">{{ __('messages.welcome_back_short') }}</h2>
-            <p class="r-sub">{{ __('messages.sign_in_admin_desc') }}</p>
+            <h2 class="r-title">Welcome Back</h2>
+            <p class="r-sub">Sign in to your admin account</p>
         </div>
 
         {{-- Error Message --}}
@@ -403,7 +386,7 @@
 
             {{-- Username --}}
             <div class="form-group">
-                <label class="form-label" for="username">{{ __('messages.username_label') }}</label>
+                <label class="form-label" for="username">Username</label>
                 <div class="input-wrap">
                     <i class="input-icon bi bi-person"></i>
                     <input
@@ -411,7 +394,7 @@
                         name="username"
                         type="text"
                         class="form-input {{ $errors->has('username') ? 'is-invalid' : '' }}"
-                        placeholder="{{ __('messages.username_ph') }}"
+                        placeholder="Enter your username"
                         value="{{ old('username') }}"
                         required
                         autofocus
@@ -424,7 +407,7 @@
 
             {{-- Password --}}
             <div class="form-group">
-                <label class="form-label" for="password">{{ __('messages.password_label') }}</label>
+                <label class="form-label" for="password">Password</label>
                 <div class="input-wrap">
                     <i class="input-icon bi bi-lock"></i>
                     <input
@@ -432,7 +415,7 @@
                         name="password"
                         type="password"
                         class="form-input {{ $errors->has('password') ? 'is-invalid' : '' }}"
-                        placeholder="{{ __('messages.password_ph') }}"
+                        placeholder="Enter your password"
                         required
                     >
                     <button type="button" class="pw-toggle" id="pwToggle" aria-label="Toggle password">
@@ -447,17 +430,17 @@
             {{-- Remember Me --}}
             <div class="form-check">
                 <input type="checkbox" id="remember" name="remember">
-                <label for="remember">{{ __('messages.keep_signed_in') }}</label>
+                <label for="remember">Keep me signed in</label>
             </div>
 
             {{-- Submit --}}
             <button type="submit" class="btn-login">
-                <i class="bi bi-box-arrow-in-right"></i> {{ __('messages.sign_in_admin_btn') }}
+                <i class="bi bi-box-arrow-in-right"></i> Sign In
             </button>
         </form>
 
         <div class="r-footer">
-            &copy; {{ date('Y') }} Flyerall. {{ __('messages.all_rights_reserved') }}
+            &copy; {{ date('Y') }} Ali Market. All rights reserved.
         </div>
 
     </div>

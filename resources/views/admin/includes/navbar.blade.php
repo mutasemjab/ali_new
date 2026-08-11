@@ -3,7 +3,7 @@
     {{-- Hamburger (mobile) --}}
     <button class="navbar-toggler"
             id="sidebarToggler"
-            aria-label="{{ __('messages.toggle_sidebar') }}">
+            aria-label="Toggle sidebar">
         <i class="bi bi-list"></i>
     </button>
 
@@ -12,8 +12,8 @@
         <div class="search-box">
             <i class="bi bi-search"></i>
             <input type="text"
-                   placeholder="{{ __('messages.search_placeholder') }}"
-                   aria-label="{{ __('messages.search_placeholder') }}">
+                   placeholder="Search..."
+                   aria-label="Search">
         </div>
     </div>
 
@@ -22,20 +22,10 @@
 
         <a href="#"
            class="icon-btn"
-           title="{{ __('messages.notifications') }}">
+           title="Notifications">
             <i class="bi bi-bell"></i>
             <span class="dot"></span>
         </a>
-
-        @foreach (LaravelLocalization::getSupportedLocales() as $locale => $properties)
-            @if ($locale !== app()->getLocale())
-                <a href="{{ LaravelLocalization::getLocalizedURL($locale, null, [], true) }}"
-                   class="icon-btn"
-                   hreflang="{{ $locale }}">
-                    {{ strtoupper($locale) }}
-                </a>
-            @endif
-        @endforeach
 
         <div class="nav-divider"></div>
 
@@ -45,7 +35,7 @@
 
                 <div class="user-info">
                     <span class="user-name">Admin</span>
-                    <span class="user-role">{{ __('messages.administrator') }}</span>
+                    <span class="user-role">Administrator</span>
                 </div>
 
                 <i class="bi bi-chevron-down ms-1"
@@ -60,7 +50,7 @@
                        href="#">
                         <i class="bi bi-person-circle"
                            style="color:var(--muted)"></i>
-                        {{ __('messages.my_profile') }}
+                        My Profile
                     </a>
                 </li>
 
@@ -69,7 +59,7 @@
                        href="#">
                         <i class="bi bi-gear"
                            style="color:var(--muted)"></i>
-                        {{ __('messages.settings') }}
+                        Settings
                     </a>
                 </li>
 
@@ -82,7 +72,7 @@
                        href="#"
                        onclick="event.preventDefault(); document.getElementById('admin-logout-form').submit();">
                         <i class="bi bi-box-arrow-right"></i>
-                        {{ __('messages.sign_out') }}
+                        Sign Out
                     </a>
 
                     <form id="admin-logout-form"

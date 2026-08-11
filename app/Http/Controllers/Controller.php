@@ -22,7 +22,7 @@ class Controller extends BaseController
             abort_unless(
                 auth()->guard('admin')->user()?->can($permission),
                 403,
-                'غير مصرح لك بهذا الإجراء.'
+                'You are not authorized to perform this action.'
             );
             return $next($request);
         };

@@ -44,6 +44,10 @@ return [
             'driver' => 'session',
             'provider' => 'admins',
         ],
+        'store' => [
+            'driver' => 'session',
+            'provider' => 'stores',
+        ],
         'user-api' => [
             'driver' => 'passport',
             'provider' => 'users',
@@ -88,6 +92,10 @@ return [
         'admins' => [
             'driver' => 'eloquent',
             'model' => App\Models\Admin::class,
+        ],
+        'stores' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Store::class,
         ],
         'teachers' => [
             'driver' => 'eloquent',

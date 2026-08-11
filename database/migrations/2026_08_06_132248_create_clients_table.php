@@ -15,11 +15,14 @@ return new class extends Migration
     {
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('store_id')->constrained()->cascadeOnDelete();
             $table->string('name');
-            $table->string('phone')->unique();
+            $table->string('phone');
             $table->integer('number_of_visit')->default(0);
             $table->integer('total_points')->default(0);
             $table->timestamps();
+
+            $table->unique(['store_id', 'phone']);
         });
     }
 

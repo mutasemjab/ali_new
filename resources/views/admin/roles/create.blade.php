@@ -1,15 +1,15 @@
 @extends('admin.layouts.app')
-@section('title', 'إضافة دور جديد')
+@section('title', 'Add New Role')
 
 @section('content')
 
 <div class="page-header d-flex align-items-start justify-content-between flex-wrap gap-3">
     <div>
-        <h1 class="page-title">إضافة دور جديد</h1>
-        <p class="page-sub">حدد اسم الدور وخصص صلاحياته</p>
+        <h1 class="page-title">Add New Role</h1>
+        <p class="page-sub">Set the role name and customize its permissions</p>
     </div>
     <a href="{{ route('admin.role.index') }}" class="btn-outline-sm">
-        <i class="bi bi-arrow-right"></i> العودة للقائمة
+        <i class="bi bi-arrow-right"></i> Back to List
     </a>
 </div>
 
@@ -26,14 +26,14 @@
 {{-- Role name --}}
 <div class="panel-card mb-4">
     <div class="panel-card-header">
-        <h2 class="panel-card-title"><i class="bi bi-tag"></i> بيانات الدور</h2>
+        <h2 class="panel-card-title"><i class="bi bi-tag"></i> Role Details</h2>
     </div>
     <div class="panel-card-body">
         <div class="col-12 col-md-5">
-            <label class="form-label">اسم الدور <span class="text-danger">*</span></label>
+            <label class="form-label">Role Name <span class="text-danger">*</span></label>
             <input type="text" name="name" value="{{ old('name') }}"
                    class="form-control @error('name') is-invalid @enderror"
-                   placeholder="مثال: محرر المحتوى" required>
+                   placeholder="e.g. Content Editor" required>
             @error('name')<div class="invalid-feedback">{{ $message }}</div>@enderror
         </div>
     </div>
@@ -42,19 +42,19 @@
 {{-- Permissions --}}
 <div class="panel-card mb-4">
     <div class="panel-card-header d-flex align-items-center justify-content-between flex-wrap gap-2">
-        <h2 class="panel-card-title"><i class="bi bi-shield-check"></i> الصلاحيات</h2>
+        <h2 class="panel-card-title"><i class="bi bi-shield-check"></i> Permissions</h2>
         <div class="d-flex gap-2">
             <button type="button" class="btn-outline-sm" id="btn-select-all">
-                <i class="bi bi-check2-all"></i> تحديد الكل
+                <i class="bi bi-check2-all"></i> Select All
             </button>
             <button type="button" class="btn-outline-sm" id="btn-deselect-all">
-                <i class="bi bi-x-circle"></i> إلغاء الكل
+                <i class="bi bi-x-circle"></i> Deselect All
             </button>
         </div>
     </div>
     <div class="panel-card-body">
         @php
-            $permLabels = ['table' => 'عرض', 'add' => 'إضافة', 'edit' => 'تعديل', 'delete' => 'حذف', 'send' => 'إرسال'];
+            $permLabels = ['table' => 'View', 'add' => 'Add', 'edit' => 'Edit', 'delete' => 'Delete', 'send' => 'Send'];
         @endphp
         <div class="row g-3">
             @foreach($permGroups as $groupName => $groupPerms)
@@ -64,7 +64,7 @@
                         <span class="fw-semibold small">{{ $groupName }}</span>
                         <label class="d-flex align-items-center gap-1 mb-0 cursor-pointer">
                             <input type="checkbox" class="group-toggle" data-group="{{ Str::slug($groupName) }}">
-                            <span class="small text-muted">الكل</span>
+                            <span class="small text-muted">All</span>
                         </label>
                     </div>
                     <div class="perm-card-body">
@@ -92,8 +92,8 @@
 </div>
 
 <div class="d-flex gap-2 pb-4">
-    <button type="submit" class="btn-primary-sm"><i class="bi bi-save"></i> حفظ الدور</button>
-    <a href="{{ route('admin.role.index') }}" class="btn-outline-sm">إلغاء</a>
+    <button type="submit" class="btn-primary-sm"><i class="bi bi-save"></i> Save Role</button>
+    <a href="{{ route('admin.role.index') }}" class="btn-outline-sm">Cancel</a>
 </div>
 
 </form>

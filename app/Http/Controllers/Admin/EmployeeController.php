@@ -67,7 +67,7 @@ class EmployeeController extends Controller
         }
 
         return redirect()->route('admin.employee.index')
-            ->with('success', 'تم إنشاء الموظف بنجاح.');
+            ->with('success', 'Employee created successfully.');
     }
 
     public function edit(int $id)
@@ -108,7 +108,7 @@ class EmployeeController extends Controller
         );
 
         return redirect()->route('admin.employee.index')
-            ->with('success', 'تم تحديث الموظف بنجاح.');
+            ->with('success', 'Employee updated successfully.');
     }
 
     public function destroy(int $id)
@@ -117,6 +117,6 @@ class EmployeeController extends Controller
         $employee->syncRoles([]);
         $employee->delete();
 
-        return back()->with('success', 'تم حذف الموظف.');
+        return back()->with('success', 'Employee deleted.');
     }
 }

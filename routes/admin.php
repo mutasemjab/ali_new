@@ -29,6 +29,9 @@ use App\Http\Controllers\Admin\ConductDocumentController;
 use App\Http\Controllers\Admin\SchoolClassController;
 use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\Admin\TeacherController;
+use App\Http\Controllers\Admin\StoreController;
+use App\Http\Controllers\Admin\StoreSubscriptionController;
+use App\Http\Controllers\Admin\StoreSmsController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use Spatie\Permission\Models\Permission;
@@ -58,6 +61,12 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
         Route::get('/permissions/{guard_name}', function ($guard_name) {
             return response()->json(Permission::where('guard_name', $guard_name)->get());
         });
+
+        // ── Stores (tenants) ─────────────────────────────────────────
+        Route::resource('stores', StoreController::class, ['as' => 'admin']);
+        Route::post('stores/{store}/toggle', [StoreController::class, 'toggle'])->name('admin.stores.toggle');
+        Route::post('stores/{store}/subscriptions', [StoreSubscriptionController::class, 'store'])->name('admin.stores.subscriptions.store');
+        Route::post('stores/{store}/sms', [StoreSmsController::class, 'store'])->name('admin.stores.sms.store');
 
     });
 });

@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('photo');
             $table->tinyInteger('activate')->default(1); // 1 active // 2 not active
             $table->integer('total_sms')->default(0);
+            $table->text('privacy_policy')->nullable();
+            $table->string('facebook_link')->nullable();
             $table->timestamps();
         });
     }

@@ -18,6 +18,9 @@ class Authenticate extends Middleware
             if ($request->is('admin') || $request->is('admin/*')) {
                 //redirect to admin login
                 return route('admin.login');
+            } elseif ($request->is('store') || $request->is('store/*')) {
+                //redirect to store login
+                return route('store.showlogin');
             } else {
                 return route('auth.login');
             }

@@ -1,11 +1,11 @@
 @extends('admin.layouts.app')
-@section('title', __('messages.edit_admin_account'))
+@section('title', 'Edit Admin Account')
 
 @section('content')
 
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title card_title_center">{{ __('messages.edit_admin_account') }}</h3>
+          <h3 class="card-title card_title_center">Edit Admin Account</h3>
         </div>
         <!-- /.card-header -->
         <div class="card-body">
@@ -20,7 +20,7 @@
 
         <div class="col-md-6">
 <div class="form-group">
-  <label>{{ __('messages.username_label') }}</label>
+  <label>Username</label>
   <input name="username" id="name" class="form-control" value="{{ old('username',$data['username']) }}"    >
   @error('username')
   <span class="text-danger">{{ $message }}</span>
@@ -34,7 +34,7 @@
 
 <div class="col-md-6">
   <div class="form-group">
-    <label>{{ __('messages.password_label') }}</label>
+    <label>Password</label>
     <input name="password" id="email" class="form-control" value=""    >
     @error('password')
     <span class="text-danger">{{ $message }}</span>
@@ -50,8 +50,8 @@
 
       <div class="col-md-12">
       <div class="form-group text-center">
-        <button id="do_add_item_cardd" type="submit" class="btn btn-primary btn-sm">{{ __('messages.update') }}</button>
-        <a href="{{ route('admin.dashboard') }}" class="btn btn-sm btn-danger">{{ __('messages.Cancel') }}</a>
+        <button id="do_add_item_cardd" type="submit" class="btn btn-primary btn-sm">Update</button>
+        <a href="{{ route('admin.dashboard') }}" class="btn btn-sm btn-danger">Cancel</a>
 
       </div>
     </div>
@@ -61,9 +61,8 @@
             @endcan
 
 
+
             </div>
-
-
 
 
         </div>

@@ -21,29 +21,29 @@ class RoleController extends Controller
     public static function permGroups(): array
     {
         return [
-            'الأدوار والموظفون'    => ['role-table', 'role-add', 'role-edit', 'role-delete', 'employee-table', 'employee-add', 'employee-edit', 'employee-delete'],
-            'سجل النشاطات'         => ['activity-log-table', 'activity-log-delete'],
-            'الطلاب'               => ['student-table', 'student-add', 'student-edit', 'student-delete'],
-            'المعلمون'             => ['teacher-table', 'teacher-add', 'teacher-edit', 'teacher-delete'],
-            'الدورات'              => ['course-table', 'course-add', 'course-edit', 'course-delete'],
-            'محتوى الدورات'        => ['course-content-add', 'course-content-edit', 'course-content-delete'],
-            'الفئات'               => ['category-table', 'category-add', 'category-edit', 'category-delete'],
-            'المواد الدراسية'      => ['subject-table', 'subject-add', 'subject-edit', 'subject-delete'],
-            'الاختبارات'           => ['exam-table', 'exam-add', 'exam-edit', 'exam-delete'],
-            'بنك الأسئلة'          => ['question-bank-table', 'question-bank-add', 'question-bank-edit', 'question-bank-delete'],
-            'امتحانات سابقة'       => ['previous-exam-table', 'previous-exam-add', 'previous-exam-edit', 'previous-exam-delete'],
-            'أوراق العمل'          => ['worksheet-table', 'worksheet-add', 'worksheet-edit', 'worksheet-delete'],
-            'المفكرة التعليمية'    => ['educational-note-table', 'educational-note-add', 'educational-note-edit', 'educational-note-delete'],
-            'المفكرة الأسبوعية'    => ['weekly-planner-table', 'weekly-planner-add', 'weekly-planner-edit', 'weekly-planner-delete'],
-            'التسجيلات'            => ['enrollment-table', 'enrollment-edit', 'enrollment-delete'],
-            'البطاقات'             => ['card-table', 'card-add', 'card-edit', 'card-delete', 'card-number-table', 'card-number-add', 'card-number-edit', 'card-number-delete'],
-            'البانرات'             => ['banner-table', 'banner-add', 'banner-edit', 'banner-delete'],
-            'الإعلانات'            => ['announcement-table', 'announcement-add', 'announcement-edit', 'announcement-delete'],
-            'الإشعارات'            => ['notification-send'],
-            'المدن'                => ['city-table', 'city-add', 'city-edit', 'city-delete'],
-            'نقاط البيع'           => ['pos-table', 'pos-add', 'pos-edit', 'pos-delete'],
-            'رسائل التواصل'        => ['contact-message-table', 'contact-message-delete'],
-            'الإعدادات'            => ['setting-edit'],
+            'Roles & Employees'    => ['role-table', 'role-add', 'role-edit', 'role-delete', 'employee-table', 'employee-add', 'employee-edit', 'employee-delete'],
+            'Activity Log'         => ['activity-log-table', 'activity-log-delete'],
+            'Students'             => ['student-table', 'student-add', 'student-edit', 'student-delete'],
+            'Teachers'             => ['teacher-table', 'teacher-add', 'teacher-edit', 'teacher-delete'],
+            'Courses'              => ['course-table', 'course-add', 'course-edit', 'course-delete'],
+            'Course Content'       => ['course-content-add', 'course-content-edit', 'course-content-delete'],
+            'Categories'           => ['category-table', 'category-add', 'category-edit', 'category-delete'],
+            'Subjects'             => ['subject-table', 'subject-add', 'subject-edit', 'subject-delete'],
+            'Exams'                => ['exam-table', 'exam-add', 'exam-edit', 'exam-delete'],
+            'Question Bank'        => ['question-bank-table', 'question-bank-add', 'question-bank-edit', 'question-bank-delete'],
+            'Previous Exams'       => ['previous-exam-table', 'previous-exam-add', 'previous-exam-edit', 'previous-exam-delete'],
+            'Worksheets'           => ['worksheet-table', 'worksheet-add', 'worksheet-edit', 'worksheet-delete'],
+            'Educational Notes'    => ['educational-note-table', 'educational-note-add', 'educational-note-edit', 'educational-note-delete'],
+            'Weekly Planner'       => ['weekly-planner-table', 'weekly-planner-add', 'weekly-planner-edit', 'weekly-planner-delete'],
+            'Enrollments'          => ['enrollment-table', 'enrollment-edit', 'enrollment-delete'],
+            'Cards'                => ['card-table', 'card-add', 'card-edit', 'card-delete', 'card-number-table', 'card-number-add', 'card-number-edit', 'card-number-delete'],
+            'Banners'              => ['banner-table', 'banner-add', 'banner-edit', 'banner-delete'],
+            'Announcements'        => ['announcement-table', 'announcement-add', 'announcement-edit', 'announcement-delete'],
+            'Notifications'        => ['notification-send'],
+            'Cities'               => ['city-table', 'city-add', 'city-edit', 'city-delete'],
+            'Point of Sale'        => ['pos-table', 'pos-add', 'pos-edit', 'pos-delete'],
+            'Contact Messages'     => ['contact-message-table', 'contact-message-delete'],
+            'Settings'             => ['setting-edit'],
         ];
     }
 
@@ -77,7 +77,7 @@ class RoleController extends Controller
         $role = Role::create(['name' => $request->name, 'guard_name' => 'admin']);
         $role->syncPermissions(Permission::whereIn('id', $request->input('perms', []))->get());
 
-        return redirect()->route('admin.role.index')->with('success', 'تم إنشاء الدور بنجاح.');
+        return redirect()->route('admin.role.index')->with('success', 'Role created successfully.');
     }
 
     public function edit(int $id)
@@ -101,13 +101,13 @@ class RoleController extends Controller
         $role->update(['name' => $request->name]);
         $role->syncPermissions(Permission::whereIn('id', $request->input('perms', []))->get());
 
-        return redirect()->route('admin.role.index')->with('success', 'تم تحديث الدور بنجاح.');
+        return redirect()->route('admin.role.index')->with('success', 'Role updated successfully.');
     }
 
     public function destroy(int $id)
     {
         Role::findOrFail($id)->delete();
-        return back()->with('success', 'تم حذف الدور.');
+        return back()->with('success', 'Role deleted.');
     }
 
     // Legacy AJAX delete endpoint (kept for backward compat)

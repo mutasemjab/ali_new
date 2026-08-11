@@ -27,6 +27,9 @@ class RedirectIfAuthenticated
                 if ($request->is('admin') || $request->is('admin/*')) {
                     //redirect Backend
                     return redirect(RouteServiceProvider::Admin);
+                } elseif ($request->is('store') || $request->is('store/*')) {
+                    //redirect store owner to their dashboard
+                    return redirect()->route('store.dashboard');
                 } else {
                     //redirect front end  in case there is front
                     return redirect(RouteServiceProvider::Home);
