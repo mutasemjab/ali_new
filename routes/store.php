@@ -17,7 +17,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
     Route::group(['prefix' => 'store', 'middleware' => ['auth:store', 'tenant', 'store.active']], function () {
 
         Route::get('/', [DashboardController::class, 'index'])->name('store.dashboard');
-        Route::get('logout', [LoginController::class, 'logout'])->name('store.logout');
+        Route::post('logout', [LoginController::class, 'logout'])->name('store.logout');
 
         Route::get('/account/edit/{id}', [LoginController::class, 'editlogin'])->name('store.login.edit');
         Route::post('/account/update/{id}', [LoginController::class, 'updatelogin'])->name('store.login.update');
