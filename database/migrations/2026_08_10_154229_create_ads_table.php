@@ -19,6 +19,7 @@ return new class extends Migration
             $table->enum('type', ['image', 'products']);
             $table->string('image')->nullable();
             $table->string('token', 40)->unique();
+            $table->dateTime('expires_at')->nullable();
             $table->timestamps();
         });
     }

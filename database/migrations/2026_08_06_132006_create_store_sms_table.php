@@ -21,7 +21,8 @@ return new class extends Migration
                 'recharge',   // شحن
                 'send',       // إرسال
                 'refund',     // استرجاع
-                'adjustment'  // تعديل يدوي
+                'adjustment',  // تعديل يدوي
+                'expired',  //  انتهى
             ]);
 
             $table->integer('quantity'); // +500 أو -10
