@@ -6,17 +6,15 @@
 
 @section('content')
 
-<h1 class="h5 fw-bold mb-3 text-center">{{ $store->name }}</h1>
-
 @if($ad->type === 'image')
-    <div class="bg-white rounded-3 p-2 shadow-sm text-center">
-        <img src="{{ asset($ad->image) }}" alt="" class="img-fluid rounded-2">
+    <div class="surface-card reveal" style="padding:10px;">
+        <img src="{{ asset($ad->image) }}" alt="" class="img-fluid" style="border-radius:16px; width:100%; display:block;">
     </div>
 @else
     <div class="d-flex flex-column gap-3">
         @forelse($ad->products as $product)
-        <div class="bg-white rounded-3 p-2 shadow-sm d-flex align-items-center gap-3">
-            <img src="{{ asset($product->image) }}" alt="" class="rounded-2 flex-shrink-0" style="width:110px;height:110px;object-fit:cover;">
+        <div class="surface-card reveal d-flex align-items-center gap-3" style="padding:14px; transition-delay:{{ min($loop->index * 60, 480) }}ms;">
+            <img src="{{ asset($product->image) }}" alt="" class="rounded-3 flex-shrink-0" style="width:110px;height:110px;object-fit:cover;">
             <div class="flex-grow-1">
                 <div class="fw-semibold mb-1">{{ $product->name }}</div>
                 <div class="fs-5">
@@ -30,7 +28,10 @@
             </div>
         </div>
         @empty
-        <p class="text-muted text-center">لا يوجد منتجات في هذا الإعلان</p>
+        <div class="surface-card reveal text-center py-5">
+            <i class="bi bi-inboxes" style="font-size:2.5rem;color:var(--muted);"></i>
+            <p class="text-muted mt-3 mb-0">لا يوجد منتجات في هذا الإعلان</p>
+        </div>
         @endforelse
     </div>
 @endif
