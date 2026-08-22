@@ -10,6 +10,8 @@ class Feedback extends Model
 {
     use HasFactory, BelongsToStore;
 
+    protected $table = 'feedbacks';
+
     protected $fillable = [
         'store_id', 'name', 'phone', 'message',
     ];
