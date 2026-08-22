@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#0f172a">
+    <meta name="theme-color" content="#eef1fb">
     <title>@yield('title', $store->name ?? '')</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,19 +28,9 @@
             --surface: rgba(255, 255, 255, 0.86);
             --surface-solid: #ffffff;
             --border: rgba(15, 23, 42, 0.06);
+            --divider: rgba(15, 23, 42, 0.16);
             --shadow-color: 220 40% 30%;
             --bg-base: #eef1fb;
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --ink: #f1f5f9;
-                --muted: #94a3b8;
-                --surface: rgba(30, 32, 48, 0.72);
-                --surface-solid: #191b2a;
-                --border: rgba(255, 255, 255, 0.08);
-                --bg-base: #0b0c14;
-            }
         }
 
         * { box-sizing: border-box; }
@@ -110,14 +100,13 @@
 
         .store-avatar-wrap {
             position: relative;
-            width: 92px;
-            height: 92px;
-            margin-bottom: 14px;
+            width: 152px;
+            height: 152px;
         }
 
         .store-avatar-ring {
             position: absolute;
-            inset: -6px;
+            inset: -7px;
             border-radius: 50%;
             background: conic-gradient(from 0deg, var(--primary-1), var(--primary-3), var(--primary-2), var(--primary-1));
             animation: spin 6s linear infinite;
@@ -131,16 +120,16 @@
 
         .store-avatar {
             position: relative;
-            width: 92px;
-            height: 92px;
+            width: 152px;
+            height: 152px;
             border-radius: 50%;
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
             background: var(--surface-solid);
-            border: 4px solid var(--surface-solid);
-            box-shadow: 0 12px 30px -10px hsl(var(--shadow-color) / .45);
+            border: 5px solid var(--surface-solid);
+            box-shadow: 0 16px 36px -12px hsl(var(--shadow-color) / .45);
         }
 
         .store-avatar img {
@@ -156,22 +145,9 @@
             align-items: center;
             justify-content: center;
             font-weight: 800;
-            font-size: 2rem;
+            font-size: 3.2rem;
             color: #fff;
             background: linear-gradient(135deg, var(--primary-1), var(--primary-2));
-        }
-
-        .store-name {
-            font-size: 1.35rem;
-            font-weight: 800;
-            letter-spacing: -.01em;
-            margin: 0;
-        }
-
-        .store-tagline {
-            color: var(--muted);
-            font-size: .85rem;
-            margin-top: 4px;
         }
 
         /* content */
@@ -193,6 +169,16 @@
             border-radius: 22px;
             padding: 20px;
             box-shadow: 0 20px 45px -24px hsl(var(--shadow-color) / .35);
+        }
+
+        .product-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px 0;
+        }
+        .product-row:not(:first-child) {
+            border-top: 2px dotted var(--divider);
         }
 
         .section-title {
@@ -260,55 +246,49 @@
         .alert-modern.alert-success { background: rgba(16, 185, 129, .12); color: #059669; }
         .alert-modern.alert-danger { background: rgba(239, 68, 68, .12); color: #dc2626; }
 
-        /* floating bottom nav */
+        /* floating action stack */
         .public-footer {
             position: fixed;
-            bottom: 20px;
-            inset-inline-start: 50%;
-            transform: translateX(-50%);
+            bottom: 26px;
+            inset-inline-end: 20px;
             z-index: 5;
             display: flex;
-            gap: 10px;
-            padding: 10px;
-            border-radius: 999px;
-            background: var(--surface);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--border);
-            box-shadow: 0 16px 40px -18px hsl(var(--shadow-color) / .5);
+            flex-direction: column;
+            gap: 14px;
             animation: fadeUp .6s .2s cubic-bezier(.22,1,.36,1) both;
         }
-        html[dir="rtl"] .public-footer { transform: translateX(50%); }
 
         .footer-icon-btn {
             position: relative;
-            width: 48px;
-            height: 48px;
+            width: 52px;
+            height: 52px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
             color: var(--ink);
             background: var(--surface-solid);
             border: 1px solid var(--border);
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             text-decoration: none;
+            box-shadow: 0 10px 24px -14px hsl(var(--shadow-color) / .45);
             transition: transform .25s cubic-bezier(.22,1,.36,1), background .25s ease, color .25s ease, box-shadow .25s ease;
         }
         .footer-icon-btn:hover {
             color: #fff;
             background: linear-gradient(135deg, var(--primary-1), var(--primary-2));
-            transform: translateY(-4px) scale(1.05);
-            box-shadow: 0 12px 22px -10px hsl(var(--shadow-color) / .55);
+            transform: translateY(-4px) scale(1.06);
+            box-shadow: 0 14px 26px -12px hsl(var(--shadow-color) / .55);
         }
         .footer-icon-btn:active { transform: translateY(-1px) scale(.97); }
 
         .footer-icon-btn[data-tooltip]::after {
             content: attr(data-tooltip);
             position: absolute;
-            bottom: 58px;
-            left: 50%;
-            transform: translateX(-50%) translateY(4px);
+            top: 50%;
+            inset-inline-end: 64px;
+            transform: translateY(-50%) translateX(4px);
             background: var(--ink);
             color: var(--bg-base);
             font-size: .72rem;
@@ -320,10 +300,53 @@
             pointer-events: none;
             transition: opacity .2s ease, transform .2s ease;
         }
+        html[dir="rtl"] .footer-icon-btn[data-tooltip]::after { transform: translateY(-50%) translateX(-4px); }
         .footer-icon-btn:hover[data-tooltip]::after,
         .footer-icon-btn:focus-visible[data-tooltip]::after {
             opacity: 1;
-            transform: translateX(-50%) translateY(0);
+            transform: translateY(-50%) translateX(0);
+        }
+
+        /* feedback = primary CTA, bigger + shines */
+        .footer-icon-btn--feature {
+            width: 58px;
+            height: 58px;
+            font-size: 1.3rem;
+            color: #fff;
+            border: none;
+            background: linear-gradient(135deg, var(--primary-1), var(--primary-2));
+            box-shadow: 0 14px 30px -12px hsl(var(--shadow-color) / .6);
+            animation: fadeUp .6s .2s cubic-bezier(.22,1,.36,1) both, glow 2.6s ease-in-out infinite;
+        }
+        .footer-icon-btn--feature:hover {
+            background: linear-gradient(135deg, var(--primary-1), var(--primary-2));
+            transform: translateY(-4px) scale(1.08);
+        }
+        .footer-icon-btn--feature::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -60%;
+            width: 40%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255,255,255,.75), transparent);
+            transform: skewX(-20deg);
+            animation: shine 3.2s ease-in-out infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -60%; }
+            35%, 100% { left: 130%; }
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 14px 30px -12px hsl(var(--shadow-color) / .6); }
+            50% { box-shadow: 0 14px 34px -8px hsl(var(--shadow-color) / .85); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .footer-icon-btn--feature { animation: fadeUp .6s .2s cubic-bezier(.22,1,.36,1) both; }
+            .footer-icon-btn--feature::before { animation: none; display: none; }
         }
     </style>
 
@@ -349,10 +372,6 @@
                 @endif
             </div>
         </div>
-        <h1 class="store-name">{{ $store->name }}</h1>
-        @hasSection('page-tagline')
-            <p class="store-tagline">@yield('page-tagline')</p>
-        @endif
     </div>
     @endisset
 
@@ -364,17 +383,17 @@
 
 @isset($store)
 <nav class="public-footer">
-    <a href="{{ route('public.stores.privacy', $store->id) }}" class="footer-icon-btn" data-tooltip="سياسة الخصوصية" aria-label="سياسة الخصوصية">
-        <i class="bi bi-shield-check"></i>
-    </a>
-    <a href="{{ route('public.stores.feedback.create', $store->id) }}" class="footer-icon-btn" data-tooltip="اترك ملاحظة" aria-label="اترك ملاحظة">
-        <i class="bi bi-chat-heart"></i>
+    <a href="{{ route('public.stores.feedback.create', $store->id) }}" class="footer-icon-btn footer-icon-btn--feature" data-tooltip="اترك ملاحظة" aria-label="اترك ملاحظة">
+        <i class="bi bi-chat-heart-fill"></i>
     </a>
     @if($store->facebook_link)
         <a href="{{ $store->facebook_link }}" target="_blank" rel="noopener" class="footer-icon-btn" data-tooltip="فيسبوك" aria-label="فيسبوك">
             <i class="bi bi-facebook"></i>
         </a>
     @endif
+    <a href="{{ route('public.stores.privacy', $store->id) }}" class="footer-icon-btn" data-tooltip="سياسة الخصوصية" aria-label="سياسة الخصوصية">
+        <i class="bi bi-shield-check"></i>
+    </a>
 </nav>
 @endisset
 

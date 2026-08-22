@@ -1,6 +1,5 @@
 @extends('public.layouts.app')
 @section('title', 'اترك ملاحظة — ' . $store->name)
-@section('page-tagline', 'اترك لنا ملاحظتك')
 
 @section('content')
 

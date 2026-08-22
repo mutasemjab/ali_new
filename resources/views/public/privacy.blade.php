@@ -1,6 +1,5 @@
 @extends('public.layouts.app')
 @section('title', 'سياسة الخصوصية — ' . $store->name)
-@section('page-tagline', 'سياسة الخصوصية')
 
 @section('content')
 
