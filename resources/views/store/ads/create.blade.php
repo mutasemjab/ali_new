@@ -50,6 +50,17 @@
     </div>
 </div>
 
+<div class="panel-card mb-3">
+    <div class="panel-card-header">
+        <h2 class="panel-card-title"><i class="bi bi-calendar-x"></i> Expiration (optional)</h2>
+    </div>
+    <div class="panel-card-body">
+        <label class="form-label">Link expires at</label>
+        <input type="datetime-local" name="expires_at" value="{{ old('expires_at') }}" class="form-control" style="max-width:280px;">
+        <div class="form-text">Leave empty for a link that never expires. After this date, the public link will show as expired.</div>
+    </div>
+</div>
+
 <div class="panel-card mb-3" id="products-section" style="display:none;">
     <div class="panel-card-header">
         <h2 class="panel-card-title"><i class="bi bi-box-seam"></i> Select Products</h2>

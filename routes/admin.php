@@ -67,6 +67,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
         Route::post('stores/{store}/toggle', [StoreController::class, 'toggle'])->name('admin.stores.toggle');
         Route::post('stores/{store}/subscriptions', [StoreSubscriptionController::class, 'store'])->name('admin.stores.subscriptions.store');
         Route::post('stores/{store}/sms', [StoreSmsController::class, 'store'])->name('admin.stores.sms.store');
+        Route::post('sms-credit', [StoreSmsController::class, 'quickStore'])->name('admin.sms.quick-recharge');
 
     });
 });

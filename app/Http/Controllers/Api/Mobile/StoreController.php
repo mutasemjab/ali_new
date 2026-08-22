@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Api\Mobile;
 
 use App\Http\Controllers\Controller;
 use App\Models\Client;
-use App\Models\Product;
 use App\Models\Store;
+use App\Models\WeeklyAd;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class StoreController extends Controller
 {
@@ -29,7 +30,7 @@ class StoreController extends Controller
     }
 
     /**
-     * GET /api/v1/stores/{store} — store info + its products.
+     * GET /api/v1/stores/{store} — store info + its currently active weekly ads.
      */
     public function show(Request $request, Store $store)
     {
@@ -41,11 +42,12 @@ class StoreController extends Controller
             ], 404);
         }
 
-        $products = Product::with('category')
-            ->where('store_id', $store->id)
-            ->whereHas('category', fn ($q) => $q->where('active', true))
-            ->when($request->search, fn ($q, $s) => $q->where('name', 'like', "%$s%"))
-            ->latest()
+        $today = Carbon::today();
+
+        $weeklyAds = WeeklyAd::where('store_id', $store->id)
+            ->whereDate('start_at', '<=', $today)
+            ->whereDate('end_at', '>=', $today)
+            ->orderByDesc('start_at')
             ->paginate($request->integer('per_page', 20));
 
         return response()->json([
@@ -53,9 +55,9 @@ class StoreController extends Controller
             'message' => 'Store retrieved successfully',
             'data' => [
                 'store' => $this->storeDetails($store),
-                'products' => $products->getCollection()->map(fn (Product $product) => $this->productSummary($product)),
+                'weekly_ads' => $weeklyAds->getCollection()->map(fn (WeeklyAd $weeklyAd) => $this->weeklyAdSummary($weeklyAd)),
             ],
-            'pagination' => $this->paginationMeta($products),
+            'pagination' => $this->paginationMeta($weeklyAds),
         ]);
     }
 
@@ -142,17 +144,13 @@ class StoreController extends Controller
         ];
     }
 
-    private function productSummary(Product $product): array
+    private function weeklyAdSummary(WeeklyAd $weeklyAd): array
     {
         return [
-            'id' => $product->id,
-            'name' => $product->name,
-            'image' => $this->imageUrl($product->image),
-            'category' => $product->category?->name,
-            'price_usd' => (float) $product->price_usd,
-            'discount_percent' => (float) $product->discount_percent,
-            'has_active_discount' => $product->has_active_discount,
-            'final_price' => $product->final_price,
+            'id' => $weeklyAd->id,
+            'image' => $this->imageUrl($weeklyAd->photo),
+            'start_at' => $weeklyAd->start_at->toDateString(),
+            'end_at' => $weeklyAd->end_at->toDateString(),
         ];
     }
 

@@ -18,7 +18,7 @@
 @endif
 
 <div class="row g-3 mb-3">
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div class="panel-card">
             <div class="panel-card-body d-flex align-items-center justify-content-between">
                 <div>
@@ -29,7 +29,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div class="panel-card">
             <div class="panel-card-body d-flex align-items-center justify-content-between">
                 <div>
@@ -40,7 +40,18 @@
             </div>
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
+        <div class="panel-card">
+            <div class="panel-card-body d-flex align-items-center justify-content-between">
+                <div>
+                    <div class="text-muted small">SMS Sent</div>
+                    <div class="fs-3 fw-bold">{{ number_format($smsSentCount) }}</div>
+                </div>
+                <i class="bi bi-send fs-2 text-info"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
         <div class="panel-card">
             <div class="panel-card-body d-flex align-items-center justify-content-between">
                 <div>
@@ -48,6 +59,53 @@
                     <div class="fs-5 fw-bold">{{ $activeSubscription?->to_date?->format('Y-m-d') ?? '—' }}</div>
                 </div>
                 <i class="bi bi-calendar-check fs-2 text-warning"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3 mb-3">
+    <div class="col-md-3">
+        <div class="panel-card">
+            <div class="panel-card-body d-flex align-items-center justify-content-between">
+                <div>
+                    <div class="text-muted small">Categories</div>
+                    <div class="fs-3 fw-bold">{{ $categoriesCount }}</div>
+                </div>
+                <i class="bi bi-folder fs-2 text-primary"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="panel-card">
+            <div class="panel-card-body d-flex align-items-center justify-content-between">
+                <div>
+                    <div class="text-muted small">Products</div>
+                    <div class="fs-3 fw-bold">{{ $productsCount }}</div>
+                </div>
+                <i class="bi bi-box-seam fs-2 text-primary"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="panel-card">
+            <div class="panel-card-body d-flex align-items-center justify-content-between">
+                <div>
+                    <div class="text-muted small">Ads</div>
+                    <div class="fs-3 fw-bold">{{ $adsCount }}</div>
+                </div>
+                <i class="bi bi-megaphone fs-2 text-secondary"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="panel-card">
+            <div class="panel-card-body d-flex align-items-center justify-content-between">
+                <div>
+                    <div class="text-muted small">Feedback</div>
+                    <div class="fs-3 fw-bold">{{ $feedbackCount }}</div>
+                </div>
+                <i class="bi bi-chat-square-text fs-2 text-secondary"></i>
             </div>
         </div>
     </div>

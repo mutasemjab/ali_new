@@ -34,6 +34,7 @@ class AdController extends Controller
                 'integer',
                 Rule::exists('products', 'id')->where('store_id', auth('store')->id()),
             ],
+            'expires_at' => 'nullable|date|after:now',
         ]);
 
         $ad = Ad::create([
@@ -41,6 +42,7 @@ class AdController extends Controller
             'image' => $request->type === 'image'
                 ? 'assets/uploads/ads/' . uploadImage('assets/uploads/ads', $request->file('image'))
                 : null,
+            'expires_at' => $request->expires_at,
         ]);
 
         if ($request->type === 'products') {

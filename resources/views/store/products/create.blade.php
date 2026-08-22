@@ -66,8 +66,8 @@
     <div class="panel-card-body">
         <div class="row g-3">
             <div class="col-md-4">
-                <label class="form-label">Discount %</label>
-                <input type="number" step="0.01" min="0" max="100" name="discount_percent" value="{{ old('discount_percent') }}" class="form-control">
+                <label class="form-label">Price After (USD)</label>
+                <input type="number" step="0.01" min="0" name="price_after" value="{{ old('price_after') }}" class="form-control" placeholder="e.g. 8.00">
             </div>
             <div class="col-md-4">
                 <label class="form-label">From Date</label>

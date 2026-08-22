@@ -52,8 +52,8 @@
                         <th>Image</th>
                         <th>Name</th>
                         <th>Category</th>
-                        <th>Price</th>
-                        <th>Discount</th>
+                        <th>Price Before</th>
+                        <th>Price After</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -66,17 +66,16 @@
                         <td>{{ $product->category->name ?? '—' }}</td>
                         <td>
                             @if($product->has_active_discount)
-                                <span class="text-decoration-line-through text-muted small">${{ $product->price_usd }}</span>
-                                <span class="fw-semibold text-success">${{ $product->final_price }}</span>
+                                <span class="text-decoration-line-through text-muted">${{ $product->price_usd }}</span>
                             @else
                                 ${{ $product->price_usd }}
                             @endif
                         </td>
                         <td>
-                            @if($product->discount_percent > 0)
-                                <span class="pill {{ $product->has_active_discount ? 'pill-success' : 'pill-neutral' }}">{{ $product->discount_percent }}%</span>
+                            @if($product->has_active_discount)
+                                <span class="fw-semibold text-success">${{ $product->final_price }}</span>
                             @else
-                                —
+                                ${{ $product->price_usd }}
                             @endif
                         </td>
                         <td>

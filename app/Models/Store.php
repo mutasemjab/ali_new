@@ -65,4 +65,44 @@ class Store extends Authenticatable
     {
         return $this->hasMany(Feedback::class);
     }
+
+    public function coupons()
+    {
+        return $this->hasMany(Coupon::class);
+    }
+
+    public function banners()
+    {
+        return $this->hasMany(Banner::class);
+    }
+
+    public function weeklyAds()
+    {
+        return $this->hasMany(WeeklyAd::class);
+    }
+
+    public function socials()
+    {
+        return $this->hasMany(Social::class);
+    }
+
+    public function locations()
+    {
+        return $this->hasMany(Location::class);
+    }
+
+    public function qrs()
+    {
+        return $this->hasMany(Qr::class);
+    }
+
+    public function couponClients()
+    {
+        return $this->hasMany(CouponClient::class);
+    }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
 }

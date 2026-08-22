@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('image');
             $table->decimal('price_usd', 10, 2);
-            $table->decimal('discount_percent', 5, 2)->default(0);
+            $table->decimal('price_after', 10, 2)->nullable();
             $table->date('discount_from')->nullable();
             $table->date('discount_to')->nullable();
             $table->timestamps();

@@ -34,7 +34,7 @@ class ProductController extends Controller
             'name' => 'required|string|max:200',
             'image' => 'required|image|max:2048',
             'price_usd' => 'required|numeric|min:0',
-            'discount_percent' => 'nullable|numeric|min:0|max:100',
+            'price_after' => 'nullable|numeric|min:0|lt:price_usd',
             'discount_from' => 'nullable|date|required_with:discount_to',
             'discount_to' => 'nullable|date|after_or_equal:discount_from|required_with:discount_from',
         ]);
@@ -46,7 +46,7 @@ class ProductController extends Controller
             'name' => $request->name,
             'image' => 'assets/uploads/products/' . $filename,
             'price_usd' => $request->price_usd,
-            'discount_percent' => $request->discount_percent ?: 0,
+            'price_after' => $request->price_after,
             'discount_from' => $request->discount_from,
             'discount_to' => $request->discount_to,
         ]);
@@ -68,7 +68,7 @@ class ProductController extends Controller
             'name' => 'required|string|max:200',
             'image' => 'nullable|image|max:2048',
             'price_usd' => 'required|numeric|min:0',
-            'discount_percent' => 'nullable|numeric|min:0|max:100',
+            'price_after' => 'nullable|numeric|min:0|lt:price_usd',
             'discount_from' => 'nullable|date|required_with:discount_to',
             'discount_to' => 'nullable|date|after_or_equal:discount_from|required_with:discount_from',
         ]);
@@ -77,7 +77,7 @@ class ProductController extends Controller
             'category_id' => $request->category_id,
             'name' => $request->name,
             'price_usd' => $request->price_usd,
-            'discount_percent' => $request->discount_percent ?: 0,
+            'price_after' => $request->price_after,
             'discount_from' => $request->discount_from,
             'discount_to' => $request->discount_to,
         ];

@@ -33,6 +33,7 @@
                         <th>Type</th>
                         <th>Content</th>
                         <th>Public Link</th>
+                        <th>Expires</th>
                         <th>Date</th>
                         <th>Actions</th>
                     </tr>
@@ -52,6 +53,15 @@
                         <td>
                             <input type="text" readonly value="{{ $ad->public_url }}" class="form-control form-control-sm" style="max-width:260px;" onclick="this.select()">
                         </td>
+                        <td>
+                            @if(!$ad->expires_at)
+                                <span class="pill pill-info">Never</span>
+                            @elseif($ad->is_expired)
+                                <span class="pill pill-danger">Expired {{ $ad->expires_at->format('Y-m-d H:i') }}</span>
+                            @else
+                                <span class="pill pill-success">{{ $ad->expires_at->format('Y-m-d H:i') }}</span>
+                            @endif
+                        </td>
                         <td>{{ $ad->created_at->format('Y-m-d H:i') }}</td>
                         <td>
                             <form action="{{ route('store.ads.destroy', $ad->id) }}" method="POST" class="d-inline"
@@ -65,7 +75,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="6" class="text-center text-muted py-4">No ads yet</td>
+                        <td colspan="7" class="text-center text-muted py-4">No ads yet</td>
                     </tr>
                     @endforelse
                 </tbody>

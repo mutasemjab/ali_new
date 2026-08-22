@@ -1,14 +1,22 @@
 <?php
 
 use App\Http\Controllers\Store\AdController;
+use App\Http\Controllers\Store\BannerController;
 use App\Http\Controllers\Store\CategoryController;
 use App\Http\Controllers\Store\ClientController;
+use App\Http\Controllers\Store\CouponClientController;
+use App\Http\Controllers\Store\CouponController;
 use App\Http\Controllers\Store\DashboardController;
 use App\Http\Controllers\Store\FeedbackController;
+use App\Http\Controllers\Store\LocationController;
 use App\Http\Controllers\Store\LoginController;
 use App\Http\Controllers\Store\MessageController;
+use App\Http\Controllers\Store\NotificationController;
 use App\Http\Controllers\Store\PageSettingsController;
 use App\Http\Controllers\Store\ProductController;
+use App\Http\Controllers\Store\QrController;
+use App\Http\Controllers\Store\SocialController;
+use App\Http\Controllers\Store\WeeklyAdController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -31,6 +39,22 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
         Route::resource('products', ProductController::class, ['as' => 'store'])->except(['show']);
 
         Route::resource('ads', AdController::class, ['as' => 'store'])->only(['index', 'create', 'store', 'destroy']);
+
+        Route::resource('coupons', CouponController::class, ['as' => 'store'])->except(['show']);
+
+        Route::resource('banners', BannerController::class, ['as' => 'store'])->only(['index', 'create', 'store', 'destroy']);
+
+        Route::resource('weekly-ads', WeeklyAdController::class, ['as' => 'store'])->except(['show']);
+
+        Route::resource('socials', SocialController::class, ['as' => 'store'])->except(['show']);
+
+        Route::resource('locations', LocationController::class, ['as' => 'store'])->except(['show']);
+
+        Route::resource('qrs', QrController::class, ['as' => 'store'])->only(['index', 'create', 'store', 'destroy']);
+
+        Route::resource('coupon-clients', CouponClientController::class, ['as' => 'store'])->only(['index', 'destroy']);
+
+        Route::resource('notifications', NotificationController::class, ['as' => 'store'])->only(['index', 'create', 'store', 'destroy']);
 
         Route::get('feedback', [FeedbackController::class, 'index'])->name('store.feedback.index');
         Route::delete('feedback/{feedback}', [FeedbackController::class, 'destroy'])->name('store.feedback.destroy');

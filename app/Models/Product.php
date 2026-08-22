@@ -12,12 +12,12 @@ class Product extends Model
 
     protected $fillable = [
         'store_id', 'category_id', 'name', 'image', 'price_usd',
-        'discount_percent', 'discount_from', 'discount_to',
+        'price_after', 'discount_from', 'discount_to',
     ];
 
     protected $casts = [
         'price_usd' => 'decimal:2',
-        'discount_percent' => 'decimal:2',
+        'price_after' => 'decimal:2',
         'discount_from' => 'date',
         'discount_to' => 'date',
     ];
@@ -34,7 +34,8 @@ class Product extends Model
 
     public function getHasActiveDiscountAttribute(): bool
     {
-        if ($this->discount_percent <= 0 || ! $this->discount_from || ! $this->discount_to) {
+        if (empty($this->price_after) || (float) $this->price_after >= (float) $this->price_usd
+            || ! $this->discount_from || ! $this->discount_to) {
             return false;
         }
 
@@ -45,10 +46,6 @@ class Product extends Model
 
     public function getFinalPriceAttribute(): float
     {
-        if (! $this->has_active_discount) {
-            return (float) $this->price_usd;
-        }
-
-        return round((float) $this->price_usd - ((float) $this->price_usd * (float) $this->discount_percent / 100), 2);
+        return $this->has_active_discount ? (float) $this->price_after : (float) $this->price_usd;
     }
 }

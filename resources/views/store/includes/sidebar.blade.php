@@ -62,6 +62,62 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a href="{{ route('store.coupons.index') }}"
+                    class="nav-link {{ request()->routeIs('store.coupons.*') ? 'active' : '' }}">
+                    <i class="nav-icon bi bi-ticket-perforated"></i>
+                    <span>Coupons</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('store.coupon-clients.index') }}"
+                    class="nav-link {{ request()->routeIs('store.coupon-clients.*') ? 'active' : '' }}">
+                    <i class="nav-icon bi bi-clipboard-check"></i>
+                    <span>Coupon Clips</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('store.banners.index') }}"
+                    class="nav-link {{ request()->routeIs('store.banners.*') ? 'active' : '' }}">
+                    <i class="nav-icon bi bi-image"></i>
+                    <span>Banners</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('store.weekly-ads.index') }}"
+                    class="nav-link {{ request()->routeIs('store.weekly-ads.*') ? 'active' : '' }}">
+                    <i class="nav-icon bi bi-calendar-week"></i>
+                    <span>Weekly Ads</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('store.socials.index') }}"
+                    class="nav-link {{ request()->routeIs('store.socials.*') ? 'active' : '' }}">
+                    <i class="nav-icon bi bi-share"></i>
+                    <span>Social Links</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('store.locations.index') }}"
+                    class="nav-link {{ request()->routeIs('store.locations.*') ? 'active' : '' }}">
+                    <i class="nav-icon bi bi-geo-alt"></i>
+                    <span>Locations</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('store.qrs.index') }}"
+                    class="nav-link {{ request()->routeIs('store.qrs.*') ? 'active' : '' }}">
+                    <i class="nav-icon bi bi-qr-code"></i>
+                    <span>QR Codes</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('store.notifications.index') }}"
+                    class="nav-link {{ request()->routeIs('store.notifications.*') ? 'active' : '' }}">
+                    <i class="nav-icon bi bi-bell"></i>
+                    <span>Notifications</span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a href="{{ route('store.feedback.index') }}"
                     class="nav-link {{ request()->routeIs('store.feedback.*') ? 'active' : '' }}">
                     <i class="nav-icon bi bi-chat-square-text"></i>

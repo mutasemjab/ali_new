@@ -13,13 +13,13 @@
         <img src="{{ asset($ad->image) }}" alt="" class="img-fluid rounded-2">
     </div>
 @else
-    <div class="row g-3">
+    <div class="d-flex flex-column gap-3">
         @forelse($ad->products as $product)
-        <div class="col-6">
-            <div class="bg-white rounded-3 p-2 shadow-sm h-100">
-                <img src="{{ asset($product->image) }}" alt="" class="img-fluid rounded-2 mb-2" style="aspect-ratio:1;object-fit:cover;width:100%;">
-                <div class="fw-semibold small">{{ $product->name }}</div>
-                <div>
+        <div class="bg-white rounded-3 p-2 shadow-sm d-flex align-items-center gap-3">
+            <img src="{{ asset($product->image) }}" alt="" class="rounded-2 flex-shrink-0" style="width:110px;height:110px;object-fit:cover;">
+            <div class="flex-grow-1">
+                <div class="fw-semibold mb-1">{{ $product->name }}</div>
+                <div class="fs-5">
                     @if($product->has_active_discount)
                         <span class="text-decoration-line-through text-muted small">${{ $product->price_usd }}</span>
                         <span class="fw-bold text-success">${{ $product->final_price }}</span>

@@ -12,7 +12,11 @@ class Ad extends Model
     use HasFactory, BelongsToStore;
 
     protected $fillable = [
-        'store_id', 'type', 'image', 'token',
+        'store_id', 'type', 'image', 'token', 'expires_at',
+    ];
+
+    protected $casts = [
+        'expires_at' => 'datetime',
     ];
 
     protected static function booted()
@@ -32,5 +36,10 @@ class Ad extends Model
     public function getPublicUrlAttribute(): string
     {
         return route('public.ads.show', $this->token);
+    }
+
+    public function getIsExpiredAttribute(): bool
+    {
+        return $this->expires_at !== null && $this->expires_at->isPast();
     }
 }
