@@ -37,6 +37,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
         Route::post('categories/{category}/toggle', [CategoryController::class, 'toggle'])->name('store.categories.toggle');
 
         Route::resource('products', ProductController::class, ['as' => 'store'])->except(['show']);
+        Route::post('products/{product}/toggle', [ProductController::class, 'toggle'])->name('store.products.toggle');
+        Route::post('products/{product}/reorder', [ProductController::class, 'reorder'])->name('store.products.reorder');
 
         Route::resource('ads', AdController::class, ['as' => 'store'])->only(['index', 'create', 'store', 'destroy']);
 

@@ -8,7 +8,20 @@
 
 @if($ad->type === 'image')
     <div class="surface-card reveal" style="padding:10px;">
-        <img src="{{ asset($ad->image) }}" alt="" class="img-fluid" style="border-radius:16px; width:100%; display:block;">
+        <div class="gallery-scroll">
+            @foreach($ad->images as $image)
+                <div class="gallery-slide">
+                    <img src="{{ asset($image->image) }}" alt="">
+                </div>
+            @endforeach
+        </div>
+        @if($ad->images->count() > 1)
+        <div class="gallery-dots">
+            @foreach($ad->images as $image)
+                <span class="gallery-dot @if($loop->first) is-active @endif"></span>
+            @endforeach
+        </div>
+        @endif
     </div>
 @else
     @forelse($ad->products as $product)
@@ -41,5 +54,24 @@
         </div>
     @endforelse
 @endif
+
+@if($store->socials->isNotEmpty())
+<div class="social-stack">
+    @foreach($store->socials as $social)
+    <a href="{{ $social->link }}" target="_blank" rel="noopener" class="social-row reveal" style="transition-delay:{{ min($loop->index * 70, 300) }}ms;">
+        <div class="social-row-icon">
+            <img src="{{ asset($social->photo) }}" alt="{{ $social->name }}">
+        </div>
+        <div class="social-row-title">تابعنا على {{ $social->name }}</div>
+        <i class="bi bi-chevron-left social-row-chevron"></i>
+    </a>
+    @endforeach
+</div>
+@endif
+
+<button type="button" class="share-btn mt-3" data-share-url="{{ $ad->public_url }}" data-share-title="{{ $store->name }}">
+    <i class="bi bi-share-fill"></i>
+    <span class="share-btn-label">مشاركة الآن</span>
+</button>
 
 @endsection

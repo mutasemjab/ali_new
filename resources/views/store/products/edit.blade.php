@@ -8,7 +8,7 @@
         <h1 class="page-title">Edit Product</h1>
         <p class="page-sub">{{ $product->name }}</p>
     </div>
-    <a href="{{ route('store.products.index') }}" class="btn-outline-sm">
+    <a href="{{ $returnTo ?: route('store.products.index') }}" class="btn-outline-sm">
         <i class="bi bi-arrow-right"></i> Back to List
     </a>
 </div>
@@ -22,6 +22,7 @@
 
 <form action="{{ route('store.products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
 @csrf @method('PUT')
+<input type="hidden" name="return_to" value="{{ old('return_to', $returnTo) }}">
 
 <div class="panel-card">
     <div class="panel-card-header">
@@ -78,7 +79,7 @@
 
 <div class="d-flex gap-2 mt-4 pb-4">
     <button type="submit" class="btn-primary-sm"><i class="bi bi-save"></i> Save Changes</button>
-    <a href="{{ route('store.products.index') }}" class="btn-outline-sm">Cancel</a>
+    <a href="{{ $returnTo ?: route('store.products.index') }}" class="btn-outline-sm">Cancel</a>
 </div>
 
 </form>

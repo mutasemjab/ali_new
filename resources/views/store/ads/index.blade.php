@@ -45,7 +45,14 @@
                         <td><span class="pill pill-info">{{ $ad->type === 'image' ? 'Image' : 'Products' }}</span></td>
                         <td>
                             @if($ad->type === 'image')
-                                <img src="{{ asset($ad->image) }}" alt="" style="width:36px;height:36px;object-fit:cover;border-radius:6px;">
+                                <div class="d-flex align-items-center gap-2">
+                                    @if($ad->cover_image)
+                                        <img src="{{ asset($ad->cover_image) }}" alt="" style="width:36px;height:36px;object-fit:cover;border-radius:6px;">
+                                    @endif
+                                    @if($ad->images->count() > 1)
+                                        <span class="pill pill-info">+{{ $ad->images->count() }} images</span>
+                                    @endif
+                                </div>
                             @else
                                 {{ $ad->products->count() }} products
                             @endif

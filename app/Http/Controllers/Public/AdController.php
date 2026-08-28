@@ -9,7 +9,7 @@ class AdController extends Controller
 {
     public function show(string $token)
     {
-        $ad = Ad::with(['products', 'store'])->where('token', $token)->firstOrFail();
+        $ad = Ad::with(['products', 'store.socials', 'images'])->where('token', $token)->firstOrFail();
 
         if ($ad->is_expired) {
             return view('public.ads.expired', compact('ad'));

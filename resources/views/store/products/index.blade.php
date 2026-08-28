@@ -22,14 +22,37 @@
 <div class="panel-card mb-3">
     <div class="panel-card-body">
         <form method="GET" class="row g-2 align-items-end">
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-4">
+                <label class="form-label small text-muted mb-1">Search</label>
                 <input type="text" name="search" value="{{ request('search') }}"
                     class="form-control form-control-sm" placeholder="Search by name...">
+            </div>
+            <div class="col-6 col-md-3">
+                <label class="form-label small text-muted mb-1">Category</label>
+                <select name="category_id" class="form-select form-select-sm">
+                    <option value="">All Categories</option>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}" {{ (string) request('category_id') === (string) $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-6 col-md-2">
+                <label class="form-label small text-muted mb-1">Status</label>
+                <select name="status" class="form-select form-select-sm">
+                    <option value="" {{ request('status') === null || request('status') === '' ? 'selected' : '' }}>All</option>
+                    <option value="active" {{ request('status') === 'active' ? 'selected' : '' }}>Active</option>
+                    <option value="inactive" {{ request('status') === 'inactive' ? 'selected' : '' }}>Inactive</option>
+                </select>
+            </div>
+            <div class="col-6 col-md-2">
+                <label class="form-label small text-muted mb-1">Expiring within (days)</label>
+                <input type="number" min="0" name="expires_in_days" value="{{ request('expires_in_days') }}"
+                    class="form-control form-control-sm" placeholder="e.g. 7">
             </div>
             <div class="col-auto">
                 <button type="submit" class="btn-primary-sm"><i class="bi bi-search"></i></button>
             </div>
-            @if(request('search'))
+            @if(request()->hasAny(['search', 'category_id', 'status', 'expires_in_days']))
             <div class="col-auto">
                 <a href="{{ route('store.products.index') }}" class="btn-outline-sm"><i class="bi bi-x"></i> Clear</a>
             </div>
@@ -48,19 +71,27 @@
             <table class="data-table">
                 <thead>
                     <tr>
-                        <th>#</th>
+                        <th>Order</th>
                         <th>Image</th>
                         <th>Name</th>
                         <th>Category</th>
                         <th>Price Before</th>
                         <th>Price After</th>
+                        <th>Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($products as $product)
                     <tr>
-                        <td>{{ $loop->iteration + ($products->currentPage() - 1) * $products->perPage() }}</td>
+                        <td>
+                            <form action="{{ route('store.products.reorder', $product->id) }}" method="POST">
+                                @csrf
+                                <input type="number" name="sort_order" value="{{ $product->sort_order }}" min="1"
+                                    class="form-control form-control-sm" style="width:70px;"
+                                    onchange="this.form.submit()">
+                            </form>
+                        </td>
                         <td><img src="{{ asset($product->image) }}" alt="" style="width:40px;height:40px;object-fit:cover;border-radius:6px;"></td>
                         <td><span class="fw-semibold">{{ $product->name }}</span></td>
                         <td>{{ $product->category->name ?? '—' }}</td>
@@ -79,8 +110,17 @@
                             @endif
                         </td>
                         <td>
+                            <form action="{{ route('store.products.toggle', $product->id) }}" method="POST">
+                                @csrf
+                                <div class="form-check form-switch mb-0">
+                                    <input type="checkbox" class="form-check-input" role="switch"
+                                        {{ $product->active ? 'checked' : '' }} onchange="this.form.submit()">
+                                </div>
+                            </form>
+                        </td>
+                        <td>
                             <div class="d-flex gap-1">
-                                <a href="{{ route('store.products.edit', $product->id) }}" class="btn-icon-sm btn-edit" title="Edit">
+                                <a href="{{ route('store.products.edit', $product->id) }}?return_to={{ urlencode(request()->fullUrl()) }}" class="btn-icon-sm btn-edit" title="Edit">
                                     <i class="bi bi-pencil"></i>
                                 </a>
                                 <form action="{{ route('store.products.destroy', $product->id) }}" method="POST" class="d-inline"
@@ -95,7 +135,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="7" class="text-center text-muted py-4">No products added yet</td>
+                        <td colspan="8" class="text-center text-muted py-4">No products added yet</td>
                     </tr>
                     @endforelse
                 </tbody>

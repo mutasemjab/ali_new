@@ -43,10 +43,11 @@
 
 <div class="panel-card mb-3" id="image-section">
     <div class="panel-card-header">
-        <h2 class="panel-card-title"><i class="bi bi-image"></i> Ad Image</h2>
+        <h2 class="panel-card-title"><i class="bi bi-images"></i> Ad Images</h2>
     </div>
     <div class="panel-card-body">
-        <input type="file" name="image" class="form-control" accept="image/*">
+        <input type="file" name="images[]" class="form-control" accept="image/*" multiple>
+        <div class="form-text">You can select more than one image — clients will be able to swipe through them.</div>
     </div>
 </div>
 

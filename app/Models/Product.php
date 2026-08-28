@@ -12,7 +12,7 @@ class Product extends Model
 
     protected $fillable = [
         'store_id', 'category_id', 'name', 'image', 'price_usd',
-        'price_after', 'discount_from', 'discount_to',
+        'price_after', 'discount_from', 'discount_to', 'active', 'sort_order',
     ];
 
     protected $casts = [
@@ -20,6 +20,7 @@ class Product extends Model
         'price_after' => 'decimal:2',
         'discount_from' => 'date',
         'discount_to' => 'date',
+        'active' => 'boolean',
     ];
 
     public function category()

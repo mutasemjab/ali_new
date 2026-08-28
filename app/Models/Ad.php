@@ -33,9 +33,19 @@ class Ad extends Model
         return $this->belongsToMany(Product::class);
     }
 
+    public function images()
+    {
+        return $this->hasMany(AdImage::class)->orderBy('id');
+    }
+
     public function getPublicUrlAttribute(): string
     {
         return route('public.ads.show', $this->token);
+    }
+
+    public function getCoverImageAttribute(): ?string
+    {
+        return optional($this->images->first())->image ?? $this->image;
     }
 
     public function getIsExpiredAttribute(): bool

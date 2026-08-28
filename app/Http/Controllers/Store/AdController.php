@@ -12,7 +12,7 @@ class AdController extends Controller
 {
     public function index()
     {
-        $ads = Ad::with('products')->latest()->paginate(15);
+        $ads = Ad::with('products', 'images')->latest()->paginate(15);
 
         return view('store.ads.index', compact('ads'));
     }
@@ -28,7 +28,8 @@ class AdController extends Controller
     {
         $request->validate([
             'type' => 'required|in:image,products',
-            'image' => 'required_if:type,image|nullable|image|max:2048',
+            'images' => 'required_if:type,image|nullable|array|min:1',
+            'images.*' => 'image|max:8048',
             'products' => 'required_if:type,products|nullable|array|min:1',
             'products.*' => [
                 'integer',
@@ -39,11 +40,16 @@ class AdController extends Controller
 
         $ad = Ad::create([
             'type' => $request->type,
-            'image' => $request->type === 'image'
-                ? 'assets/uploads/ads/' . uploadImage('assets/uploads/ads', $request->file('image'))
-                : null,
             'expires_at' => $request->expires_at,
         ]);
+
+        if ($request->type === 'image') {
+            foreach ($request->file('images') as $image) {
+                $ad->images()->create([
+                    'image' => 'assets/uploads/ads/' . uploadImage('assets/uploads/ads', $image),
+                ]);
+            }
+        }
 
         if ($request->type === 'products') {
             $ad->products()->sync($request->input('products', []));
