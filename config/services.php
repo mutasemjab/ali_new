@@ -42,4 +42,12 @@ return [
         'token' => env('TWILIO_AUTH_TOKEN'),
         'from' => env('TWILIO_FROM'),
     ],
+
+    'otp' => [
+        // Comma-separated phone numbers that always receive the fixed code below instead of a
+        // random one, and never actually get an SMS sent — for App Store / Play Store reviewers
+        // and manual testing, even in production.
+        'test_phones' => array_filter(array_map('trim', explode(',', env('OTP_TEST_PHONES', '')))),
+        'test_code' => env('OTP_TEST_CODE', '1111'),
+    ],
 ];

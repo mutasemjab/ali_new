@@ -31,7 +31,8 @@ class OtpService
             return false;
         }
 
-        $code = (string) random_int(1000, 9999);
+        $isTestPhone = in_array($phone, config('services.otp.test_phones'), true);
+        $code = $isTestPhone ? config('services.otp.test_code') : (string) random_int(1000, 9999);
 
         ClientOtp::create([
             'store_id' => $store->id,
@@ -40,7 +41,10 @@ class OtpService
             'expires_at' => now()->addMinutes(self::EXPIRY_MINUTES),
         ]);
 
-        $this->gateway->send($phone, "Your verification code is {$code}");
+        // Reviewer/test numbers get the fixed code above without an actual SMS being sent.
+        if (! $isTestPhone) {
+            $this->gateway->send($phone, "Your verification code is {$code}");
+        }
 
         return true;
     }
