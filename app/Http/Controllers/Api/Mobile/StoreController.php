@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Mobile;
 
 use App\Http\Controllers\Controller;
+use App\Models\Banner;
 use App\Models\Client;
 use App\Models\Store;
 use App\Models\WeeklyAd;
@@ -11,6 +12,34 @@ use Illuminate\Support\Carbon;
 
 class StoreController extends Controller
 {
+    /**
+     * GET /api/v1/stores/{store}/home — client app home screen: store info + banners.
+     */
+    public function home(Store $store)
+    {
+        if ($store->activate !== 1) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Store not found',
+                'data' => null,
+            ], 404);
+        }
+
+        $banners = Banner::where('store_id', $store->id)->latest()->get(['id', 'photo']);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Home data retrieved successfully',
+            'data' => [
+                'store' => $this->storeDetails($store),
+                'banners' => $banners->map(fn (Banner $banner) => [
+                    'id' => $banner->id,
+                    'image' => $this->imageUrl($banner->photo),
+                ]),
+            ],
+        ]);
+    }
+
     /**
      * GET /api/v1/stores — pick-a-store screen.
      */

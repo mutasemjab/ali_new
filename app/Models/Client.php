@@ -4,13 +4,19 @@ namespace App\Models;
 
 use App\Models\Concerns\BelongsToStore;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Sanctum\HasApiTokens;
 
-class Client extends Model
+class Client extends Authenticatable
 {
-    use HasFactory, BelongsToStore;
+    use HasFactory, HasApiTokens, BelongsToStore;
 
     protected $fillable = [
-        'store_id', 'name', 'phone', 'number_of_visit', 'total_points',
+        'store_id', 'name', 'phone', 'email', 'number_of_visit', 'total_points',
     ];
+
+    public function couponClients()
+    {
+        return $this->hasMany(CouponClient::class);
+    }
 }
