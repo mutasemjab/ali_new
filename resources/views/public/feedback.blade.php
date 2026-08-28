@@ -9,7 +9,6 @@
         <i class="bi bi-chat-heart me-1"></i> Share Your Feedback
     </div>
 
-```
 <div class="section-sub">
     Your feedback helps us improve and serve you better.
 </div>
@@ -63,7 +62,6 @@
         <i class="bi bi-send-fill me-1"></i> Submit
     </button>
 </form>
-```
 
 </div>
 

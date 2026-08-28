@@ -40,14 +40,24 @@
                     </a>
                 </li>
                 <li><hr class="dropdown-divider my-1"></li>
-                <li>
-                    <a class="dropdown-item d-flex align-items-center gap-2 py-2 text-danger" href="#"
-                       onclick="event.preventDefault(); document.getElementById('store-logout-form').submit();">
-                        <i class="bi bi-box-arrow-right"></i>
-                        Sign Out
-                    </a>
-                    <form id="store-logout-form" action="{{ route('store.logout') }}" method="GET" class="d-none"></form>
-                </li>
+            
+<li>
+    <a class="dropdown-item d-flex align-items-center gap-2 py-2 text-danger"
+       href="#"
+       onclick="event.preventDefault(); document.getElementById('store-logout-form').submit();">
+        <i class="bi bi-box-arrow-right"></i>
+        Sign Out
+    </a>
+
+    <form id="store-logout-form"
+          action="{{ route('store.logout') }}"
+          method="POST"
+          class="d-none">
+        @csrf
+    </form>
+</li>
+
+
             </ul>
         </div>
 
