@@ -261,6 +261,8 @@ class StorefrontController extends Controller
             'price_usd' => (float) $product->price_usd,
             'price_after' => $product->price_after !== null ? (float) $product->price_after : null,
             'has_active_discount' => $product->has_active_discount,
+            'discount_from' => $product->discount_from,
+            'discount_to' => $product->discount_to,
             'final_price' => $product->final_price,
         ];
     }

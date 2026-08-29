@@ -44,7 +44,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
 
         Route::resource('coupons', CouponController::class, ['as' => 'store'])->except(['show']);
 
-        Route::resource('banners', BannerController::class, ['as' => 'store'])->only(['index', 'create', 'store', 'destroy']);
+        Route::resource('banners', BannerController::class, ['as' => 'store'])->except(['show']);
 
         Route::resource('weekly-ads', WeeklyAdController::class, ['as' => 'store'])->except(['show']);
 

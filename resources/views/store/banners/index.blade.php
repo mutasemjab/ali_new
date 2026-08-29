@@ -42,13 +42,18 @@
                         <td><img src="{{ asset($banner->photo) }}" alt="" style="width:80px;height:40px;object-fit:cover;border-radius:6px;"></td>
                         <td>{{ $banner->created_at->format('Y-m-d H:i') }}</td>
                         <td>
-                            <form action="{{ route('store.banners.destroy', $banner->id) }}" method="POST" class="d-inline"
-                                  onsubmit="return confirm('Are you sure you want to delete this banner?')">
-                                @csrf @method('DELETE')
-                                <button type="submit" class="btn-icon-sm btn-delete" title="Delete">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </form>
+                            <div class="d-flex gap-1">
+                                <a href="{{ route('store.banners.edit', $banner->id) }}" class="btn-icon-sm btn-edit" title="Edit">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <form action="{{ route('store.banners.destroy', $banner->id) }}" method="POST" class="d-inline"
+                                      onsubmit="return confirm('Are you sure you want to delete this banner?')">
+                                    @csrf @method('DELETE')
+                                    <button type="submit" class="btn-icon-sm btn-delete" title="Delete">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                     @empty
