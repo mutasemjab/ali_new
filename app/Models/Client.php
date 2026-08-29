@@ -12,7 +12,7 @@ class Client extends Authenticatable
     use HasFactory, HasApiTokens, BelongsToStore;
 
     protected $fillable = [
-        'store_id', 'name', 'phone', 'email', 'number_of_visit', 'total_points',
+        'store_id', 'name', 'phone', 'email', 'fcm_token', 'number_of_visit', 'total_points',
     ];
 
     public function couponClients()

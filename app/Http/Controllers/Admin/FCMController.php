@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Client;
 use App\Models\SchoolClass;
 use App\Models\Student;
 use App\Models\StudentNotification;
@@ -71,6 +72,7 @@ class FCMController
             // Clear invalid token
             if (($response['error']['details'][0]['errorCode'] ?? '') === 'UNREGISTERED') {
                 Student::where('fcm_token', $fcmToken)->update(['fcm_token' => null]);
+                Client::withoutGlobalScopes()->where('fcm_token', $fcmToken)->update(['fcm_token' => null]);
             }
 
             Log::error('FCM send failed: ' . json_encode($response));
@@ -82,47 +84,5 @@ class FCMController
         }
     }
 
-    /**
-     * Send notification to multiple students and store in DB.
-     *
-     * @param  array|int|null  $target  null=all, int=class_id, 'student:N'=specific student
-     */
-    public static function sendToStudents(string $title, string $body, $target = null, string $screen = 'home'): array
-    {
-        $query = Student::where('is_active', true);
-
-        if (is_int($target)) {
-            $query->where('class_id', $target);
-        } elseif (is_string($target) && str_starts_with($target, 'student:')) {
-            $studentId = (int) str_replace('student:', '', $target);
-            $query->where('id', $studentId);
-        }
-        // null → all students
-
-        $students = $query->get();
-
-        $sent = 0;
-        $failed = 0;
-
-        foreach ($students as $student) {
-            // Store in DB
-            StudentNotification::create([
-                'student_id' => $student->id,
-                'title'      => $title,
-                'body'       => $body,
-                'type'       => 'general',
-            ]);
-
-            // Push via FCM if token exists
-            if ($student->fcm_token) {
-                self::sendToToken($title, $body, $student->fcm_token, $screen) ? $sent++ : $failed++;
-            }
-        }
-
-        return [
-            'total'  => $students->count(),
-            'sent'   => $sent,
-            'failed' => $failed,
-        ];
-    }
+    
 }

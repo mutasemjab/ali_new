@@ -24,6 +24,7 @@ class ClientAuthController extends Controller
             'name' => 'required|string|max:200',
             'email' => 'nullable|email|max:200',
             'phone' => 'required|string|max:50',
+            'fcm_token' => 'nullable|string|max:255',
         ]);
 
         $exists = Client::where('store_id', $store->id)->where('phone', $request->phone)->exists();
@@ -41,6 +42,7 @@ class ClientAuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
+            'fcm_token' => $request->fcm_token,
         ]);
 
         return $this->sendOtpResponse($store, $request->phone);
@@ -98,6 +100,7 @@ class ClientAuthController extends Controller
         $request->validate([
             'phone' => 'required|string|max:50',
             'code' => 'required|string|max:6',
+            'fcm_token' => 'nullable|string|max:255',
         ]);
 
         if (! $this->otp->verify($store, $request->phone, $request->code)) {
@@ -110,6 +113,10 @@ class ClientAuthController extends Controller
 
         $client = Client::where('store_id', $store->id)->where('phone', $request->phone)->firstOrFail();
         $client->increment('number_of_visit');
+
+        if ($request->filled('fcm_token')) {
+            $client->update(['fcm_token' => $request->fcm_token]);
+        }
 
         $token = $client->createToken('mobile-app')->plainTextToken;
 

@@ -22,14 +22,21 @@ class ClientProfileController extends Controller
         $request->validate([
             'name' => 'required|string|max:200',
             'email' => 'nullable|email|max:200',
+            'fcm_token' => 'nullable|string|max:255',
         ]);
 
         $client = $request->user();
 
-        $client->update([
+        $data = [
             'name' => $request->name,
             'email' => $request->email,
-        ]);
+        ];
+
+        if ($request->filled('fcm_token')) {
+            $data['fcm_token'] = $request->fcm_token;
+        }
+
+        $client->update($data);
 
         return response()->json([
             'status' => true,

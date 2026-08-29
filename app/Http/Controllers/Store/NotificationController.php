@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Store;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SendStoreNotificationPush;
 use App\Models\Notification;
 use Illuminate\Http\Request;
 
@@ -27,10 +28,12 @@ class NotificationController extends Controller
             'body' => 'required|string|max:500',
         ]);
 
-        Notification::create([
+        $notification = Notification::create([
             'title' => $request->title,
             'body' => $request->body,
         ]);
+
+        SendStoreNotificationPush::dispatch($notification);
 
         return redirect()->route('store.notifications.index')->with('success', 'Notification sent successfully');
     }
