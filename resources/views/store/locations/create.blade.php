@@ -40,13 +40,10 @@
                 <label class="form-label">Address</label>
                 <input type="text" name="address" value="{{ old('address') }}" class="form-control">
             </div>
-            <div class="col-md-6">
-                <label class="form-label">Latitude <span class="text-danger">*</span></label>
-                <input type="text" name="lat" value="{{ old('lat') }}" class="form-control" placeholder="e.g. 31.9539" required>
-            </div>
-            <div class="col-md-6">
-                <label class="form-label">Longitude <span class="text-danger">*</span></label>
-                <input type="text" name="lng" value="{{ old('lng') }}" class="form-control" placeholder="e.g. 35.9106" required>
+            <div class="col-12">
+                <label class="form-label">Google Maps Link <span class="text-danger">*</span></label>
+                <input type="url" name="maps_link" value="{{ old('maps_link') }}" class="form-control" placeholder="https://maps.google.com/..." required>
+                <div class="form-text">Open the location in Google Maps, tap Share, copy the link, and paste it here — the coordinates are read automatically.</div>
             </div>
             <div class="col-md-6">
                 <label class="form-label">Photo</label>
