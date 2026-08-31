@@ -56,7 +56,7 @@
             <div class="panel-card-body d-flex align-items-center justify-content-between">
                 <div>
                     <div class="text-muted small">Subscription Until</div>
-                    <div class="fs-5 fw-bold">{{ $activeSubscription?->to_date?->format('Y-m-d') ?? '—' }}</div>
+                    <div class="fs-5 fw-bold">{{ $activeSubscription?->to_date?->format('m/d/Y') ?? '—' }}</div>
                 </div>
                 <i class="bi bi-calendar-check fs-2 text-warning"></i>
             </div>
@@ -133,7 +133,7 @@
                         <td>{{ \Illuminate\Support\Str::limit($message->content, 40) }}</td>
                         <td>{{ $message->recipients_count }}</td>
                         <td><span class="pill pill-info">{{ $message->status }}</span></td>
-                        <td>{{ $message->created_at->format('Y-m-d H:i') }}</td>
+                        <td>{{ $message->created_at->format('m/d/Y h:i A') }}</td>
                     </tr>
                     @empty
                     <tr>

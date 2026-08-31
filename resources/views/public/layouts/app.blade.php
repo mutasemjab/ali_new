@@ -82,7 +82,7 @@
             z-index: 1;
             max-width: 520px;
             margin: 0 auto;
-            padding: 28px 18px 110px;
+            padding: 28px 18px 48px;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -109,7 +109,7 @@
         .store-avatar-ring {
             position: absolute;
             inset: -8px;
-            border-radius: 50%;
+            border-radius: 38px;
             background: conic-gradient(from 0deg, var(--primary-1), var(--primary-3), var(--primary-2), var(--primary-1));
             animation: spin 6s linear infinite;
         }
@@ -124,7 +124,7 @@
             position: relative;
             width: 100%;
             height: 100%;
-            border-radius: 50%;
+            border-radius: 32px;
             overflow: hidden;
             display: flex;
             align-items: center;
@@ -181,44 +181,6 @@
         }
         .product-row:not(:first-child) {
             border-top: 2px dotted var(--divider);
-        }
-
-        .gallery-scroll {
-            display: flex;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            border-radius: 16px;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-        .gallery-scroll::-webkit-scrollbar { display: none; }
-
-        .gallery-slide {
-            flex: 0 0 100%;
-            scroll-snap-align: center;
-        }
-        .gallery-slide img {
-            width: 100%;
-            display: block;
-            border-radius: 16px;
-        }
-
-        .gallery-dots {
-            display: flex;
-            justify-content: center;
-            gap: 7px;
-            padding-top: 12px;
-        }
-        .gallery-dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: var(--divider);
-            transition: background .25s ease, transform .25s ease;
-        }
-        .gallery-dot.is-active {
-            background: linear-gradient(135deg, var(--primary-1), var(--primary-2));
-            transform: scale(1.35);
         }
 
         .social-stack {
@@ -361,107 +323,10 @@
         .alert-modern.alert-success { background: rgba(16, 185, 129, .12); color: #059669; }
         .alert-modern.alert-danger { background: rgba(239, 68, 68, .12); color: #dc2626; }
 
-        /* floating action stack */
-        .public-footer {
-            position: fixed;
-            bottom: 26px;
-            inset-inline-end: 20px;
-            z-index: 5;
+        .photo-stack {
             display: flex;
             flex-direction: column;
             gap: 14px;
-            animation: fadeUp .6s .2s cubic-bezier(.22,1,.36,1) both;
-        }
-
-        .footer-icon-btn {
-            position: relative;
-            width: 52px;
-            height: 52px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            color: var(--ink);
-            background: var(--surface-solid);
-            border: 1px solid var(--border);
-            font-size: 1.15rem;
-            text-decoration: none;
-            box-shadow: 0 10px 24px -14px hsl(var(--shadow-color) / .45);
-            transition: transform .25s cubic-bezier(.22,1,.36,1), background .25s ease, color .25s ease, box-shadow .25s ease;
-        }
-        .footer-icon-btn:hover {
-            color: #fff;
-            background: linear-gradient(135deg, var(--primary-1), var(--primary-2));
-            transform: translateY(-4px) scale(1.06);
-            box-shadow: 0 14px 26px -12px hsl(var(--shadow-color) / .55);
-        }
-        .footer-icon-btn:active { transform: translateY(-1px) scale(.97); }
-
-        .footer-icon-btn[data-tooltip]::after {
-            content: attr(data-tooltip);
-            position: absolute;
-            top: 50%;
-            inset-inline-end: 64px;
-            transform: translateY(-50%) translateX(4px);
-            background: var(--ink);
-            color: var(--bg-base);
-            font-size: .72rem;
-            font-weight: 600;
-            padding: 5px 10px;
-            border-radius: 8px;
-            white-space: nowrap;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity .2s ease, transform .2s ease;
-        }
-        html[dir="rtl"] .footer-icon-btn[data-tooltip]::after { transform: translateY(-50%) translateX(-4px); }
-        .footer-icon-btn:hover[data-tooltip]::after,
-        .footer-icon-btn:focus-visible[data-tooltip]::after {
-            opacity: 1;
-            transform: translateY(-50%) translateX(0);
-        }
-
-        /* feedback = primary CTA, bigger + shines */
-        .footer-icon-btn--feature {
-            width: 58px;
-            height: 58px;
-            font-size: 1.3rem;
-            color: #fff;
-            border: none;
-            background: linear-gradient(135deg, var(--primary-1), var(--primary-2));
-            box-shadow: 0 14px 30px -12px hsl(var(--shadow-color) / .6);
-            animation: fadeUp .6s .2s cubic-bezier(.22,1,.36,1) both, glow 2.6s ease-in-out infinite;
-        }
-        .footer-icon-btn--feature:hover {
-            background: linear-gradient(135deg, var(--primary-1), var(--primary-2));
-            transform: translateY(-4px) scale(1.08);
-        }
-        .footer-icon-btn--feature::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -60%;
-            width: 40%;
-            height: 100%;
-            background: linear-gradient(120deg, transparent, rgba(255,255,255,.75), transparent);
-            transform: skewX(-20deg);
-            animation: shine 3.2s ease-in-out infinite;
-        }
-
-        @keyframes shine {
-            0% { left: -60%; }
-            35%, 100% { left: 130%; }
-        }
-
-        @keyframes glow {
-            0%, 100% { box-shadow: 0 14px 30px -12px hsl(var(--shadow-color) / .6); }
-            50% { box-shadow: 0 14px 34px -8px hsl(var(--shadow-color) / .85); }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            .footer-icon-btn--feature { animation: fadeUp .6s .2s cubic-bezier(.22,1,.36,1) both; }
-            .footer-icon-btn--feature::before { animation: none; display: none; }
         }
     </style>
 
@@ -496,22 +361,6 @@
 
 </div>
 
-@isset($store)
-<nav class="public-footer">
-    <a href="{{ route('public.stores.feedback.create', $store->id) }}" class="footer-icon-btn footer-icon-btn--feature" data-tooltip="اترك ملاحظة" aria-label="اترك ملاحظة">
-        <i class="bi bi-chat-heart-fill"></i>
-    </a>
-    @if($store->facebook_link)
-        <a href="{{ $store->facebook_link }}" target="_blank" rel="noopener" class="footer-icon-btn" data-tooltip="فيسبوك" aria-label="فيسبوك">
-            <i class="bi bi-facebook"></i>
-        </a>
-    @endif
-    <a href="{{ route('public.stores.privacy', $store->id) }}" class="footer-icon-btn" data-tooltip="سياسة الخصوصية" aria-label="سياسة الخصوصية">
-        <i class="bi bi-shield-check"></i>
-    </a>
-</nav>
-@endisset
-
 <script>
     (function () {
         var items = document.querySelectorAll('.reveal');
@@ -532,26 +381,6 @@
         }, { threshold: .15, rootMargin: '0px 0px -40px 0px' });
 
         items.forEach(function (el) { observer.observe(el); });
-    })();
-
-    (function () {
-        if (!('IntersectionObserver' in window)) return;
-
-        document.querySelectorAll('.gallery-scroll').forEach(function (scroller) {
-            var dots = scroller.parentElement.querySelectorAll('.gallery-dot');
-            var slides = scroller.querySelectorAll('.gallery-slide');
-            if (!dots.length || !slides.length) return;
-
-            var galleryObserver = new IntersectionObserver(function (entries) {
-                entries.forEach(function (entry) {
-                    if (!entry.isIntersecting) return;
-                    var index = Array.prototype.indexOf.call(slides, entry.target);
-                    dots.forEach(function (dot, i) { dot.classList.toggle('is-active', i === index); });
-                });
-            }, { root: scroller, threshold: 0.6 });
-
-            slides.forEach(function (slide) { galleryObserver.observe(slide); });
-        });
     })();
 
     (function () {

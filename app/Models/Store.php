@@ -11,7 +11,9 @@ class Store extends Authenticatable
 
     protected $fillable = [
         'name', 'email', 'phone', 'password', 'photo', 'activate', 'total_sms',
-        'privacy_policy', 'facebook_link',
+        'privacy_policy', 'facebook_link', 'pin',
+        'show_in_store_deals', 'show_social', 'show_qr', 'show_weekly_ads',
+        'show_coupons', 'show_location', 'show_rewards',
     ];
 
     protected $hidden = ['password'];
@@ -19,6 +21,13 @@ class Store extends Authenticatable
     protected $casts = [
         'activate' => 'integer',
         'total_sms' => 'integer',
+        'show_in_store_deals' => 'boolean',
+        'show_social' => 'boolean',
+        'show_qr' => 'boolean',
+        'show_weekly_ads' => 'boolean',
+        'show_coupons' => 'boolean',
+        'show_location' => 'boolean',
+        'show_rewards' => 'boolean',
     ];
 
     public function isActive(): bool
@@ -104,5 +113,10 @@ class Store extends Authenticatable
     public function notifications()
     {
         return $this->hasMany(Notification::class);
+    }
+
+    public function rewardProducts()
+    {
+        return $this->hasMany(RewardProduct::class);
     }
 }

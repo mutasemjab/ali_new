@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ActivityLogController;
+use App\Http\Controllers\Admin\AppSettingController;
 use App\Http\Controllers\Admin\AnnouncementController;
 use App\Http\Controllers\Admin\WeeklyPlannerController;
 use App\Http\Controllers\Admin\BannerController;
@@ -68,6 +69,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
         Route::post('stores/{store}/subscriptions', [StoreSubscriptionController::class, 'store'])->name('admin.stores.subscriptions.store');
         Route::post('stores/{store}/sms', [StoreSmsController::class, 'store'])->name('admin.stores.sms.store');
         Route::post('sms-credit', [StoreSmsController::class, 'quickStore'])->name('admin.sms.quick-recharge');
+
+        // ── Global app settings ─────────────────────────────────────
+        Route::get('settings/privacy', [AppSettingController::class, 'editPrivacy'])->name('admin.settings.privacy.edit');
+        Route::put('settings/privacy', [AppSettingController::class, 'updatePrivacy'])->name('admin.settings.privacy.update');
 
     });
 });

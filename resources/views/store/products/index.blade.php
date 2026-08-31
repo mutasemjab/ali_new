@@ -97,16 +97,16 @@
                         <td>{{ $product->category->name ?? '—' }}</td>
                         <td>
                             @if($product->has_active_discount)
-                                <span class="text-decoration-line-through text-muted">${{ $product->price_usd }}</span>
+                                <span class="text-decoration-line-through text-muted">{{ $product->price_usd }}</span>
                             @else
-                                ${{ $product->price_usd }}
+                                {{ $product->price_usd }}
                             @endif
                         </td>
                         <td>
                             @if($product->has_active_discount)
-                                <span class="fw-semibold text-success">${{ $product->final_price }}</span>
+                                <span class="fw-semibold text-success">{{ $product->final_price }}</span>
                             @else
-                                ${{ $product->price_usd }}
+                                {{ $product->price_usd }}
                             @endif
                         </td>
                         <td>

@@ -33,6 +33,7 @@
                         <th>Photo</th>
                         <th>Starts</th>
                         <th>Ends</th>
+                        <th>Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -41,10 +42,20 @@
                     <tr>
                         <td>{{ $loop->iteration + ($weeklyAds->currentPage() - 1) * $weeklyAds->perPage() }}</td>
                         <td><img src="{{ asset($weeklyAd->photo) }}" alt="" style="width:80px;height:40px;object-fit:cover;border-radius:6px;"></td>
-                        <td>{{ $weeklyAd->start_at->format('Y-m-d') }}</td>
-                        <td>{{ $weeklyAd->end_at->format('Y-m-d') }}</td>
+                        <td>{{ $weeklyAd->start_at->format('m/d/Y') }}</td>
+                        <td>{{ $weeklyAd->end_at->format('m/d/Y') }}</td>
+                        <td>
+                            @if($weeklyAd->is_active)
+                                <span class="pill pill-success">Active</span>
+                            @else
+                                <span class="pill pill-danger">Inactive</span>
+                            @endif
+                        </td>
                         <td>
                             <div class="d-flex gap-1">
+                                <a href="{{ route('store.weekly-ads.sms.create', $weeklyAd->id) }}" class="btn-icon-sm" title="Send SMS">
+                                    <i class="bi bi-send"></i>
+                                </a>
                                 <a href="{{ route('store.weekly-ads.edit', $weeklyAd->id) }}" class="btn-icon-sm btn-edit" title="Edit">
                                     <i class="bi bi-pencil"></i>
                                 </a>
@@ -60,7 +71,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="5" class="text-center text-muted py-4">No weekly ads added yet</td>
+                        <td colspan="6" class="text-center text-muted py-4">No weekly ads added yet</td>
                     </tr>
                     @endforelse
                 </tbody>

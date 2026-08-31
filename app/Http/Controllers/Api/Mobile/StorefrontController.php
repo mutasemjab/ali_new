@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Api\Mobile;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Client;
 use App\Models\Coupon;
 use App\Models\CouponClient;
 use App\Models\Location;
 use App\Models\Product;
 use App\Models\Qr;
+use App\Models\RewardProduct;
 use App\Models\Social;
 use App\Models\Store;
 use App\Models\WeeklyAd;
@@ -200,6 +202,41 @@ class StorefrontController extends Controller
     }
 
     /**
+     * GET /stores/{store}/rewards — every reward tier, plus this client's progress
+     * toward each one (either via Bearer token, or ?phone= for the tablet kiosk flow).
+     */
+    public function rewards(Request $request, Store $store)
+    {
+        $rewardProducts = RewardProduct::where('store_id', $store->id)
+            ->orderBy('visits_required')
+            ->get();
+
+        $client = $this->resolveOptionalClient($request);
+
+        if (! $client && $request->filled('phone')) {
+            $client = Client::where('store_id', $store->id)->where('phone', $request->phone)->first();
+        }
+
+        $currentVisits = $client->number_of_visit ?? 0;
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Rewards retrieved successfully',
+            'data' => [
+                'current_visits' => $currentVisits,
+                'rewards' => $rewardProducts->map(fn (RewardProduct $rewardProduct) => [
+                    'id' => $rewardProduct->id,
+                    'name' => $rewardProduct->name,
+                    'image' => $this->imageUrl($rewardProduct->image),
+                    'visits_required' => $rewardProduct->visits_required,
+                    'earned' => $currentVisits >= $rewardProduct->visits_required,
+                    'visits_remaining' => max(0, $rewardProduct->visits_required - $currentVisits),
+                ])->values(),
+            ],
+        ]);
+    }
+
+    /**
      * GET /me/coupons (auth:sanctum) — this client's clipped coupons.
      */
     public function myCoupons(Request $request)
@@ -258,8 +295,8 @@ class StorefrontController extends Controller
             'image' => $this->imageUrl($product->image),
             'category' => $product->category?->name,
             'category_id' => $product->category_id,
-            'price_usd' => (float) $product->price_usd,
-            'price_after' => $product->price_after !== null ? (float) $product->price_after : null,
+            'price_usd' => $product->price_usd,
+            'price_after' => $product->price_after,
             'has_active_discount' => $product->has_active_discount,
             'discount_from' => $product->discount_from,
             'discount_to' => $product->discount_to,

@@ -41,7 +41,7 @@
                         <td>{{ $feedback->name }}</td>
                         <td>{{ $feedback->phone }}</td>
                         <td>{{ $feedback->message }}</td>
-                        <td>{{ $feedback->created_at->format('Y-m-d H:i') }}</td>
+                        <td>{{ $feedback->created_at->format('m/d/Y h:i A') }}</td>
                         <td>
                             <form action="{{ route('store.feedback.destroy', $feedback->id) }}" method="POST" class="d-inline"
                                   onsubmit="return confirm('Are you sure you want to delete this feedback?')">

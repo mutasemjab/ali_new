@@ -140,9 +140,9 @@
                             @if(!$latestSub)
                                 <span class="pill pill-neutral">No subscription</span>
                             @elseif($latestSub->to_date->isFuture() || $latestSub->to_date->isToday())
-                                <span class="pill pill-success">Active until {{ $latestSub->to_date->format('Y-m-d') }}</span>
+                                <span class="pill pill-success">Active until {{ $latestSub->to_date->format('m/d/Y') }}</span>
                             @else
-                                <span class="pill pill-danger">Expired {{ $latestSub->to_date->format('Y-m-d') }}</span>
+                                <span class="pill pill-danger">Expired {{ $latestSub->to_date->format('m/d/Y') }}</span>
                             @endif
                         </td>
                         <td>{{ $store->total_sms }}</td>
@@ -154,9 +154,14 @@
                             @endif
                         </td>
                         <td>
-                            <a href="{{ route('admin.stores.show', $store->id) }}" class="btn-icon-sm" title="View">
-                                <i class="bi bi-eye"></i>
-                            </a>
+                            <div class="d-flex gap-1">
+                                <a href="{{ route('admin.stores.show', $store->id) }}" class="btn-icon-sm" title="View">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <a href="{{ route('admin.stores.edit', $store->id) }}" class="btn-icon-sm btn-edit" title="Edit">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                            </div>
                         </td>
                     </tr>
                     @empty

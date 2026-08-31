@@ -54,6 +54,7 @@
                         <th>Price</th>
                         <th>Price After Discount</th>
                         <th>Status</th>
+                        <th>Active</th>
                         <th>Starts</th>
                         <th>Ends</th>
                         <th>Actions</th>
@@ -68,8 +69,15 @@
                         <td>{{ $coupon->price }}</td>
                         <td>{{ $coupon->price_after_discount }}</td>
                         <td><span class="pill pill-info">{{ ucfirst($coupon->status) }}</span></td>
-                        <td>{{ $coupon->start_at->format('Y-m-d') }}</td>
-                        <td>{{ $coupon->end_at->format('Y-m-d') }}</td>
+                        <td>
+                            @if($coupon->is_active)
+                                <span class="pill pill-success">Active</span>
+                            @else
+                                <span class="pill pill-danger">Inactive</span>
+                            @endif
+                        </td>
+                        <td>{{ $coupon->start_at->format('m/d/Y') }}</td>
+                        <td>{{ $coupon->end_at->format('m/d/Y') }}</td>
                         <td>
                             <div class="d-flex gap-1">
                                 <a href="{{ route('store.coupons.edit', $coupon->id) }}" class="btn-icon-sm btn-edit" title="Edit">
@@ -87,7 +95,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="9" class="text-center text-muted py-4">No coupons added yet</td>
+                        <td colspan="10" class="text-center text-muted py-4">No coupons added yet</td>
                     </tr>
                     @endforelse
                 </tbody>

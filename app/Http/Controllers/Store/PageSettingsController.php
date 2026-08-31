@@ -17,13 +17,18 @@ class PageSettingsController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'privacy_policy' => 'nullable|string',
             'facebook_link' => 'nullable|url|max:255',
         ]);
 
         auth('store')->user()->update([
-            'privacy_policy' => $request->privacy_policy,
             'facebook_link' => $request->facebook_link,
+            'show_in_store_deals' => $request->boolean('show_in_store_deals'),
+            'show_social' => $request->boolean('show_social'),
+            'show_qr' => $request->boolean('show_qr'),
+            'show_weekly_ads' => $request->boolean('show_weekly_ads'),
+            'show_coupons' => $request->boolean('show_coupons'),
+            'show_location' => $request->boolean('show_location'),
+            'show_rewards' => $request->boolean('show_rewards'),
         ]);
 
         return redirect()->route('store.pages.edit')->with('success', 'Changes saved successfully');

@@ -25,4 +25,11 @@ class Coupon extends Model
     {
         return $this->hasMany(CouponClient::class);
     }
+
+    public function getIsActiveAttribute(): bool
+    {
+        $now = now();
+
+        return $now->gte($this->start_at) && $now->lte($this->end_at);
+    }
 }

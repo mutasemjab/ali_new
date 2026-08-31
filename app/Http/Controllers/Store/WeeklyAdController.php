@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Store;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SendStoreSmsCampaign;
+use App\Models\Client;
+use App\Models\StoreMessage;
 use App\Models\WeeklyAd;
 use Illuminate\Http\Request;
 
@@ -72,5 +75,64 @@ class WeeklyAdController extends Controller
         $weeklyAd->delete();
 
         return back()->with('success', 'Weekly ad deleted');
+    }
+
+    public function smsCreate(WeeklyAd $weeklyAd)
+    {
+        $clients = Client::orderBy('name')->get();
+
+        return view('store.weekly-ads.sms', compact('weeklyAd', 'clients'));
+    }
+
+    public function smsSend(Request $request, WeeklyAd $weeklyAd)
+    {
+        $request->validate([
+            'recipients' => 'required|in:all,selected',
+            'client_ids' => 'required_if:recipients,selected|array',
+            'client_ids.*' => 'integer|exists:clients,id',
+        ]);
+
+        $store = auth('store')->user();
+
+        $clients = $request->recipients === 'all'
+            ? Client::all()
+            : Client::whereIn('id', $request->client_ids)->get();
+
+        if ($clients->isEmpty()) {
+            return back()->with('error', 'No clients selected to send this message to');
+        }
+
+        if ($store->total_sms < $clients->count()) {
+            return back()->with('error', 'Insufficient SMS balance to send this campaign');
+        }
+
+        $content = $this->buildSmsTemplate($store, $weeklyAd);
+
+        $storeMessage = StoreMessage::create([
+            'content' => $content,
+            'recipients_count' => $clients->count(),
+            'status' => 'pending',
+        ]);
+
+        foreach ($clients as $client) {
+            $storeMessage->recipients()->create([
+                'client_id' => $client->id,
+                'phone' => $client->phone,
+                'status' => 'pending',
+            ]);
+        }
+
+        SendStoreSmsCampaign::dispatch($storeMessage);
+
+        return redirect()->route('store.weekly-ads.index')->with('success', 'Weekly ad SMS has been queued for sending to ' . $clients->count() . ' client(s)');
+    }
+
+    private function buildSmsTemplate($store, WeeklyAd $weeklyAd): string
+    {
+        return $store->name . "\n"
+            . "WEEKLY AD\n"
+            . $weeklyAd->start_at->format('m/d/Y') . ' TO ' . $weeklyAd->end_at->format('m/d/Y') . "\n\n"
+            . 'Tap to view specials! ' . $weeklyAd->public_url . "\n"
+            . 'Text STOP to opt-out.';
     }
 }

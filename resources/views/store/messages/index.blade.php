@@ -53,7 +53,7 @@
                         <td>{{ $message->sent_count }}</td>
                         <td>{{ $message->failed_count }}</td>
                         <td><span class="pill pill-info">{{ $message->status }}</span></td>
-                        <td>{{ $message->created_at->format('Y-m-d H:i') }}</td>
+                        <td>{{ $message->created_at->format('m/d/Y h:i A') }}</td>
                         <td>
                             <div class="d-flex gap-1">
                                 <a href="{{ route('store.messages.show', $message->id) }}" class="btn-icon-sm" title="View Details">

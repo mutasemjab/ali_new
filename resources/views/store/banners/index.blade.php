@@ -40,7 +40,7 @@
                     <tr>
                         <td>{{ $loop->iteration + ($banners->currentPage() - 1) * $banners->perPage() }}</td>
                         <td><img src="{{ asset($banner->photo) }}" alt="" style="width:80px;height:40px;object-fit:cover;border-radius:6px;"></td>
-                        <td>{{ $banner->created_at->format('Y-m-d H:i') }}</td>
+                        <td>{{ $banner->created_at->format('m/d/Y h:i A') }}</td>
                         <td>
                             <div class="d-flex gap-1">
                                 <a href="{{ route('store.banners.edit', $banner->id) }}" class="btn-icon-sm btn-edit" title="Edit">

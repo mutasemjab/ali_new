@@ -111,6 +111,13 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a href="{{ route('store.reward-products.index') }}"
+                    class="nav-link {{ request()->routeIs('store.reward-products.*') ? 'active' : '' }}">
+                    <i class="nav-icon bi bi-trophy"></i>
+                    <span>Rewards</span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a href="{{ route('store.notifications.index') }}"
                     class="nav-link {{ request()->routeIs('store.notifications.*') ? 'active' : '' }}">
                     <i class="nav-icon bi bi-bell"></i>

@@ -64,20 +64,25 @@
                             @if(!$ad->expires_at)
                                 <span class="pill pill-info">Never</span>
                             @elseif($ad->is_expired)
-                                <span class="pill pill-danger">Expired {{ $ad->expires_at->format('Y-m-d H:i') }}</span>
+                                <span class="pill pill-danger">Expired {{ $ad->expires_at->format('m/d/Y h:i A') }}</span>
                             @else
-                                <span class="pill pill-success">{{ $ad->expires_at->format('Y-m-d H:i') }}</span>
+                                <span class="pill pill-success">{{ $ad->expires_at->format('m/d/Y h:i A') }}</span>
                             @endif
                         </td>
-                        <td>{{ $ad->created_at->format('Y-m-d H:i') }}</td>
+                        <td>{{ $ad->created_at->format('m/d/Y h:i A') }}</td>
                         <td>
-                            <form action="{{ route('store.ads.destroy', $ad->id) }}" method="POST" class="d-inline"
-                                  onsubmit="return confirm('Are you sure you want to delete this ad?')">
-                                @csrf @method('DELETE')
-                                <button type="submit" class="btn-icon-sm btn-delete" title="Delete">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </form>
+                            <div class="d-flex gap-1">
+                                <a href="{{ route('store.ads.edit', $ad->id) }}" class="btn-icon-sm btn-edit" title="Edit">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <form action="{{ route('store.ads.destroy', $ad->id) }}" method="POST" class="d-inline"
+                                      onsubmit="return confirm('Are you sure you want to delete this ad?')">
+                                    @csrf @method('DELETE')
+                                    <button type="submit" class="btn-icon-sm btn-delete" title="Delete">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                     @empty

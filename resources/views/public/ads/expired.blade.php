@@ -14,6 +14,8 @@
     <p class="text-muted mb-0">هذا الإعلان من {{ $store->name }} لم يعد متاحاً.</p>
 </div>
 
+@include('public.partials.store-links')
+
 <style>
     @keyframes pulse {
         0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(99,102,241,.35); }

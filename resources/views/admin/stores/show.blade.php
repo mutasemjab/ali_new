@@ -125,8 +125,8 @@
                         <tbody>
                             @forelse($store->subscriptions as $sub)
                             <tr>
-                                <td>{{ $sub->from_date->format('Y-m-d') }}</td>
-                                <td>{{ $sub->to_date->format('Y-m-d') }}</td>
+                                <td>{{ $sub->from_date->format('m/d/Y') }}</td>
+                                <td>{{ $sub->to_date->format('m/d/Y') }}</td>
                                 <td>{{ $sub->amount }}</td>
                                 <td>{{ $sub->payment_type }}</td>
                             </tr>
@@ -188,7 +188,7 @@
                                 <td>{{ $entry->type }}</td>
                                 <td>{{ $entry->quantity }}</td>
                                 <td>{{ $entry->balance_after }}</td>
-                                <td>{{ $entry->created_at->format('Y-m-d H:i') }}</td>
+                                <td>{{ $entry->created_at->format('m/d/Y h:i A') }}</td>
                             </tr>
                             @empty
                             <tr><td colspan="4" class="text-center text-muted py-3">No balance activity recorded</td></tr>

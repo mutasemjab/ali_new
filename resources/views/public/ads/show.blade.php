@@ -7,21 +7,12 @@
 @section('content')
 
 @if($ad->type === 'image')
-    <div class="surface-card reveal" style="padding:10px;">
-        <div class="gallery-scroll">
-            @foreach($ad->images as $image)
-                <div class="gallery-slide">
-                    <img src="{{ asset($image->image) }}" alt="">
-                </div>
-            @endforeach
+    <div class="photo-stack">
+        @foreach($ad->images as $image)
+        <div class="surface-card reveal" style="padding:10px;transition-delay:{{ min($loop->index * 70, 300) }}ms;">
+            <img src="{{ asset($image->image) }}" alt="" style="width:100%; display:block; border-radius:16px;">
         </div>
-        @if($ad->images->count() > 1)
-        <div class="gallery-dots">
-            @foreach($ad->images as $image)
-                <span class="gallery-dot @if($loop->first) is-active @endif"></span>
-            @endforeach
-        </div>
-        @endif
+        @endforeach
     </div>
 @else
     @forelse($ad->products as $product)
@@ -35,10 +26,10 @@
                     <div class="fw-semibold mb-1">{{ $product->name }}</div>
                     <div class="fs-5">
                         @if($product->has_active_discount)
-                            <span class="text-decoration-line-through text-muted small">${{ $product->price_usd }}</span>
-                            <span class="fw-bold text-success">${{ $product->final_price }}</span>
+                            <span class="text-decoration-line-through text-muted small">{{ $product->price_usd }}</span>
+                            <span class="fw-bold text-success">{{ $product->final_price }}</span>
                         @else
-                            <span class="fw-bold">${{ $product->price_usd }}</span>
+                            <span class="fw-bold">{{ $product->price_usd }}</span>
                         @endif
                     </div>
                 </div>
@@ -55,19 +46,7 @@
     @endforelse
 @endif
 
-@if($store->socials->isNotEmpty())
-<div class="social-stack">
-    @foreach($store->socials as $social)
-    <a href="{{ $social->link }}" target="_blank" rel="noopener" class="social-row reveal" style="transition-delay:{{ min($loop->index * 70, 300) }}ms;">
-        <div class="social-row-icon">
-            <img src="{{ asset($social->photo) }}" alt="{{ $social->name }}">
-        </div>
-        <div class="social-row-title">تابعنا على {{ $social->name }}</div>
-        <i class="bi bi-chevron-left social-row-chevron"></i>
-    </a>
-    @endforeach
-</div>
-@endif
+@include('public.partials.store-links')
 
 <button type="button" class="share-btn mt-3" data-share-url="{{ $ad->public_url }}" data-share-title="{{ $store->name }}">
     <i class="bi bi-share-fill"></i>

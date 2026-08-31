@@ -42,7 +42,7 @@
                         <td>{{ $loop->iteration + ($qrs->currentPage() - 1) * $qrs->perPage() }}</td>
                         <td><img src="{{ asset($qr->photo) }}" alt="" style="width:50px;height:50px;object-fit:contain;background:#fff;border-radius:6px;"></td>
                         <td><a href="{{ $qr->link }}" target="_blank" rel="noopener">{{ $qr->link }}</a></td>
-                        <td>{{ $qr->created_at->format('Y-m-d H:i') }}</td>
+                        <td>{{ $qr->created_at->format('m/d/Y h:i A') }}</td>
                         <td>
                             <form action="{{ route('store.qrs.destroy', $qr->id) }}" method="POST" class="d-inline"
                                   onsubmit="return confirm('Are you sure you want to delete this QR code?')">

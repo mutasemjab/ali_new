@@ -6,7 +6,7 @@
 <div class="page-header d-flex align-items-start justify-content-between flex-wrap gap-3">
     <div>
         <h1 class="page-title">Public Page</h1>
-        <p class="page-sub">Privacy policy and Facebook link shown to clients</p>
+        <p class="page-sub">Facebook link and which icons show in the mobile app</p>
     </div>
 </div>
 
@@ -25,7 +25,6 @@
 <div class="panel-card mb-3">
     <div class="panel-card-body">
         <div class="row g-2 small text-muted">
-            <div class="col-12">Public privacy policy link: <a href="{{ route('public.stores.privacy', $store->id) }}" target="_blank">{{ route('public.stores.privacy', $store->id) }}</a></div>
             <div class="col-12">Public feedback link: <a href="{{ route('public.stores.feedback.create', $store->id) }}" target="_blank">{{ route('public.stores.feedback.create', $store->id) }}</a></div>
         </div>
     </div>
@@ -36,19 +35,44 @@
 
 <div class="panel-card">
     <div class="panel-card-header">
-        <h2 class="panel-card-title"><i class="bi bi-shield-check"></i> Privacy Policy</h2>
+        <h2 class="panel-card-title"><i class="bi bi-facebook"></i> Facebook Link</h2>
     </div>
     <div class="panel-card-body">
-        <textarea name="privacy_policy" rows="8" class="form-control" placeholder="Write your store's privacy policy...">{{ old('privacy_policy', $store->privacy_policy) }}</textarea>
+        <input type="url" name="facebook_link" value="{{ old('facebook_link', $store->facebook_link) }}" class="form-control" placeholder="https://facebook.com/your-page">
     </div>
 </div>
 
 <div class="panel-card mt-3">
     <div class="panel-card-header">
-        <h2 class="panel-card-title"><i class="bi bi-facebook"></i> Facebook Link</h2>
+        <h2 class="panel-card-title"><i class="bi bi-grid-3x3-gap"></i> Mobile App Icons</h2>
     </div>
     <div class="panel-card-body">
-        <input type="url" name="facebook_link" value="{{ old('facebook_link', $store->facebook_link) }}" class="form-control" placeholder="https://facebook.com/your-page">
+        <p class="text-muted small mb-3">Turn off any feature you don't want to appear as an icon on your customers' home screen.</p>
+        <div class="row g-3">
+            @php
+                $icons = [
+                    'show_in_store_deals' => ['In-Store Deals', 'bi-tags'],
+                    'show_social' => ['Social', 'bi-share'],
+                    'show_qr' => ['QR Code', 'bi-qr-code'],
+                    'show_weekly_ads' => ['Weekly Ads', 'bi-calendar-week'],
+                    'show_coupons' => ['Coupons', 'bi-ticket-perforated'],
+                    'show_location' => ['Location', 'bi-geo-alt'],
+                    'show_rewards' => ['Rewards', 'bi-trophy'],
+                ];
+            @endphp
+            @foreach($icons as $field => [$label, $icon])
+            <div class="col-md-4">
+                <label class="d-flex align-items-center gap-2 p-2 rounded border">
+                    <div class="form-check form-switch mb-0">
+                        <input type="checkbox" class="form-check-input" role="switch" name="{{ $field }}" value="1"
+                            {{ old($field, $store->$field) ? 'checked' : '' }}>
+                    </div>
+                    <i class="bi {{ $icon }}"></i>
+                    <span>{{ $label }}</span>
+                </label>
+            </div>
+            @endforeach
+        </div>
     </div>
 </div>
 

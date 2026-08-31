@@ -26,7 +26,7 @@ class LoginController extends Controller
         if (! $store->isActive()) {
             auth()->guard('store')->logout();
 
-            return redirect()->route('store.showlogin')->with('error', 'This store account has been suspended. Please contact support.');
+            return redirect()->route('store.showlogin')->with('error', 'This store account has been suspended. Please contact support: 5594082282');
         }
 
         return redirect()->route('store.dashboard');

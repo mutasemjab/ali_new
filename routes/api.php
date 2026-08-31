@@ -26,6 +26,7 @@ Route::prefix('v1/')->middleware('api.locale')->group(function () {
     Route::get('stores/{store}', [StoreController::class, 'show'])->name('api.stores.show');
     Route::get('stores/{store}/privacy', [StoreController::class, 'privacy'])->name('api.stores.privacy');
     Route::post('stores/{store}/subscribe', [StoreController::class, 'subscribe'])->name('api.stores.subscribe');
+    Route::post('stores/{store}/verify-pin', [StoreController::class, 'verifyPin'])->name('api.stores.verify-pin');
 
     // ── Single-store client app ─────────────────────────────────────────────
     Route::prefix('stores/{store}')->group(function () {
@@ -39,6 +40,7 @@ Route::prefix('v1/')->middleware('api.locale')->group(function () {
         Route::get('weekly-ads', [StorefrontController::class, 'weeklyAds'])->name('api.stores.weekly-ads');
         Route::get('locations', [StorefrontController::class, 'locations'])->name('api.stores.locations');
         Route::get('coupons', [StorefrontController::class, 'coupons'])->name('api.stores.coupons');
+        Route::get('rewards', [StorefrontController::class, 'rewards'])->name('api.stores.rewards');
 
         // Phone + OTP auth (Twilio) — no password
         Route::post('auth/register', [ClientAuthController::class, 'register'])->name('api.client.register');

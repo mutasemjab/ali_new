@@ -53,6 +53,11 @@
                 <label class="form-label">Confirm Password</label>
                 <input type="password" name="password_confirmation" class="form-control" autocomplete="new-password">
             </div>
+            <div class="col-md-6">
+                <label class="form-label">Tablet PIN</label>
+                <input type="text" name="pin" value="{{ old('pin', $store->pin) }}" class="form-control" maxlength="10" placeholder="e.g. 1234">
+                <div class="form-text">Given to the store to unlock their tablet kiosk.</div>
+            </div>
         </div>
     </div>
 </div>

@@ -6,7 +6,7 @@
 <div class="page-header d-flex align-items-start justify-content-between flex-wrap gap-3">
     <div>
         <h1 class="page-title">Message Details</h1>
-        <p class="page-sub">{{ $message->created_at->format('Y-m-d H:i') }}</p>
+        <p class="page-sub">{{ $message->created_at->format('m/d/Y h:i A') }}</p>
     </div>
     <a href="{{ route('store.messages.index') }}" class="btn-outline-sm">
         <i class="bi bi-arrow-right"></i> Back to List
@@ -50,7 +50,7 @@
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $recipient->phone }}</td>
                         <td><span class="pill pill-info">{{ $recipient->status }}</span></td>
-                        <td>{{ $recipient->sent_at?->format('Y-m-d H:i') ?? '—' }}</td>
+                        <td>{{ $recipient->sent_at?->format('m/d/Y h:i A') ?? '—' }}</td>
                         <td>{{ $recipient->error ?? '—' }}</td>
                     </tr>
                     @empty

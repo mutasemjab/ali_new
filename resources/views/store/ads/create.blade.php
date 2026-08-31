@@ -77,7 +77,7 @@
                     <input type="checkbox" name="products[]" value="{{ $product->id }}"
                            {{ in_array($product->id, old('products', [])) ? 'checked' : '' }}>
                     <img src="{{ asset($product->image) }}" alt="" style="width:32px;height:32px;object-fit:cover;border-radius:6px;">
-                    <span>{{ $product->name }} — ${{ $product->price_usd }}</span>
+                    <span>{{ $product->name }} — {{ $product->price_usd }}</span>
                 </label>
             </div>
             @endforeach

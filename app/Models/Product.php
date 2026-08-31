@@ -16,8 +16,6 @@ class Product extends Model
     ];
 
     protected $casts = [
-        'price_usd' => 'decimal:2',
-        'price_after' => 'decimal:2',
         'discount_from' => 'date',
         'discount_to' => 'date',
         'active' => 'boolean',
@@ -35,8 +33,7 @@ class Product extends Model
 
     public function getHasActiveDiscountAttribute(): bool
     {
-        if (empty($this->price_after) || (float) $this->price_after >= (float) $this->price_usd
-            || ! $this->discount_from || ! $this->discount_to) {
+        if (empty($this->price_after) || ! $this->discount_from || ! $this->discount_to) {
             return false;
         }
 
@@ -45,8 +42,8 @@ class Product extends Model
         return $today >= $this->discount_from->toDateString() && $today <= $this->discount_to->toDateString();
     }
 
-    public function getFinalPriceAttribute(): float
+    public function getFinalPriceAttribute(): string
     {
-        return $this->has_active_discount ? (float) $this->price_after : (float) $this->price_usd;
+        return $this->has_active_discount ? $this->price_after : $this->price_usd;
     }
 }

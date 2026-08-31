@@ -41,7 +41,7 @@
                         <td>{{ $couponClient->client->name ?? '—' }}</td>
                         <td>{{ $couponClient->coupon->name ?? '—' }}</td>
                         <td><span class="pill pill-info">{{ ucfirst($couponClient->status) }}</span></td>
-                        <td>{{ optional($couponClient->clipped_at)->format('Y-m-d H:i') ?? '—' }}</td>
+                        <td>{{ optional($couponClient->clipped_at)->format('m/d/Y h:i A') ?? '—' }}</td>
                         <td>
                             <form action="{{ route('store.coupon-clients.destroy', $couponClient->id) }}" method="POST" class="d-inline"
                                   onsubmit="return confirm('Are you sure you want to revoke this clip?')">

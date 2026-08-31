@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Public\AdController;
 use App\Http\Controllers\Public\FeedbackController;
 use App\Http\Controllers\Public\StoreController;
+use App\Http\Controllers\Public\WeeklyAdController;
 use App\Http\Controllers\StudentAuthController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -28,4 +29,5 @@ Route::group([
     Route::post('store/{store}/feedback', [FeedbackController::class, 'store'])->name('public.stores.feedback.store');
 
     Route::get('ads/{token}', [AdController::class, 'show'])->name('public.ads.show');
+    Route::get('weekly-ads/{token}', [WeeklyAdController::class, 'show'])->name('public.weekly-ads.show');
 });

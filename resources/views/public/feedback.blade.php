@@ -65,4 +65,6 @@
 
 </div>
 
+@include('public.partials.store-links')
+
 @endsection

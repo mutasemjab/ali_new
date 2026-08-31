@@ -14,9 +14,11 @@
 </div>
 
 <div style="white-space: pre-line; line-height: 1.9; color: var(--ink);">
-    {{ $store->privacy_policy ?: 'No privacy policy has been added yet.' }}
+    {{ $privacyPolicy ?: 'No privacy policy has been added yet.' }}
 </div>
 
 </div>
+
+@include('public.partials.store-links')
 
 @endsection

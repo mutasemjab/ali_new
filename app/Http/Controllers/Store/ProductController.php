@@ -45,8 +45,8 @@ class ProductController extends Controller
             'category_id' => 'required|exists:categories,id',
             'name' => 'required|string|max:200',
             'image' => 'required|image|max:2048',
-            'price_usd' => 'required|numeric|min:0',
-            'price_after' => 'nullable|numeric|min:0|lt:price_usd',
+            'price_usd' => 'required|string|max:100',
+            'price_after' => 'nullable|string|max:100',
             'discount_from' => 'nullable|date|required_with:discount_to',
             'discount_to' => 'nullable|date|after_or_equal:discount_from|required_with:discount_from',
         ]);
@@ -81,8 +81,8 @@ class ProductController extends Controller
             'category_id' => 'required|exists:categories,id',
             'name' => 'required|string|max:200',
             'image' => 'nullable|image|max:2048',
-            'price_usd' => 'required|numeric|min:0',
-            'price_after' => 'nullable|numeric|min:0|lt:price_usd',
+            'price_usd' => 'required|string|max:100',
+            'price_after' => 'nullable|string|max:100',
             'discount_from' => 'nullable|date|required_with:discount_to',
             'discount_to' => 'nullable|date|after_or_equal:discount_from|required_with:discount_from',
         ]);

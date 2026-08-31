@@ -36,6 +36,7 @@ class StoreController extends Controller
             'phone' => 'nullable|string|max:50|unique:stores,phone',
             'password' => 'required|string|min:8|confirmed',
             'photo' => 'nullable|image|max:2048',
+            'pin' => 'nullable|string|max:10',
         ]);
 
         $photoPath = $request->hasFile('photo')
@@ -50,6 +51,7 @@ class StoreController extends Controller
             'photo' => $photoPath,
             'activate' => 1,
             'total_sms' => 0,
+            'pin' => $request->pin,
         ]);
 
         return redirect()->route('admin.stores.index')->with('success', 'Store created successfully');
@@ -76,12 +78,14 @@ class StoreController extends Controller
             'phone' => 'nullable|string|max:50|unique:stores,phone,' . $store->id,
             'password' => 'nullable|string|min:8|confirmed',
             'photo' => 'nullable|image|max:2048',
+            'pin' => 'nullable|string|max:10',
         ]);
 
         $data = [
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
+            'pin' => $request->pin,
         ];
 
         if ($request->filled('password')) {

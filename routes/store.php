@@ -15,6 +15,7 @@ use App\Http\Controllers\Store\NotificationController;
 use App\Http\Controllers\Store\PageSettingsController;
 use App\Http\Controllers\Store\ProductController;
 use App\Http\Controllers\Store\QrController;
+use App\Http\Controllers\Store\RewardProductController;
 use App\Http\Controllers\Store\SocialController;
 use App\Http\Controllers\Store\WeeklyAdController;
 use Illuminate\Support\Facades\Route;
@@ -40,13 +41,15 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
         Route::post('products/{product}/toggle', [ProductController::class, 'toggle'])->name('store.products.toggle');
         Route::post('products/{product}/reorder', [ProductController::class, 'reorder'])->name('store.products.reorder');
 
-        Route::resource('ads', AdController::class, ['as' => 'store'])->only(['index', 'create', 'store', 'destroy']);
+        Route::resource('ads', AdController::class, ['as' => 'store'])->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
 
         Route::resource('coupons', CouponController::class, ['as' => 'store'])->except(['show']);
 
         Route::resource('banners', BannerController::class, ['as' => 'store'])->except(['show']);
 
         Route::resource('weekly-ads', WeeklyAdController::class, ['as' => 'store'])->except(['show']);
+        Route::get('weekly-ads/{weeklyAd}/sms', [WeeklyAdController::class, 'smsCreate'])->name('store.weekly-ads.sms.create');
+        Route::post('weekly-ads/{weeklyAd}/sms', [WeeklyAdController::class, 'smsSend'])->name('store.weekly-ads.sms.send');
 
         Route::resource('socials', SocialController::class, ['as' => 'store'])->except(['show']);
 
@@ -57,6 +60,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
         Route::resource('coupon-clients', CouponClientController::class, ['as' => 'store'])->only(['index', 'destroy']);
 
         Route::resource('notifications', NotificationController::class, ['as' => 'store'])->only(['index', 'create', 'store', 'destroy']);
+
+        Route::resource('reward-products', RewardProductController::class, ['as' => 'store'])->except(['show']);
 
         Route::get('feedback', [FeedbackController::class, 'index'])->name('store.feedback.index');
         Route::delete('feedback/{feedback}', [FeedbackController::class, 'destroy'])->name('store.feedback.destroy');

@@ -49,6 +49,13 @@
                     <span>Employees</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="{{ route('admin.settings.privacy.edit') }}"
+                    class="nav-link {{ request()->routeIs('admin.settings.privacy.*') ? 'active' : '' }}">
+                    <i class="nav-icon bi bi-shield-lock"></i>
+                    <span>Privacy Policy</span>
+                </a>
+            </li>
         </ul>
 
     </nav>

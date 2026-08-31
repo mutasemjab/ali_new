@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api\Mobile;
 
 use App\Http\Controllers\Controller;
+use App\Models\AppSetting;
 use App\Models\Banner;
 use App\Models\Client;
+use App\Models\ClientVisit;
 use App\Models\Store;
 use App\Models\WeeklyAd;
 use Illuminate\Http\Request;
@@ -36,7 +38,41 @@ class StoreController extends Controller
                     'id' => $banner->id,
                     'image' => $this->imageUrl($banner->photo),
                 ]),
+                'icons' => [
+                    'in_store_deals' => (bool) $store->show_in_store_deals,
+                    'social' => (bool) $store->show_social,
+                    'qr' => (bool) $store->show_qr,
+                    'weekly_ads' => (bool) $store->show_weekly_ads,
+                    'coupons' => (bool) $store->show_coupons,
+                    'location' => (bool) $store->show_location,
+                    'rewards' => (bool) $store->show_rewards,
+                ],
             ],
+        ]);
+    }
+
+    /**
+     * POST /api/v1/stores/{store}/verify-pin — tablet kiosk setup: confirm the PIN
+     * an admin assigned to this store before letting the tablet remember/use it.
+     */
+    public function verifyPin(Request $request, Store $store)
+    {
+        $request->validate([
+            'pin' => 'required|string',
+        ]);
+
+        if ($store->activate !== 1) {
+            return response()->json(['status' => false, 'message' => 'Store not found', 'data' => null], 404);
+        }
+
+        if (empty($store->pin) || ! hash_equals((string) $store->pin, (string) $request->pin)) {
+            return response()->json(['status' => false, 'message' => 'Incorrect PIN', 'data' => null], 422);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'PIN verified successfully',
+            'data' => ['store' => $this->storeDetails($store)],
         ]);
     }
 
@@ -109,7 +145,7 @@ class StoreController extends Controller
             'data' => [
                 'store_id' => $store->id,
                 'store_name' => $store->name,
-                'privacy_policy' => $store->privacy_policy,
+                'privacy_policy' => AppSetting::current()->privacy_policy,
             ],
         ]);
     }
@@ -139,8 +175,30 @@ class StoreController extends Controller
         ]);
 
         $client->name = $request->name ?: $client->name ?: $request->phone;
-        $client->number_of_visit = ($client->number_of_visit ?? 0) + 1;
+
+        if (! $client->exists) {
+            $client->number_of_visit = 0;
+        }
+
         $client->save();
+
+        // A "visit" only counts once per calendar day, regardless of how many
+        // times this phone number is entered on the tablet that same day.
+        $today = Carbon::today();
+
+        $alreadyVisitedToday = ClientVisit::where('client_id', $client->id)
+            ->whereDate('visit_date', $today)
+            ->exists();
+
+        if (! $alreadyVisitedToday) {
+            ClientVisit::create([
+                'store_id' => $store->id,
+                'client_id' => $client->id,
+                'visit_date' => $today,
+            ]);
+
+            $client->increment('number_of_visit');
+        }
 
         return response()->json([
             'status' => true,
@@ -149,6 +207,7 @@ class StoreController extends Controller
                 'client_id' => $client->id,
                 'store_id' => $store->id,
                 'phone' => $client->phone,
+                'number_of_visit' => $client->number_of_visit,
             ],
         ]);
     }

@@ -42,7 +42,7 @@
                         <td>{{ $loop->iteration + ($notifications->currentPage() - 1) * $notifications->perPage() }}</td>
                         <td><span class="fw-semibold">{{ $notification->title }}</span></td>
                         <td>{{ \Illuminate\Support\Str::limit($notification->body, 80) }}</td>
-                        <td>{{ $notification->created_at->format('Y-m-d H:i') }}</td>
+                        <td>{{ $notification->created_at->format('m/d/Y h:i A') }}</td>
                         <td>
                             <form action="{{ route('store.notifications.destroy', $notification->id) }}" method="POST" class="d-inline"
                                   onsubmit="return confirm('Are you sure you want to delete this notification?')">

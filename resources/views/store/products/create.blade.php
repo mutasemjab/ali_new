@@ -52,8 +52,8 @@
                 <input type="file" name="image" class="form-control" accept="image/*" required>
             </div>
             <div class="col-md-6">
-                <label class="form-label">Price (USD) <span class="text-danger">*</span></label>
-                <input type="number" step="0.01" min="0" name="price_usd" value="{{ old('price_usd') }}" class="form-control" required>
+                <label class="form-label">Price <span class="text-danger">*</span></label>
+                <input type="text" name="price_usd" value="{{ old('price_usd') }}" class="form-control" placeholder="e.g. $10.99" required>
             </div>
         </div>
     </div>
@@ -66,8 +66,8 @@
     <div class="panel-card-body">
         <div class="row g-3">
             <div class="col-md-4">
-                <label class="form-label">Price After (USD)</label>
-                <input type="number" step="0.01" min="0" name="price_after" value="{{ old('price_after') }}" class="form-control" placeholder="e.g. 8.00">
+                <label class="form-label">Price After Discount</label>
+                <input type="text" name="price_after" value="{{ old('price_after') }}" class="form-control" placeholder="e.g. $7.99">
             </div>
             <div class="col-md-4">
                 <label class="form-label">From Date</label>
