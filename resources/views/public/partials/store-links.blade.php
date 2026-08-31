@@ -6,7 +6,7 @@
         <div class="social-row-icon">
             <img src="{{ asset($social->photo) }}" alt="{{ $social->name }}">
         </div>
-        <div class="social-row-title">تابعنا على {{ $social->name }}</div>
+        <div class="social-row-title">Follow Us : {{ $social->name }}</div>
         <i class="bi bi-chevron-left social-row-chevron"></i>
     </a>
     @endforeach
@@ -15,14 +15,14 @@
         <div class="social-row-icon d-flex align-items-center justify-content-center" style="background:linear-gradient(135deg, var(--primary-1), var(--primary-2));">
             <i class="bi bi-chat-heart-fill" style="color:#fff;font-size:1.3rem;"></i>
         </div>
-        <div class="social-row-title">اترك ملاحظة</div>
+        <div class="social-row-title">Keep Comment</div>
         <i class="bi bi-chevron-left social-row-chevron"></i>
     </a>
     <a href="{{ route('public.stores.privacy', $store->id) }}" class="social-row reveal" style="transition-delay:{{ min(($socialCount + 1) * 70, 300) }}ms;">
         <div class="social-row-icon d-flex align-items-center justify-content-center" style="background:linear-gradient(135deg, var(--primary-1), var(--primary-2));">
             <i class="bi bi-shield-check" style="color:#fff;font-size:1.3rem;"></i>
         </div>
-        <div class="social-row-title">سياسة الخصوصية</div>
+        <div class="social-row-title">Privacy Policy</div>
         <i class="bi bi-chevron-left social-row-chevron"></i>
     </a>
 </div>

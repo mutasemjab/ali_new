@@ -1,6 +1,7 @@
 @php $dir = app()->getLocale() === 'ar' ? 'rtl' : 'ltr'; @endphp
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}" dir="{{ $dir }}">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,9 +10,11 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
 
-    @if($dir === 'rtl')
+    @if ($dir === 'rtl')
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
     @else
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -33,9 +36,13 @@
             --bg-base: #eef1fb;
         }
 
-        * { box-sizing: border-box; }
+        * {
+            box-sizing: border-box;
+        }
 
-        html { scroll-behavior: smooth; }
+        html {
+            scroll-behavior: smooth;
+        }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -62,19 +69,60 @@
             pointer-events: none;
             animation: drift 22s ease-in-out infinite;
         }
-        .bg-orb--1 { width: 380px; height: 380px; top: -140px; inset-inline-start: -120px; background: radial-gradient(circle, var(--primary-1), transparent 70%); }
-        .bg-orb--2 { width: 420px; height: 420px; bottom: -160px; inset-inline-end: -140px; background: radial-gradient(circle, var(--primary-3), transparent 70%); animation-delay: -8s; animation-duration: 26s; }
-        .bg-orb--3 { width: 300px; height: 300px; top: 40%; inset-inline-start: 50%; background: radial-gradient(circle, var(--primary-2), transparent 70%); opacity: .3; animation-delay: -14s; animation-duration: 30s; }
+
+        .bg-orb--1 {
+            width: 380px;
+            height: 380px;
+            top: -140px;
+            inset-inline-start: -120px;
+            background: radial-gradient(circle, var(--primary-1), transparent 70%);
+        }
+
+        .bg-orb--2 {
+            width: 420px;
+            height: 420px;
+            bottom: -160px;
+            inset-inline-end: -140px;
+            background: radial-gradient(circle, var(--primary-3), transparent 70%);
+            animation-delay: -8s;
+            animation-duration: 26s;
+        }
+
+        .bg-orb--3 {
+            width: 300px;
+            height: 300px;
+            top: 40%;
+            inset-inline-start: 50%;
+            background: radial-gradient(circle, var(--primary-2), transparent 70%);
+            opacity: .3;
+            animation-delay: -14s;
+            animation-duration: 30s;
+        }
 
         @keyframes drift {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(24px, -18px) scale(1.06); }
-            66% { transform: translate(-18px, 14px) scale(0.96); }
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            33% {
+                transform: translate(24px, -18px) scale(1.06);
+            }
+
+            66% {
+                transform: translate(-18px, 14px) scale(0.96);
+            }
         }
 
         @media (prefers-reduced-motion: reduce) {
-            .bg-orb { animation: none; }
-            html { scroll-behavior: auto; }
+            .bg-orb {
+                animation: none;
+            }
+
+            html {
+                scroll-behavior: auto;
+            }
         }
 
         .public-shell {
@@ -95,7 +143,7 @@
             align-items: center;
             text-align: center;
             margin-bottom: 28px;
-            animation: fadeUp .6s cubic-bezier(.22,1,.36,1) both;
+            animation: fadeUp .6s cubic-bezier(.22, 1, .36, 1) both;
         }
 
         .store-avatar-wrap {
@@ -115,10 +163,16 @@
         }
 
         @media (prefers-reduced-motion: reduce) {
-            .store-avatar-ring { animation: none; }
+            .store-avatar-ring {
+                animation: none;
+            }
         }
 
-        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
 
         .store-avatar {
             position: relative;
@@ -155,12 +209,19 @@
         /* content */
         .public-content {
             flex: 1;
-            animation: fadeUp .7s .1s cubic-bezier(.22,1,.36,1) both;
+            animation: fadeUp .7s .1s cubic-bezier(.22, 1, .36, 1) both;
         }
 
         @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(18px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .surface-card {
@@ -179,6 +240,7 @@
             gap: 14px;
             padding: 16px 0;
         }
+
         .product-row:not(:first-child) {
             border-top: 2px dotted var(--divider);
         }
@@ -201,14 +263,18 @@
             text-decoration: none;
             color: var(--ink);
             box-shadow: 0 12px 26px -20px hsl(var(--shadow-color) / .5);
-            transition: transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s ease;
+            transition: transform .25s cubic-bezier(.22, 1, .36, 1), box-shadow .25s ease;
         }
+
         .social-row:hover {
             color: var(--ink);
             transform: translateY(-3px);
             box-shadow: 0 16px 30px -16px hsl(var(--shadow-color) / .55);
         }
-        .social-row:active { transform: translateY(-1px); }
+
+        .social-row:active {
+            transform: translateY(-1px);
+        }
 
         .social-row-icon {
             width: 48px;
@@ -218,7 +284,13 @@
             flex-shrink: 0;
             box-shadow: 0 8px 18px -8px hsl(var(--shadow-color) / .5);
         }
-        .social-row-icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+        .social-row-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
 
         .social-row-title {
             font-weight: 700;
@@ -231,7 +303,10 @@
             font-size: 1.05rem;
             flex-shrink: 0;
         }
-        html[dir="rtl"] .social-row-chevron { transform: scaleX(-1); }
+
+        html[dir="rtl"] .social-row-chevron {
+            transform: scaleX(-1);
+        }
 
         .share-btn {
             display: flex;
@@ -248,15 +323,19 @@
             color: var(--ink);
             cursor: pointer;
             box-shadow: 0 12px 26px -20px hsl(var(--shadow-color) / .5);
-            transition: transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s ease, background .25s ease, color .25s ease;
+            transition: transform .25s cubic-bezier(.22, 1, .36, 1), box-shadow .25s ease, background .25s ease, color .25s ease;
         }
+
         .share-btn:hover {
             transform: translateY(-3px);
             color: #fff;
             background: linear-gradient(135deg, var(--primary-1), var(--primary-2));
             box-shadow: 0 16px 30px -14px hsl(var(--shadow-color) / .6);
         }
-        .share-btn:active { transform: translateY(-1px); }
+
+        .share-btn:active {
+            transform: translateY(-1px);
+        }
 
         .section-title {
             font-size: 1.15rem;
@@ -273,9 +352,13 @@
         .reveal {
             opacity: 0;
             transform: translateY(16px);
-            transition: opacity .55s cubic-bezier(.22,1,.36,1), transform .55s cubic-bezier(.22,1,.36,1);
+            transition: opacity .55s cubic-bezier(.22, 1, .36, 1), transform .55s cubic-bezier(.22, 1, .36, 1);
         }
-        .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+        .reveal.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
         .btn-gradient {
             background: linear-gradient(135deg, var(--primary-1), var(--primary-2));
@@ -285,11 +368,19 @@
             padding: 13px 20px;
             font-weight: 700;
             font-size: .95rem;
-            transition: transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s ease, filter .25s ease;
+            transition: transform .25s cubic-bezier(.22, 1, .36, 1), box-shadow .25s ease, filter .25s ease;
             box-shadow: 0 14px 28px -12px hsl(var(--shadow-color) / .55);
         }
-        .btn-gradient:hover { transform: translateY(-2px); filter: brightness(1.06); color: #fff; }
-        .btn-gradient:active { transform: translateY(0) scale(.98); }
+
+        .btn-gradient:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.06);
+            color: #fff;
+        }
+
+        .btn-gradient:active {
+            transform: translateY(0) scale(.98);
+        }
 
         .form-control-modern {
             border-radius: 14px;
@@ -299,6 +390,7 @@
             font-size: .95rem;
             transition: border-color .2s ease, box-shadow .2s ease;
         }
+
         .form-control-modern:focus {
             border-color: var(--primary-1);
             box-shadow: 0 0 0 4px rgba(99, 102, 241, .15);
@@ -320,8 +412,16 @@
             font-size: .88rem;
             margin-bottom: 16px;
         }
-        .alert-modern.alert-success { background: rgba(16, 185, 129, .12); color: #059669; }
-        .alert-modern.alert-danger { background: rgba(239, 68, 68, .12); color: #dc2626; }
+
+        .alert-modern.alert-success {
+            background: rgba(16, 185, 129, .12);
+            color: #059669;
+        }
+
+        .alert-modern.alert-danger {
+            background: rgba(239, 68, 68, .12);
+            color: #dc2626;
+        }
 
         .photo-stack {
             display: flex;
@@ -332,82 +432,93 @@
 
     @stack('styles')
 </head>
+
 <body>
 
-<div class="bg-orb bg-orb--1"></div>
-<div class="bg-orb bg-orb--2"></div>
-<div class="bg-orb bg-orb--3"></div>
+    <div class="bg-orb bg-orb--1"></div>
+    <div class="bg-orb bg-orb--2"></div>
+    <div class="bg-orb bg-orb--3"></div>
 
-<div class="public-shell">
+    <div class="public-shell">
 
-    @isset($store)
-    <div class="store-header">
-        <div class="store-avatar-wrap">
-            <div class="store-avatar-ring"></div>
-            <div class="store-avatar">
-                @if($store->photo)
-                    <img src="{{ asset($store->photo) }}" alt="{{ $store->name }}">
-                @else
-                    <div class="store-avatar-fallback">{{ mb_substr($store->name, 0, 1) }}</div>
-                @endif
+        @isset($store)
+            <div class="store-header">
+                <div class="store-avatar">
+                    @if ($store->photo)
+                        <img src="{{ asset($store->photo) }}" alt="{{ $store->name }}">
+                    @else
+                        <div class="store-avatar-fallback">{{ mb_substr($store->name, 0, 1) }}</div>
+                    @endif
+                </div>
             </div>
+        @endisset
+
+        <div class="public-content">
+            @yield('content')
         </div>
-    </div>
-    @endisset
 
-    <div class="public-content">
-        @yield('content')
     </div>
 
-</div>
+    <script>
+        (function() {
+            var items = document.querySelectorAll('.reveal');
+            if (!items.length) return;
 
-<script>
-    (function () {
-        var items = document.querySelectorAll('.reveal');
-        if (!items.length) return;
+            if (!('IntersectionObserver' in window)) {
+                items.forEach(function(el) {
+                    el.classList.add('is-visible');
+                });
+                return;
+            }
 
-        if (!('IntersectionObserver' in window)) {
-            items.forEach(function (el) { el.classList.add('is-visible'); });
-            return;
-        }
-
-        var observer = new IntersectionObserver(function (entries) {
-            entries.forEach(function (entry) {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                    observer.unobserve(entry.target);
-                }
+            var observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: .15,
+                rootMargin: '0px 0px -40px 0px'
             });
-        }, { threshold: .15, rootMargin: '0px 0px -40px 0px' });
 
-        items.forEach(function (el) { observer.observe(el); });
-    })();
-
-    (function () {
-        document.querySelectorAll('.share-btn').forEach(function (btn) {
-            var url = btn.getAttribute('data-share-url') || window.location.href;
-            var title = btn.getAttribute('data-share-title') || document.title;
-            var label = btn.querySelector('.share-btn-label');
-            var defaultText = label ? label.textContent : '';
-
-            btn.addEventListener('click', function () {
-                if (navigator.share) {
-                    navigator.share({ title: title, url: url }).catch(function () {});
-                    return;
-                }
-
-                if (navigator.clipboard && navigator.clipboard.writeText) {
-                    navigator.clipboard.writeText(url).then(function () {
-                        if (!label) return;
-                        label.textContent = 'تم نسخ الرابط';
-                        setTimeout(function () { label.textContent = defaultText; }, 2000);
-                    }).catch(function () {});
-                }
+            items.forEach(function(el) {
+                observer.observe(el);
             });
-        });
-    })();
-</script>
+        })();
 
-@stack('scripts')
+        (function() {
+            document.querySelectorAll('.share-btn').forEach(function(btn) {
+                var url = btn.getAttribute('data-share-url') || window.location.href;
+                var title = btn.getAttribute('data-share-title') || document.title;
+                var label = btn.querySelector('.share-btn-label');
+                var defaultText = label ? label.textContent : '';
+
+                btn.addEventListener('click', function() {
+                    if (navigator.share) {
+                        navigator.share({
+                            title: title,
+                            url: url
+                        }).catch(function() {});
+                        return;
+                    }
+
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                        navigator.clipboard.writeText(url).then(function() {
+                            if (!label) return;
+                            label.textContent = 'تم نسخ الرابط';
+                            setTimeout(function() {
+                                label.textContent = defaultText;
+                            }, 2000);
+                        }).catch(function() {});
+                    }
+                });
+            });
+        })();
+    </script>
+
+    @stack('scripts')
 </body>
+
 </html>
