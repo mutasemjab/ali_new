@@ -42,6 +42,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
         Route::post('products/{product}/reorder', [ProductController::class, 'reorder'])->name('store.products.reorder');
 
         Route::resource('ads', AdController::class, ['as' => 'store'])->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
+        Route::get('ads/{ad}/sms', [AdController::class, 'smsCreate'])->name('store.ads.sms.create');
+        Route::post('ads/{ad}/sms', [AdController::class, 'smsSend'])->name('store.ads.sms.send');
 
         Route::resource('coupons', CouponController::class, ['as' => 'store'])->except(['show']);
 

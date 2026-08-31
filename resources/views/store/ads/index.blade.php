@@ -72,6 +72,9 @@
                         <td>{{ $ad->created_at->format('m/d/Y h:i A') }}</td>
                         <td>
                             <div class="d-flex gap-1">
+                                <a href="{{ route('store.ads.sms.create', $ad->id) }}" class="btn-icon-sm" title="Send Message">
+                                    <i class="bi bi-send"></i>
+                                </a>
                                 <a href="{{ route('store.ads.edit', $ad->id) }}" class="btn-icon-sm btn-edit" title="Edit">
                                     <i class="bi bi-pencil"></i>
                                 </a>

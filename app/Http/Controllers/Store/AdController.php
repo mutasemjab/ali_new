@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Store;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SendStoreSmsCampaign;
 use App\Models\Ad;
+use App\Models\Client;
 use App\Models\Product;
+use App\Models\StoreMessage;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -109,5 +112,67 @@ class AdController extends Controller
         $ad->delete();
 
         return back()->with('success', 'Ad deleted');
+    }
+
+    public function smsCreate(Ad $ad)
+    {
+        $clients = Client::orderBy('name')->get();
+
+        return view('store.ads.sms', compact('ad', 'clients'));
+    }
+
+    public function smsSend(Request $request, Ad $ad)
+    {
+        $request->validate([
+            'recipients' => 'required|in:all,selected',
+            'client_ids' => 'required_if:recipients,selected|array',
+            'client_ids.*' => 'integer|exists:clients,id',
+        ]);
+
+        $store = auth('store')->user();
+
+        $clients = $request->recipients === 'all'
+            ? Client::all()
+            : Client::whereIn('id', $request->client_ids)->get();
+
+        if ($clients->isEmpty()) {
+            return back()->with('error', 'No clients selected to send this message to');
+        }
+
+        if ($store->total_sms < $clients->count()) {
+            return back()->with('error', 'Insufficient SMS balance to send this campaign');
+        }
+
+        $content = $this->buildSmsTemplate($store, $ad);
+
+        $storeMessage = StoreMessage::create([
+            'content' => $content,
+            'recipients_count' => $clients->count(),
+            'status' => 'pending',
+        ]);
+
+        foreach ($clients as $client) {
+            $storeMessage->recipients()->create([
+                'client_id' => $client->id,
+                'phone' => $client->phone,
+                'status' => 'pending',
+            ]);
+        }
+
+        SendStoreSmsCampaign::dispatch($storeMessage);
+
+        return redirect()->route('store.ads.index')->with('success', 'Ad SMS has been queued for sending to ' . $clients->count() . ' client(s)');
+    }
+
+    private function buildSmsTemplate($store, Ad $ad): string
+    {
+        $message = $store->name . "\n\n"
+            . 'Tap to view now! ' . $ad->public_url;
+
+        if ($ad->expires_at) {
+            $message .= "\n" . 'Offer ends ' . $ad->expires_at->format('m/d/Y h:i A');
+        }
+
+        return $message . "\n" . 'Text STOP to opt-out.';
     }
 }
