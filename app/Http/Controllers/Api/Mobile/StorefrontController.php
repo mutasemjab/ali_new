@@ -158,14 +158,14 @@ class StorefrontController extends Controller
 
         $client = $this->resolveOptionalClient($request);
 
-        $clippedCouponIds = $client
-            ? CouponClient::where('client_id', $client->id)->pluck('coupon_id')->all()
-            : [];
+        $clips = $client
+            ? CouponClient::where('client_id', $client->id)->get()->keyBy('coupon_id')
+            : collect();
 
         return response()->json([
             'status' => true,
             'message' => 'Coupons retrieved successfully',
-            'data' => $coupons->map(fn (Coupon $coupon) => $this->couponSummary($coupon, in_array($coupon->id, $clippedCouponIds))),
+            'data' => $coupons->map(fn (Coupon $coupon) => $this->couponSummary($coupon, $clips->has($coupon->id), $clips->get($coupon->id))),
         ]);
     }
 
@@ -191,6 +191,9 @@ class StorefrontController extends Controller
         if (! $alreadyClipped) {
             $couponClient->status = 'clipped';
             $couponClient->clipped_at = now();
+            // Locked in at clip time, so a later edit to the coupon's setting doesn't
+            // retroactively change a countdown a client is already looking at.
+            $couponClient->expiration_time = $coupon->time_when_clipped;
             $couponClient->save();
         }
 
@@ -284,6 +287,7 @@ class StorefrontController extends Controller
             'barcode' => $coupon->barcode,
             'is_clipped' => $clipped,
             'clipped_at' => optional($couponClient?->clipped_at)->toDateTimeString(),
+            'expires_at' => optional($couponClient?->expires_at)->toDateTimeString(),
         ];
     }
 

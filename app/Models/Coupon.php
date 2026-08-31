@@ -19,6 +19,7 @@ class Coupon extends Model
     protected $casts = [
         'start_at' => 'datetime',
         'end_at' => 'datetime',
+        'time_when_clipped' => 'integer',
     ];
 
     public function couponClients()

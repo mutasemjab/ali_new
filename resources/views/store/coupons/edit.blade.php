@@ -55,8 +55,9 @@
                 </select>
             </div>
             <div class="col-md-4">
-                <label class="form-label">Time When Clipped <span class="text-danger">*</span></label>
-                <input type="text" name="time_when_clipped" value="{{ old('time_when_clipped', $coupon->time_when_clipped) }}" class="form-control" required>
+                <label class="form-label">Time When Clipped (minutes) <span class="text-danger">*</span></label>
+                <input type="number" min="1" name="time_when_clipped" value="{{ old('time_when_clipped', $coupon->time_when_clipped) }}" class="form-control" required>
+                <div class="form-text">Countdown shown to the client after they clip this coupon.</div>
             </div>
         </div>
     </div>

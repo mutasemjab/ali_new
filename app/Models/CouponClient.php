@@ -27,4 +27,13 @@ class CouponClient extends Model
     {
         return $this->belongsTo(Coupon::class);
     }
+
+    public function getExpiresAtAttribute(): ?\Illuminate\Support\Carbon
+    {
+        if (! $this->clipped_at || ! $this->expiration_time) {
+            return null;
+        }
+
+        return $this->clipped_at->copy()->addMinutes((int) $this->expiration_time);
+    }
 }

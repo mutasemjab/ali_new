@@ -37,7 +37,7 @@ class CouponController extends Controller
             'price_after_discount' => 'required|string|max:100',
             'start_at' => 'required|date',
             'end_at' => 'required|date|after_or_equal:start_at',
-            'time_when_clipped' => 'required|string|max:100',
+            'time_when_clipped' => 'required|integer|min:1',
         ]);
 
         $filename = uploadImage('assets/uploads/coupons', $request->file('photo'));
@@ -78,7 +78,7 @@ class CouponController extends Controller
             'price_after_discount' => 'required|string|max:100',
             'start_at' => 'required|date',
             'end_at' => 'required|date|after_or_equal:start_at',
-            'time_when_clipped' => 'required|string|max:100',
+            'time_when_clipped' => 'required|integer|min:1',
         ]);
 
         $data = [
