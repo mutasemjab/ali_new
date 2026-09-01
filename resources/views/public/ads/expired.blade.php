@@ -10,13 +10,13 @@
     <div style="width:76px;height:76px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;background:linear-gradient(135deg, var(--primary-1), var(--primary-2)); animation: pulse 2.2s ease-in-out infinite;">
         <i class="bi bi-hourglass-bottom" style="font-size:2rem;color:#fff;"></i>
     </div>
-    @if($reason === 'not_yet_started')
-        <h1 class="section-title mb-2">هذا الرابط غير متاح بعد</h1>
-        <p class="text-muted mb-0">سيتوفر هذا الإعلان من {{ $store->name }} ابتداءً من {{ $ad->start_at->format('m/d/Y h:i A') }}.</p>
-    @else
-        <h1 class="section-title mb-2">انتهت صلاحية هذا الرابط</h1>
-        <p class="text-muted mb-0">هذا الإعلان من {{ $store->name }} لم يعد متاحاً.</p>
-    @endif
+  @if($reason === 'not_yet_started')
+    <h1 class="section-title mb-2">This Link Is Not Available Yet</h1>
+    <p class="text-muted mb-0">This ad from {{ $store->name }} will be available starting from {{ $ad->start_at->format('m/d/Y h:i A') }}.</p>
+@else
+    <h1 class="section-title mb-2">This Link Has Expired</h1>
+    <p class="text-muted mb-0">This ad from {{ $store->name }} is no longer available.</p>
+@endif
 </div>
 
 @include('public.partials.store-links')
