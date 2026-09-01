@@ -77,6 +77,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
         Route::put('settings/terms', [AppSettingController::class, 'updateTerms'])->name('admin.settings.terms.update');
         Route::get('settings/anti-spam', [AppSettingController::class, 'editAntiSpam'])->name('admin.settings.anti-spam.edit');
         Route::put('settings/anti-spam', [AppSettingController::class, 'updateAntiSpam'])->name('admin.settings.anti-spam.update');
+        Route::get('settings/client-privacy', [AppSettingController::class, 'editClientPrivacy'])->name('admin.settings.client-privacy.edit');
+        Route::put('settings/client-privacy', [AppSettingController::class, 'updateClientPrivacy'])->name('admin.settings.client-privacy.update');
 
     });
 });

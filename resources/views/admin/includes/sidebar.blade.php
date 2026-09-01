@@ -53,7 +53,14 @@
                 <a href="{{ route('admin.settings.privacy.edit') }}"
                     class="nav-link {{ request()->routeIs('admin.settings.privacy.*') ? 'active' : '' }}">
                     <i class="nav-icon bi bi-shield-lock"></i>
-                    <span>Privacy Policy</span>
+                    <span>Privacy Policy (Tablet)</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('admin.settings.client-privacy.edit') }}"
+                    class="nav-link {{ request()->routeIs('admin.settings.client-privacy.*') ? 'active' : '' }}">
+                    <i class="nav-icon bi bi-shield-lock"></i>
+                    <span>Privacy Policy (Client App)</span>
                 </a>
             </li>
             <li class="nav-item">

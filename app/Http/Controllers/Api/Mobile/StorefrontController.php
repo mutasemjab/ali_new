@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Mobile;
 
 use App\Http\Controllers\Controller;
+use App\Models\AppSetting;
 use App\Models\Category;
 use App\Models\Client;
 use App\Models\Coupon;
@@ -55,6 +56,21 @@ class StorefrontController extends Controller
             'message' => 'Products retrieved successfully',
             'data' => $products->getCollection()->map(fn (Product $product) => $this->productSummary($product)),
             'pagination' => $this->paginationMeta($products),
+        ]);
+    }
+
+    /**
+     * GET /stores/{store}/privacy-policy — client app's own privacy policy
+     * (separate from the tablet's, edited on a different admin page).
+     */
+    public function privacyPolicy(Store $store)
+    {
+        return response()->json([
+            'status' => true,
+            'message' => 'Privacy policy retrieved successfully',
+            'data' => [
+                'content' => AppSetting::current()->client_privacy_policy,
+            ],
         ]);
     }
 

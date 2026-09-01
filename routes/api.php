@@ -36,6 +36,7 @@ Route::prefix('v1/')->middleware('api.locale')->group(function () {
 
         // Storefront browsing — public, works for guests too
         Route::get('home', [StoreController::class, 'home'])->name('api.stores.home');
+        Route::get('privacy-policy', [StorefrontController::class, 'privacyPolicy'])->name('api.stores.privacy-policy');
         Route::get('categories', [StorefrontController::class, 'categories'])->name('api.stores.categories');
         Route::get('products', [StorefrontController::class, 'products'])->name('api.stores.products');
         Route::get('socials', [StorefrontController::class, 'socials'])->name('api.stores.socials');

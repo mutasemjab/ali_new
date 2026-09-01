@@ -10,6 +10,7 @@ class AppSetting extends Model
         'privacy_policy',
         'terms_of_service',
         'anti_spam_policy',
+        'client_privacy_policy',
     ];
 
     /**

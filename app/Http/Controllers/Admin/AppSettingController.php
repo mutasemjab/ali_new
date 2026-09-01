@@ -67,4 +67,24 @@ class AppSettingController extends Controller
 
         return redirect()->route('admin.settings.anti-spam.edit')->with('success', 'Anti-spam policy updated successfully');
     }
+
+    public function editClientPrivacy()
+    {
+        $setting = AppSetting::current();
+
+        return view('admin.settings.client-privacy', compact('setting'));
+    }
+
+    public function updateClientPrivacy(Request $request)
+    {
+        $request->validate([
+            'client_privacy_policy' => 'nullable|string',
+        ]);
+
+        AppSetting::current()->update([
+            'client_privacy_policy' => $request->client_privacy_policy,
+        ]);
+
+        return redirect()->route('admin.settings.client-privacy.edit')->with('success', 'Privacy policy updated successfully');
+    }
 }
