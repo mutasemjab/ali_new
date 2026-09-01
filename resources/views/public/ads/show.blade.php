@@ -55,7 +55,7 @@
 
 <button type="button" class="share-btn mt-3" data-share-url="{{ $ad->public_url }}" data-share-title="{{ $store->name }}">
     <i class="bi bi-share-fill"></i>
-    <span class="share-btn-label">مشاركة الآن</span>
+    <span class="share-btn-label">Share Now</span>
 </button>
 
 @endsection
