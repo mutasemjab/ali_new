@@ -27,6 +27,7 @@ Route::prefix('v1/')->middleware('api.locale')->group(function () {
     Route::get('stores', [StoreController::class, 'index'])->name('api.stores.index');
     Route::get('stores/{store}', [StoreController::class, 'show'])->name('api.stores.show');
     Route::get('stores/{store}/privacy', [StoreController::class, 'privacy'])->name('api.stores.privacy');
+    Route::get('stores/{store}/legal-document', [StoreController::class, 'legalDocument'])->name('api.stores.legal-document');
     Route::post('stores/{store}/subscribe', [StoreController::class, 'subscribe'])->name('api.stores.subscribe');
     Route::post('stores/{store}/verify-pin', [StoreController::class, 'verifyPin'])->name('api.stores.verify-pin');
 

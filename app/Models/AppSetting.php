@@ -8,6 +8,8 @@ class AppSetting extends Model
 {
     protected $fillable = [
         'privacy_policy',
+        'terms_of_service',
+        'anti_spam_policy',
     ];
 
     /**

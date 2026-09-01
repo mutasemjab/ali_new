@@ -56,6 +56,20 @@
                     <span>Privacy Policy</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="{{ route('admin.settings.terms.edit') }}"
+                    class="nav-link {{ request()->routeIs('admin.settings.terms.*') ? 'active' : '' }}">
+                    <i class="nav-icon bi bi-file-text"></i>
+                    <span>Terms of Service</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('admin.settings.anti-spam.edit') }}"
+                    class="nav-link {{ request()->routeIs('admin.settings.anti-spam.*') ? 'active' : '' }}">
+                    <i class="nav-icon bi bi-envelope-slash"></i>
+                    <span>Anti-Spam Policy</span>
+                </a>
+            </li>
         </ul>
 
     </nav>

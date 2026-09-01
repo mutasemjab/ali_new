@@ -141,6 +141,40 @@ class StoreController extends Controller
     }
 
     /**
+     * GET /api/v1/stores/{store}/legal-document?type=privacy_policy|terms_of_service|anti_spam_policy
+     */
+    public function legalDocument(Request $request, Store $store)
+    {
+        if ($store->activate !== 1) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Store not found',
+                'data' => null,
+            ], 404);
+        }
+
+        $type = $request->query('type');
+
+        $columns = ['privacy_policy', 'terms_of_service', 'anti_spam_policy'];
+
+        if (! in_array($type, $columns, true)) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Invalid document type. Must be one of: '.implode(', ', $columns),
+                'data' => null,
+            ], 422);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Document retrieved successfully',
+            'data' => [
+                'content' => AppSetting::current()->{$type},
+            ],
+        ]);
+    }
+
+    /**
      * GET /api/v1/stores/{store}/privacy
      */
     public function privacy(Store $store)
