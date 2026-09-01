@@ -6,6 +6,7 @@ use App\Models\Concerns\BelongsToStore;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class Ad extends Model
 {
@@ -41,7 +42,7 @@ class Ad extends Model
 
     public function getPublicUrlAttribute(): string
     {
-        return route('public.ads.show', $this->token);
+        return LaravelLocalization::getLocalizedURL('en', route('public.ads.show', $this->token));
     }
 
     public function getCoverImageAttribute(): ?string

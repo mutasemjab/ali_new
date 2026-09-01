@@ -6,6 +6,7 @@ use App\Models\Concerns\BelongsToStore;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class WeeklyAd extends Model
 {
@@ -38,6 +39,6 @@ class WeeklyAd extends Model
 
     public function getPublicUrlAttribute(): string
     {
-        return route('public.weekly-ads.show', $this->token);
+        return LaravelLocalization::getLocalizedURL('en', route('public.weekly-ads.show', $this->token));
     }
 }

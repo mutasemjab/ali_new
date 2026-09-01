@@ -127,6 +127,20 @@ class StoreController extends Controller
     }
 
     /**
+     * GET /api/v1/privacy-policy — the admin-managed privacy policy content (global, not per-store).
+     */
+    public function privacyPolicy()
+    {
+        return response()->json([
+            'status' => true,
+            'message' => 'Privacy policy retrieved successfully',
+            'data' => [
+                'content' => AppSetting::current()->privacy_policy,
+            ],
+        ]);
+    }
+
+    /**
      * GET /api/v1/stores/{store}/privacy
      */
     public function privacy(Store $store)

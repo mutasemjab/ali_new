@@ -21,6 +21,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1/')->middleware('api.locale')->group(function () {
 
+    Route::get('privacy-policy', [StoreController::class, 'privacyPolicy'])->name('api.privacy-policy');
+
     // ── Store-picker app: pick-a-store, then browse (no auth) ──────────────
     Route::get('stores', [StoreController::class, 'index'])->name('api.stores.index');
     Route::get('stores/{store}', [StoreController::class, 'show'])->name('api.stores.show');
