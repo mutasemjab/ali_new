@@ -36,8 +36,12 @@
         @endif
         @php
             $preview = $ad->store->name . "\n\nTap to view now! " . $ad->public_url;
-            if ($ad->expires_at) {
+            if ($ad->start_at && $ad->expires_at) {
+                $preview .= "\n" . $ad->start_at->format('m/d/Y') . ' TO ' . $ad->expires_at->format('m/d/Y');
+            } elseif ($ad->expires_at) {
                 $preview .= "\nOffer ends " . $ad->expires_at->format('m/d/Y h:i A');
+            } elseif ($ad->start_at) {
+                $preview .= "\nStarts " . $ad->start_at->format('m/d/Y h:i A');
             }
             $preview .= "\nText STOP to opt-out.";
         @endphp

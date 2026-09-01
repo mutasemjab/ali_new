@@ -33,7 +33,8 @@
                         <th>Type</th>
                         <th>Content</th>
                         <th>Public Link</th>
-                        <th>Expires</th>
+                        <th>Starts</th>
+                        <th>Ends</th>
                         <th>Date</th>
                         <th>Actions</th>
                     </tr>
@@ -59,6 +60,15 @@
                         </td>
                         <td>
                             <input type="text" readonly value="{{ $ad->public_url }}" class="form-control form-control-sm" style="max-width:260px;" onclick="this.select()">
+                        </td>
+                        <td>
+                            @if(!$ad->start_at)
+                                <span class="pill pill-info">Now</span>
+                            @elseif($ad->is_not_yet_started)
+                                <span class="pill pill-info">{{ $ad->start_at->format('m/d/Y h:i A') }}</span>
+                            @else
+                                {{ $ad->start_at->format('m/d/Y h:i A') }}
+                            @endif
                         </td>
                         <td>
                             @if(!$ad->expires_at)
@@ -90,7 +100,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="7" class="text-center text-muted py-4">No ads yet</td>
+                        <td colspan="8" class="text-center text-muted py-4">No ads yet</td>
                     </tr>
                     @endforelse
                 </tbody>

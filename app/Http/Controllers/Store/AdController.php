@@ -22,7 +22,7 @@ class AdController extends Controller
 
     public function create()
     {
-        $products = Product::orderBy('name')->get();
+        $products = Product::where('active', true)->orderBy('sort_order')->get();
 
         return view('store.ads.create', compact('products'));
     }
@@ -38,11 +38,13 @@ class AdController extends Controller
                 'integer',
                 Rule::exists('products', 'id')->where('store_id', auth('store')->id()),
             ],
-            'expires_at' => 'nullable|date|after:now',
+            'start_at' => 'nullable|date',
+            'expires_at' => 'nullable|date|after:now|after_or_equal:start_at',
         ]);
 
         $ad = Ad::create([
             'type' => $request->type,
+            'start_at' => $request->start_at,
             'expires_at' => $request->expires_at,
         ]);
 
@@ -64,7 +66,13 @@ class AdController extends Controller
     public function edit(Ad $ad)
     {
         $ad->load('products', 'images');
-        $products = Product::orderBy('name')->get();
+
+        // Active products, plus any already-linked product even if it's since been
+        // deactivated — otherwise re-saving the form would silently unlink it.
+        $products = Product::where('active', true)
+            ->orWhereIn('id', $ad->products->pluck('id'))
+            ->orderBy('sort_order')
+            ->get();
 
         return view('store.ads.edit', compact('ad', 'products'));
     }
@@ -81,10 +89,12 @@ class AdController extends Controller
                 'integer',
                 Rule::exists('products', 'id')->where('store_id', auth('store')->id()),
             ],
-            'expires_at' => 'nullable|date',
+            'start_at' => 'nullable|date',
+            'expires_at' => 'nullable|date|after_or_equal:start_at',
         ]);
 
         $ad->update([
+            'start_at' => $request->start_at,
             'expires_at' => $request->expires_at,
         ]);
 
@@ -169,8 +179,12 @@ class AdController extends Controller
         $message = $store->name . "\n\n"
             . 'Tap to view now! ' . $ad->public_url;
 
-        if ($ad->expires_at) {
+        if ($ad->start_at && $ad->expires_at) {
+            $message .= "\n" . $ad->start_at->format('m/d/Y') . ' TO ' . $ad->expires_at->format('m/d/Y');
+        } elseif ($ad->expires_at) {
             $message .= "\n" . 'Offer ends ' . $ad->expires_at->format('m/d/Y h:i A');
+        } elseif ($ad->start_at) {
+            $message .= "\n" . 'Starts ' . $ad->start_at->format('m/d/Y h:i A');
         }
 
         return $message . "\n" . 'Text STOP to opt-out.';

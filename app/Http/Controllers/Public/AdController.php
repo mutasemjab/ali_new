@@ -12,7 +12,11 @@ class AdController extends Controller
         $ad = Ad::with(['products', 'store.socials', 'images'])->where('token', $token)->firstOrFail();
 
         if ($ad->is_expired) {
-            return view('public.ads.expired', compact('ad'));
+            return view('public.ads.expired', ['ad' => $ad, 'reason' => 'expired']);
+        }
+
+        if ($ad->is_not_yet_started) {
+            return view('public.ads.expired', ['ad' => $ad, 'reason' => 'not_yet_started']);
         }
 
         return view('public.ads.show', compact('ad'));

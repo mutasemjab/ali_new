@@ -12,10 +12,11 @@ class Ad extends Model
     use HasFactory, BelongsToStore;
 
     protected $fillable = [
-        'store_id', 'type', 'image', 'token', 'expires_at',
+        'store_id', 'type', 'image', 'token', 'start_at', 'expires_at',
     ];
 
     protected $casts = [
+        'start_at' => 'datetime',
         'expires_at' => 'datetime',
     ];
 
@@ -51,5 +52,10 @@ class Ad extends Model
     public function getIsExpiredAttribute(): bool
     {
         return $this->expires_at !== null && $this->expires_at->isPast();
+    }
+
+    public function getIsNotYetStartedAttribute(): bool
+    {
+        return $this->start_at !== null && $this->start_at->isFuture();
     }
 }

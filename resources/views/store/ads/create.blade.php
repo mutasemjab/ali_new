@@ -53,12 +53,21 @@
 
 <div class="panel-card mb-3">
     <div class="panel-card-header">
-        <h2 class="panel-card-title"><i class="bi bi-calendar-x"></i> Expiration (optional)</h2>
+        <h2 class="panel-card-title"><i class="bi bi-calendar-range"></i> Availability (optional)</h2>
     </div>
     <div class="panel-card-body">
-        <label class="form-label">Link expires at</label>
-        <input type="datetime-local" name="expires_at" value="{{ old('expires_at') }}" class="form-control" style="max-width:280px;">
-        <div class="form-text">Leave empty for a link that never expires. After this date, the public link will show as expired.</div>
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label class="form-label">Starts at</label>
+                <input type="datetime-local" name="start_at" value="{{ old('start_at') }}" class="form-control">
+                <div class="form-text">Leave empty for a link that's available right away.</div>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Ends at</label>
+                <input type="datetime-local" name="expires_at" value="{{ old('expires_at') }}" class="form-control">
+                <div class="form-text">Leave empty for a link that never expires.</div>
+            </div>
+        </div>
     </div>
 </div>
 

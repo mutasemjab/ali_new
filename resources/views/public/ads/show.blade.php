@@ -21,7 +21,7 @@
         @endif
 
             <div class="product-row reveal" style="transition-delay:{{ min($loop->index * 70, 500) }}ms;">
-                <img src="{{ asset($product->image) }}" alt="" class="rounded-3 flex-shrink-0" style="width:96px;height:96px;object-fit:cover;">
+                <img src="{{ asset($product->image) }}" alt="" class="rounded-3 flex-shrink-0" style="width:140px;height:140px;object-fit:cover;">
                 <div class="flex-grow-1">
                     <div class="fw-semibold mb-1">{{ $product->name }}</div>
                     <div class="fs-5">
@@ -32,6 +32,11 @@
                             <span class="fw-bold">{{ $product->price_usd }}</span>
                         @endif
                     </div>
+                    @if($product->has_active_discount && $product->discount_from && $product->discount_to)
+                        <div class="small fw-semibold mt-1" style="color:#dc2626;">
+                            {{ $product->discount_from->format('m/d/Y') }} - {{ $product->discount_to->format('m/d/Y') }}
+                        </div>
+                    @endif
                 </div>
             </div>
 
