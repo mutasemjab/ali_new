@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Store;
 use App\Http\Controllers\Controller;
 use App\Models\Coupon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class CouponController extends Controller
 {
@@ -28,8 +27,8 @@ class CouponController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:200',
-            'description' => 'required|string',
-            'terms' => 'required|string',
+            'description' => 'nullable|string',
+            'terms' => 'nullable|string',
             'photo' => 'required|image|max:2048',
             'status' => 'required|in:clip,active,expired',
             'save_price' => 'required|string|max:100',
@@ -38,6 +37,7 @@ class CouponController extends Controller
             'start_at' => 'required|date',
             'end_at' => 'required|date|after_or_equal:start_at',
             'time_when_clipped' => 'required|integer|min:1',
+            'barcode' => 'required|string|max:100',
         ]);
 
         $filename = uploadImage('assets/uploads/coupons', $request->file('photo'));
@@ -54,7 +54,7 @@ class CouponController extends Controller
             'start_at' => $request->start_at,
             'end_at' => $request->end_at,
             'time_when_clipped' => $request->time_when_clipped,
-            'barcode' => strtoupper(Str::random(12)),
+            'barcode' => $request->barcode,
         ]);
 
         return redirect()->route('store.coupons.index')->with('success', 'Coupon added successfully');
@@ -69,8 +69,8 @@ class CouponController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:200',
-            'description' => 'required|string',
-            'terms' => 'required|string',
+            'description' => 'nullable|string',
+            'terms' => 'nullable|string',
             'photo' => 'nullable|image|max:2048',
             'status' => 'required|in:clip,active,expired',
             'save_price' => 'required|string|max:100',
@@ -79,6 +79,7 @@ class CouponController extends Controller
             'start_at' => 'required|date',
             'end_at' => 'required|date|after_or_equal:start_at',
             'time_when_clipped' => 'required|integer|min:1',
+            'barcode' => 'required|string|max:100',
         ]);
 
         $data = [
@@ -92,6 +93,7 @@ class CouponController extends Controller
             'start_at' => $request->start_at,
             'end_at' => $request->end_at,
             'time_when_clipped' => $request->time_when_clipped,
+            'barcode' => $request->barcode,
         ];
 
         if ($request->hasFile('photo')) {
@@ -100,6 +102,9 @@ class CouponController extends Controller
         }
 
         $coupon->update($data);
+
+        // Editing the coupon resets it: clients who already clipped it can clip it again.
+        $coupon->couponClients()->delete();
 
         return redirect()->route('store.coupons.index')->with('success', 'Coupon updated successfully');
     }

@@ -62,9 +62,10 @@ Text STOP to opt-out.</pre>
             @if($clients->isEmpty())
                 <p class="text-muted small mb-0">No clients added yet.</p>
             @else
-            <div class="row g-2" style="max-height:320px;overflow-y:auto;">
+            <input type="text" id="client-phone-search" class="form-control form-control-sm mb-2" placeholder="Search by phone...">
+            <div class="row g-2" id="client-list" style="max-height:320px;overflow-y:auto;">
                 @foreach($clients as $client)
-                <div class="col-md-4">
+                <div class="col-md-4 client-row" data-phone="{{ $client->phone }}">
                     <label class="d-flex align-items-center gap-2 p-2 rounded border">
                         <input type="checkbox" name="client_ids[]" value="{{ $client->id }}">
                         <span>{{ $client->name }} — {{ $client->phone }}</span>
@@ -72,6 +73,7 @@ Text STOP to opt-out.</pre>
                 </div>
                 @endforeach
             </div>
+            <p class="text-muted small mb-0 mt-2 d-none" id="client-search-empty">No clients match this phone number.</p>
             @endif
         </div>
     </div>
@@ -94,6 +96,24 @@ document.querySelectorAll('.recipients-radio').forEach(function (r) {
     r.addEventListener('change', toggleClientPicker);
 });
 toggleClientPicker();
+
+var phoneSearch = document.getElementById('client-phone-search');
+if (phoneSearch) {
+    phoneSearch.addEventListener('input', function () {
+        var term = phoneSearch.value.replace(/\s+/g, '').toLowerCase();
+        var rows = document.querySelectorAll('#client-list .client-row');
+        var visibleCount = 0;
+
+        rows.forEach(function (row) {
+            var phone = (row.dataset.phone || '').replace(/\s+/g, '').toLowerCase();
+            var matches = phone.indexOf(term) !== -1;
+            row.classList.toggle('d-none', !matches);
+            if (matches) visibleCount++;
+        });
+
+        document.getElementById('client-search-empty').classList.toggle('d-none', visibleCount !== 0);
+    });
+}
 </script>
 @endpush
 

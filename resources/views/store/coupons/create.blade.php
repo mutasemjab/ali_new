@@ -37,12 +37,16 @@
                 <input type="file" name="photo" class="form-control" accept="image/*" required>
             </div>
             <div class="col-12">
-                <label class="form-label">Description <span class="text-danger">*</span></label>
-                <textarea name="description" class="form-control" rows="3" required>{{ old('description') }}</textarea>
+                <label class="form-label">Description</label>
+                <textarea name="description" class="form-control" rows="3">{{ old('description') }}</textarea>
             </div>
             <div class="col-12">
-                <label class="form-label">Terms &amp; Conditions <span class="text-danger">*</span></label>
-                <textarea name="terms" class="form-control" rows="3" required>{{ old('terms') }}</textarea>
+                <label class="form-label">Terms &amp; Conditions</label>
+                <textarea name="terms" class="form-control" rows="3">{{ old('terms') }}</textarea>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Barcode <span class="text-danger">*</span></label>
+                <input type="text" name="barcode" value="{{ old('barcode') }}" class="form-control" required>
             </div>
             <div class="col-md-4">
                 <label class="form-label">Status <span class="text-danger">*</span></label>

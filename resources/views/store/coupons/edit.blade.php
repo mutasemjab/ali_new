@@ -39,12 +39,16 @@
                 <img src="{{ asset($coupon->photo) }}" alt="" class="mt-2" style="width:60px;height:60px;object-fit:cover;border-radius:6px;">
             </div>
             <div class="col-12">
-                <label class="form-label">Description <span class="text-danger">*</span></label>
-                <textarea name="description" class="form-control" rows="3" required>{{ old('description', $coupon->description) }}</textarea>
+                <label class="form-label">Description</label>
+                <textarea name="description" class="form-control" rows="3">{{ old('description', $coupon->description) }}</textarea>
             </div>
             <div class="col-12">
-                <label class="form-label">Terms &amp; Conditions <span class="text-danger">*</span></label>
-                <textarea name="terms" class="form-control" rows="3" required>{{ old('terms', $coupon->terms) }}</textarea>
+                <label class="form-label">Terms &amp; Conditions</label>
+                <textarea name="terms" class="form-control" rows="3">{{ old('terms', $coupon->terms) }}</textarea>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Barcode <span class="text-danger">*</span></label>
+                <input type="text" name="barcode" value="{{ old('barcode', $coupon->barcode) }}" class="form-control" required>
             </div>
             <div class="col-md-4">
                 <label class="form-label">Status <span class="text-danger">*</span></label>
