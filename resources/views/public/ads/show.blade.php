@@ -21,7 +21,7 @@
         @endif
 
             <div class="product-row reveal" style="transition-delay:{{ min($loop->index * 70, 500) }}ms;">
-                <img src="{{ asset($product->image) }}" alt="" class="rounded-3 flex-shrink-0" style="width:210px;height:155px;object-fit:cover;">
+                <img src="{{ asset($product->image) }}" alt="" class="rounded-3 flex-shrink-0" style="width:180px;height:155px;object-fit:cover;">
                 <div class="flex-grow-1">
                     <div class="fw-semibold mb-1">{{ $product->name }}</div>
                     <div class="fs-5">
