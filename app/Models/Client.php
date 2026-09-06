@@ -19,4 +19,9 @@ class Client extends Authenticatable
     {
         return $this->hasMany(CouponClient::class);
     }
+
+    public function careerApplies()
+    {
+        return $this->hasMany(CareerApply::class);
+    }
 }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Store\AdController;
 use App\Http\Controllers\Store\BannerController;
+use App\Http\Controllers\Store\CareerController;
 use App\Http\Controllers\Store\CategoryController;
 use App\Http\Controllers\Store\ClientController;
 use App\Http\Controllers\Store\CouponClientController;
@@ -64,6 +65,11 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
         Route::resource('notifications', NotificationController::class, ['as' => 'store'])->only(['index', 'create', 'store', 'destroy']);
 
         Route::resource('reward-products', RewardProductController::class, ['as' => 'store'])->except(['show']);
+
+        Route::resource('careers', CareerController::class, ['as' => 'store'])->except(['show']);
+        Route::get('careers/{career}/applicants', [CareerController::class, 'applicants'])->name('store.careers.applicants');
+        Route::get('careers/{career}/applicants/{client}', [CareerController::class, 'showApplicant'])->name('store.careers.applicants.show');
+        Route::delete('careers/{career}/applicants/{client}', [CareerController::class, 'destroyApplicant'])->name('store.careers.applicants.destroy');
 
         Route::get('feedback', [FeedbackController::class, 'index'])->name('store.feedback.index');
         Route::delete('feedback/{feedback}', [FeedbackController::class, 'destroy'])->name('store.feedback.destroy');

@@ -118,6 +118,13 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a href="{{ route('store.careers.index') }}"
+                    class="nav-link {{ request()->routeIs('store.careers.*') ? 'active' : '' }}">
+                    <i class="nav-icon bi bi-briefcase"></i>
+                    <span>Careers</span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a href="{{ route('store.notifications.index') }}"
                     class="nav-link {{ request()->routeIs('store.notifications.*') ? 'active' : '' }}">
                     <i class="nav-icon bi bi-bell"></i>
