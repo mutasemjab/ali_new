@@ -92,7 +92,7 @@
                                     onchange="this.form.submit()">
                             </form>
                         </td>
-                        <td><img src="{{ asset($product->image) }}" alt="" style="width:40px;height:40px;object-fit:cover;border-radius:6px;"></td>
+                        <td><img src="{{ asset($product->image) }}" alt="" style="width:150px;height:110px;object-fit:cover;border-radius:6px;"></td>
                         <td><span class="fw-semibold">{{ $product->name }}</span></td>
                         <td>{{ $product->category->name ?? '—' }}</td>
                         <td>

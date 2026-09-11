@@ -299,7 +299,9 @@ class StorefrontController extends Controller
             'save_price' => $coupon->save_price,
             'start_at' => $coupon->start_at->toDateTimeString(),
             'end_at' => $coupon->end_at->toDateTimeString(),
-            'time_when_clipped' => $coupon->time_when_clipped,
+            'time_when_clipped' => $couponClient?->clipped_at
+                ? max(0, $couponClient->expiration_time - $couponClient->clipped_at->diffInMinutes(now()))
+                : $coupon->time_when_clipped,
             'barcode' => $coupon->barcode,
             'is_clipped' => $clipped,
             'clipped_at' => optional($couponClient?->clipped_at)->toDateTimeString(),

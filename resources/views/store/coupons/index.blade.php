@@ -64,7 +64,7 @@
                     @forelse($coupons as $coupon)
                     <tr>
                         <td>{{ $loop->iteration + ($coupons->currentPage() - 1) * $coupons->perPage() }}</td>
-                        <td><img src="{{ asset($coupon->photo) }}" alt="" style="width:40px;height:40px;object-fit:cover;border-radius:6px;"></td>
+                        <td><img src="{{ asset($coupon->photo) }}" alt="" style="width:150px;height:110px;object-fit:cover;border-radius:6px;"></td>
                         <td><span class="fw-semibold">{{ $coupon->name }}</span></td>
                         <td>{{ $coupon->price }}</td>
                         <td>{{ $coupon->price_after_discount }}</td>
