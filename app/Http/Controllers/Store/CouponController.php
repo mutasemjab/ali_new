@@ -5,13 +5,19 @@ namespace App\Http\Controllers\Store;
 use App\Http\Controllers\Controller;
 use App\Models\Coupon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CouponController extends Controller
 {
     public function index(Request $request)
     {
         $coupons = Coupon::when($request->search, fn ($q, $s) => $q->where('name', 'like', "%$s%"))
-            ->latest()
+            ->when($request->status, fn ($q, $status) => $q->where('status', $status))
+            ->when($request->expires_in_days, function ($q, $days) {
+                $q->whereDate('end_at', '>=', now()->toDateString())
+                    ->whereDate('end_at', '<=', now()->addDays((int) $days)->toDateString());
+            })
+            ->orderBy('sort_order')
             ->paginate(15)
             ->withQueryString();
 
@@ -55,6 +61,7 @@ class CouponController extends Controller
             'end_at' => $request->end_at,
             'time_when_clipped' => $request->time_when_clipped,
             'barcode' => $request->barcode,
+            'sort_order' => (Coupon::max('sort_order') ?? 0) + 1,
         ]);
 
         return redirect()->route('store.coupons.index')->with('success', 'Coupon added successfully');
@@ -114,5 +121,28 @@ class CouponController extends Controller
         $coupon->delete();
 
         return back()->with('success', 'Coupon deleted');
+    }
+
+    public function reorder(Request $request, Coupon $coupon)
+    {
+        $request->validate([
+            'sort_order' => 'required|integer|min:1',
+        ]);
+
+        $newOrder = (int) $request->sort_order;
+
+        DB::transaction(function () use ($coupon, $newOrder) {
+            $existing = Coupon::where('sort_order', $newOrder)
+                ->where('id', '!=', $coupon->id)
+                ->first();
+
+            if ($existing) {
+                $existing->update(['sort_order' => $coupon->sort_order]);
+            }
+
+            $coupon->update(['sort_order' => $newOrder]);
+        });
+
+        return back()->with('success', 'Coupon order updated');
     }
 }

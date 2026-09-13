@@ -11,10 +11,15 @@ class RewardProduct extends Model
     use HasFactory, BelongsToStore;
 
     protected $fillable = [
-        'store_id', 'name', 'image', 'visits_required',
+        'store_id', 'name', 'image', 'points_required',
     ];
 
     protected $casts = [
-        'visits_required' => 'integer',
+        'points_required' => 'integer',
     ];
+
+    public function redemptions()
+    {
+        return $this->hasMany(RewardRedemption::class);
+    }
 }

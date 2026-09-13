@@ -13,13 +13,14 @@ class Coupon extends Model
     protected $fillable = [
         'store_id', 'name', 'description', 'terms', 'photo', 'status',
         'save_price', 'price', 'price_after_discount', 'start_at', 'end_at',
-        'time_when_clipped', 'barcode',
+        'time_when_clipped', 'barcode', 'sort_order',
     ];
 
     protected $casts = [
         'start_at' => 'datetime',
         'end_at' => 'datetime',
         'time_when_clipped' => 'integer',
+        'sort_order' => 'integer',
     ];
 
     public function couponClients()

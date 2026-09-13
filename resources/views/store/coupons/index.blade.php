@@ -22,14 +22,29 @@
 <div class="panel-card mb-3">
     <div class="panel-card-body">
         <form method="GET" class="row g-2 align-items-end">
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-5">
+                <label class="form-label small text-muted mb-1">Search</label>
                 <input type="text" name="search" value="{{ request('search') }}"
                     class="form-control form-control-sm" placeholder="Search by name...">
+            </div>
+            <div class="col-6 col-md-3">
+                <label class="form-label small text-muted mb-1">Status</label>
+                <select name="status" class="form-select form-select-sm">
+                    <option value="" {{ request('status') === null || request('status') === '' ? 'selected' : '' }}>All</option>
+                    <option value="clip" {{ request('status') === 'clip' ? 'selected' : '' }}>Clip</option>
+                    <option value="active" {{ request('status') === 'active' ? 'selected' : '' }}>Active</option>
+                    <option value="expired" {{ request('status') === 'expired' ? 'selected' : '' }}>Expired</option>
+                </select>
+            </div>
+            <div class="col-6 col-md-3">
+                <label class="form-label small text-muted mb-1">Expiring within (days)</label>
+                <input type="number" min="0" name="expires_in_days" value="{{ request('expires_in_days') }}"
+                    class="form-control form-control-sm" placeholder="e.g. 7">
             </div>
             <div class="col-auto">
                 <button type="submit" class="btn-primary-sm"><i class="bi bi-search"></i></button>
             </div>
-            @if(request('search'))
+            @if(request()->hasAny(['search', 'status', 'expires_in_days']))
             <div class="col-auto">
                 <a href="{{ route('store.coupons.index') }}" class="btn-outline-sm"><i class="bi bi-x"></i> Clear</a>
             </div>
@@ -48,7 +63,7 @@
             <table class="data-table">
                 <thead>
                     <tr>
-                        <th>#</th>
+                        <th>Order</th>
                         <th>Photo</th>
                         <th>Name</th>
                         <th>Price</th>
@@ -63,7 +78,14 @@
                 <tbody>
                     @forelse($coupons as $coupon)
                     <tr>
-                        <td>{{ $loop->iteration + ($coupons->currentPage() - 1) * $coupons->perPage() }}</td>
+                        <td>
+                            <form action="{{ route('store.coupons.reorder', $coupon->id) }}" method="POST">
+                                @csrf
+                                <input type="number" name="sort_order" value="{{ $coupon->sort_order }}" min="1"
+                                    class="form-control form-control-sm" style="width:70px;"
+                                    onchange="this.form.submit()">
+                            </form>
+                        </td>
                         <td><img src="{{ asset($coupon->photo) }}" alt="" style="width:150px;height:110px;object-fit:cover;border-radius:6px;"></td>
                         <td><span class="fw-semibold">{{ $coupon->name }}</span></td>
                         <td>{{ $coupon->price }}</td>

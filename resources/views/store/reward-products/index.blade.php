@@ -6,7 +6,7 @@
 <div class="page-header d-flex align-items-start justify-content-between flex-wrap gap-3">
     <div>
         <h1 class="page-title">Rewards</h1>
-        <p class="page-sub">Set what clients win at each visit milestone — these are separate from your regular product catalog</p>
+        <p class="page-sub">Set what clients can redeem their points for — these are separate from your regular product catalog</p>
     </div>
     <a href="{{ route('store.reward-products.create') }}" class="btn-primary-sm">
         <i class="bi bi-trophy"></i> Add New Reward
@@ -32,7 +32,7 @@
                         <th>#</th>
                         <th>Photo</th>
                         <th>Name</th>
-                        <th>Visits Required</th>
+                        <th>Points Required</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -42,7 +42,7 @@
                         <td>{{ $loop->iteration + ($rewardProducts->currentPage() - 1) * $rewardProducts->perPage() }}</td>
                         <td><img src="{{ asset($rewardProduct->image) }}" alt="" style="width:40px;height:40px;object-fit:cover;border-radius:6px;"></td>
                         <td><span class="fw-semibold">{{ $rewardProduct->name }}</span></td>
-                        <td><span class="pill pill-info">{{ $rewardProduct->visits_required }} visits</span></td>
+                        <td><span class="pill pill-info">{{ $rewardProduct->points_required }} points</span></td>
                         <td>
                             <div class="d-flex gap-1">
                                 <a href="{{ route('store.reward-products.edit', $rewardProduct->id) }}" class="btn-icon-sm btn-edit" title="Edit">

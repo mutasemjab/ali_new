@@ -24,4 +24,9 @@ class Client extends Authenticatable
     {
         return $this->hasMany(CareerApply::class);
     }
+
+    public function rewardRedemptions()
+    {
+        return $this->hasMany(RewardRedemption::class);
+    }
 }

@@ -34,8 +34,8 @@
                 <input type="text" name="name" value="{{ old('name', $rewardProduct->name) }}" class="form-control" required>
             </div>
             <div class="col-md-6">
-                <label class="form-label">Visits Required <span class="text-danger">*</span></label>
-                <input type="number" min="1" name="visits_required" value="{{ old('visits_required', $rewardProduct->visits_required) }}" class="form-control" required>
+                <label class="form-label">Points Required <span class="text-danger">*</span></label>
+                <input type="number" min="1" name="points_required" value="{{ old('points_required', $rewardProduct->points_required) }}" class="form-control" required>
             </div>
             <div class="col-md-6">
                 <label class="form-label">Photo</label>

@@ -10,7 +10,7 @@ class RewardProductController extends Controller
 {
     public function index()
     {
-        $rewardProducts = RewardProduct::orderBy('visits_required')->paginate(15);
+        $rewardProducts = RewardProduct::orderBy('points_required')->paginate(15);
 
         return view('store.reward-products.index', compact('rewardProducts'));
     }
@@ -25,7 +25,7 @@ class RewardProductController extends Controller
         $request->validate([
             'name' => 'required|string|max:200',
             'image' => 'required|image|max:2048',
-            'visits_required' => 'required|integer|min:1',
+            'points_required' => 'required|integer|min:1',
         ]);
 
         $filename = uploadImage('assets/uploads/reward-products', $request->file('image'));
@@ -33,7 +33,7 @@ class RewardProductController extends Controller
         RewardProduct::create([
             'name' => $request->name,
             'image' => 'assets/uploads/reward-products/' . $filename,
-            'visits_required' => $request->visits_required,
+            'points_required' => $request->points_required,
         ]);
 
         return redirect()->route('store.reward-products.index')->with('success', 'Reward added successfully');
@@ -49,12 +49,12 @@ class RewardProductController extends Controller
         $request->validate([
             'name' => 'required|string|max:200',
             'image' => 'nullable|image|max:2048',
-            'visits_required' => 'required|integer|min:1',
+            'points_required' => 'required|integer|min:1',
         ]);
 
         $data = [
             'name' => $request->name,
-            'visits_required' => $request->visits_required,
+            'points_required' => $request->points_required,
         ];
 
         if ($request->hasFile('image')) {

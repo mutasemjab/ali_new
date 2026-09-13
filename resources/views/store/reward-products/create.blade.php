@@ -33,8 +33,8 @@
                 <input type="text" name="name" value="{{ old('name') }}" class="form-control" placeholder="e.g. Water Bottle" required>
             </div>
             <div class="col-md-6">
-                <label class="form-label">Visits Required <span class="text-danger">*</span></label>
-                <input type="number" min="1" name="visits_required" value="{{ old('visits_required') }}" class="form-control" placeholder="e.g. 10" required>
+                <label class="form-label">Points Required <span class="text-danger">*</span></label>
+                <input type="number" min="1" name="points_required" value="{{ old('points_required') }}" class="form-control" placeholder="e.g. 200" required>
             </div>
             <div class="col-md-6">
                 <label class="form-label">Photo <span class="text-danger">*</span></label>

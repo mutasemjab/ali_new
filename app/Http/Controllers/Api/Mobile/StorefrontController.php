@@ -12,6 +12,7 @@ use App\Models\Location;
 use App\Models\Product;
 use App\Models\Qr;
 use App\Models\RewardProduct;
+use App\Models\RewardRedemption;
 use App\Models\Social;
 use App\Models\Store;
 use App\Models\WeeklyAd;
@@ -221,38 +222,87 @@ class StorefrontController extends Controller
     }
 
     /**
-     * GET /stores/{store}/rewards — every reward tier, plus this client's progress
-     * toward each one (either via Bearer token, or ?phone= for the tablet kiosk flow).
+     * GET /stores/{store}/rewards — points-based reward gallery: this client's point
+     * balance plus every reward, flagged unlocked/points_remaining (either via Bearer
+     * token, or ?phone= for the tablet kiosk flow — no login there).
      */
     public function rewards(Request $request, Store $store)
     {
-        $rewardProducts = RewardProduct::where('store_id', $store->id)
-            ->orderBy('visits_required')
-            ->get();
+        $client = $this->resolveRewardsClient($request, $store);
 
+        return response()->json([
+            'status' => true,
+            'message' => 'Rewards retrieved successfully',
+            'data' => $this->rewardsPayload($store, $client),
+        ]);
+    }
+
+    /**
+     * POST /stores/{store}/rewards/{reward}/redeem — spend points on a reward.
+     * Body: phone (tablet kiosk, no login) — or a Bearer token (mobile app).
+     */
+    public function redeemReward(Request $request, Store $store, RewardProduct $reward)
+    {
+        if ((int) $reward->store_id !== (int) $store->id) {
+            return response()->json(['status' => false, 'message' => 'Reward not found', 'data' => null], 404);
+        }
+
+        $client = $this->resolveRewardsClient($request, $store);
+
+        if (! $client) {
+            return response()->json(['status' => false, 'message' => 'Client not found', 'data' => null], 404);
+        }
+
+        if ($client->total_points < $reward->points_required) {
+            return response()->json(['status' => false, 'message' => 'Not enough points to redeem this reward', 'data' => null], 422);
+        }
+
+        $client->decrement('total_points', $reward->points_required);
+
+        RewardRedemption::create([
+            'store_id' => $store->id,
+            'client_id' => $client->id,
+            'reward_product_id' => $reward->id,
+            'points_spent' => $reward->points_required,
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Reward redeemed successfully',
+            'data' => $this->rewardsPayload($store, $client->fresh()),
+        ]);
+    }
+
+    private function resolveRewardsClient(Request $request, Store $store): ?Client
+    {
         $client = $this->resolveOptionalClient($request);
 
         if (! $client && $request->filled('phone')) {
             $client = Client::where('store_id', $store->id)->where('phone', $request->phone)->first();
         }
 
-        $currentVisits = $client->number_of_visit ?? 0;
+        return $client;
+    }
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Rewards retrieved successfully',
-            'data' => [
-                'current_visits' => $currentVisits,
-                'rewards' => $rewardProducts->map(fn (RewardProduct $rewardProduct) => [
-                    'id' => $rewardProduct->id,
-                    'name' => $rewardProduct->name,
-                    'image' => $this->imageUrl($rewardProduct->image),
-                    'visits_required' => $rewardProduct->visits_required,
-                    'earned' => $currentVisits >= $rewardProduct->visits_required,
-                    'visits_remaining' => max(0, $rewardProduct->visits_required - $currentVisits),
-                ])->values(),
-            ],
-        ]);
+    private function rewardsPayload(Store $store, ?Client $client): array
+    {
+        $totalPoints = $client->total_points ?? 0;
+
+        $rewardProducts = RewardProduct::where('store_id', $store->id)
+            ->orderBy('points_required')
+            ->get();
+
+        return [
+            'total_points' => $totalPoints,
+            'rewards' => $rewardProducts->map(fn (RewardProduct $rewardProduct) => [
+                'id' => $rewardProduct->id,
+                'name' => $rewardProduct->name,
+                'image' => $this->imageUrl($rewardProduct->image),
+                'points_required' => $rewardProduct->points_required,
+                'unlocked' => $totalPoints >= $rewardProduct->points_required,
+                'points_remaining' => max(0, $rewardProduct->points_required - $totalPoints),
+            ])->values(),
+        ];
     }
 
     /**

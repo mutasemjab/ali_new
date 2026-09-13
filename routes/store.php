@@ -17,6 +17,7 @@ use App\Http\Controllers\Store\PageSettingsController;
 use App\Http\Controllers\Store\ProductController;
 use App\Http\Controllers\Store\QrController;
 use App\Http\Controllers\Store\RewardProductController;
+use App\Http\Controllers\Store\RewardRedemptionController;
 use App\Http\Controllers\Store\SocialController;
 use App\Http\Controllers\Store\WeeklyAdController;
 use Illuminate\Support\Facades\Route;
@@ -47,6 +48,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
         Route::post('ads/{ad}/sms', [AdController::class, 'smsSend'])->name('store.ads.sms.send');
 
         Route::resource('coupons', CouponController::class, ['as' => 'store'])->except(['show']);
+        Route::post('coupons/{coupon}/reorder', [CouponController::class, 'reorder'])->name('store.coupons.reorder');
 
         Route::resource('banners', BannerController::class, ['as' => 'store'])->except(['show']);
 
@@ -65,6 +67,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
         Route::resource('notifications', NotificationController::class, ['as' => 'store'])->only(['index', 'create', 'store', 'destroy']);
 
         Route::resource('reward-products', RewardProductController::class, ['as' => 'store'])->except(['show']);
+        Route::resource('reward-redemptions', RewardRedemptionController::class, ['as' => 'store'])->only(['index', 'destroy']);
 
         Route::resource('careers', CareerController::class, ['as' => 'store'])->except(['show']);
         Route::get('careers/{career}/applicants', [CareerController::class, 'applicants'])->name('store.careers.applicants');
