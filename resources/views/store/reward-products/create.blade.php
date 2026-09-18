@@ -40,6 +40,10 @@
                 <label class="form-label">Photo <span class="text-danger">*</span></label>
                 <input type="file" name="image" class="form-control" accept="image/*" required>
             </div>
+            <div class="col-md-6">
+                <label class="form-label">Barcode <span class="text-danger">*</span></label>
+                <input type="text" name="barcode" value="{{ old('barcode') }}" class="form-control" required>
+            </div>
         </div>
     </div>
 </div>

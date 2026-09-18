@@ -11,7 +11,7 @@ class Store extends Authenticatable
 
     protected $fillable = [
         'name', 'email', 'phone', 'password', 'photo', 'activate', 'total_sms',
-        'privacy_policy', 'facebook_link', 'pin',
+        'privacy_policy', 'facebook_link', 'pin', 'points_per_visit',
         'show_in_store_deals', 'show_social', 'show_qr', 'show_weekly_ads',
         'show_coupons', 'show_location', 'show_rewards',
     ];
@@ -21,6 +21,7 @@ class Store extends Authenticatable
     protected $casts = [
         'activate' => 'integer',
         'total_sms' => 'integer',
+        'points_per_visit' => 'integer',
         'show_in_store_deals' => 'boolean',
         'show_social' => 'boolean',
         'show_qr' => 'boolean',

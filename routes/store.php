@@ -67,6 +67,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
         Route::resource('notifications', NotificationController::class, ['as' => 'store'])->only(['index', 'create', 'store', 'destroy']);
 
         Route::resource('reward-products', RewardProductController::class, ['as' => 'store'])->except(['show']);
+        Route::put('reward-settings', [RewardProductController::class, 'updateSettings'])->name('store.reward-settings.update');
         Route::resource('reward-redemptions', RewardRedemptionController::class, ['as' => 'store'])->only(['index', 'destroy']);
 
         Route::resource('careers', CareerController::class, ['as' => 'store'])->except(['show']);

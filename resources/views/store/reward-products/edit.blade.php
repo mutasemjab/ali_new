@@ -42,6 +42,10 @@
                 <input type="file" name="image" class="form-control" accept="image/*">
                 <img src="{{ asset($rewardProduct->image) }}" alt="" class="mt-2" style="width:60px;height:60px;object-fit:cover;border-radius:6px;">
             </div>
+            <div class="col-md-6">
+                <label class="form-label">Barcode <span class="text-danger">*</span></label>
+                <input type="text" name="barcode" value="{{ old('barcode', $rewardProduct->barcode) }}" class="form-control" required>
+            </div>
         </div>
     </div>
 </div>

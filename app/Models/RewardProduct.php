@@ -11,7 +11,7 @@ class RewardProduct extends Model
     use HasFactory, BelongsToStore;
 
     protected $fillable = [
-        'store_id', 'name', 'image', 'points_required',
+        'store_id', 'name', 'image', 'points_required', 'barcode',
     ];
 
     protected $casts = [

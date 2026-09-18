@@ -301,6 +301,7 @@ class StorefrontController extends Controller
                 'points_required' => $rewardProduct->points_required,
                 'unlocked' => $totalPoints >= $rewardProduct->points_required,
                 'points_remaining' => max(0, $rewardProduct->points_required - $totalPoints),
+                'barcode' => $rewardProduct->barcode,
             ])->values(),
         ];
     }

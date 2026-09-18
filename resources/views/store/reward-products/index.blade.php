@@ -18,6 +18,32 @@
         {{ session('success') }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 @endif
+@if($errors->any())
+    <div class="alert alert-danger alert-dismissible fade show mb-3">
+        <ul class="mb-0">@foreach($errors->all() as $e)<li>{{ $e }}</li>@endforeach</ul>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+@endif
+
+<div class="panel-card mb-3">
+    <div class="panel-card-header">
+        <h2 class="panel-card-title"><i class="bi bi-lightning-charge"></i> Points Earning</h2>
+    </div>
+    <div class="panel-card-body">
+        <form action="{{ route('store.reward-settings.update') }}" method="POST" class="row g-2 align-items-end">
+            @csrf @method('PUT')
+            <div class="col-auto">
+                <label class="form-label small text-muted mb-1">Points earned per visit (once per day)</label>
+                <input type="number" min="0" name="points_per_visit"
+                    value="{{ old('points_per_visit', auth('store')->user()->points_per_visit) }}"
+                    class="form-control form-control-sm" style="width:120px;" required>
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn-outline-sm">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
 
 <div class="panel-card">
     <div class="panel-card-header d-flex align-items-center justify-content-between">

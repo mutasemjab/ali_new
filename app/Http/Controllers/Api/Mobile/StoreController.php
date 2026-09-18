@@ -246,6 +246,10 @@ class StoreController extends Controller
             ]);
 
             $client->increment('number_of_visit');
+
+            if ($store->points_per_visit > 0) {
+                $client->increment('total_points', $store->points_per_visit);
+            }
         }
 
         return response()->json([
@@ -256,6 +260,7 @@ class StoreController extends Controller
                 'store_id' => $store->id,
                 'phone' => $client->phone,
                 'number_of_visit' => $client->number_of_visit,
+                'total_points' => $client->total_points,
             ],
         ]);
     }
