@@ -34,6 +34,7 @@ class AdController extends Controller
             'images' => 'required_if:type,image|nullable|array|min:1',
             'images.*' => 'image|max:8048',
             'products' => 'required_if:type,products|nullable|array|min:1',
+            'products_order' => 'nullable|string',
             'products.*' => [
                 'integer',
                 Rule::exists('products', 'id')->where('store_id', auth('store')->id()),
@@ -57,7 +58,7 @@ class AdController extends Controller
         }
 
         if ($request->type === 'products') {
-            $ad->products()->sync($request->input('products', []));
+            $this->syncProducts($ad, $request);
         }
 
         return redirect()->route('store.ads.index')->with('success', 'Ad created successfully. Link: ' . $ad->public_url);
@@ -85,6 +86,7 @@ class AdController extends Controller
             'remove_images' => 'nullable|array',
             'remove_images.*' => 'integer|exists:ad_images,id',
             'products' => 'required_if:type,products|nullable|array',
+            'products_order' => 'nullable|string',
             'products.*' => [
                 'integer',
                 Rule::exists('products', 'id')->where('store_id', auth('store')->id()),
@@ -111,10 +113,33 @@ class AdController extends Controller
         }
 
         if ($ad->type === 'products') {
-            $ad->products()->sync($request->input('products', []));
+            $this->syncProducts($ad, $request);
         }
 
         return redirect()->route('store.ads.index')->with('success', 'Ad updated successfully');
+    }
+
+    /**
+     * Save the selected products with their positions, following the click order
+     * sent by the picker in `products_order` (comma-separated product ids).
+     */
+    private function syncProducts(Ad $ad, Request $request): void
+    {
+        $selected = array_map('intval', $request->input('products', []));
+
+        $ordered = array_values(array_filter(
+            array_map('intval', explode(',', (string) $request->input('products_order'))),
+            fn ($id) => in_array($id, $selected, true)
+        ));
+
+        $ordered = array_values(array_unique(array_merge($ordered, array_diff($selected, $ordered))));
+
+        $sync = [];
+        foreach ($ordered as $position => $productId) {
+            $sync[$productId] = ['sort_order' => $position + 1];
+        }
+
+        $ad->products()->sync($sync);
     }
 
     public function destroy(Ad $ad)

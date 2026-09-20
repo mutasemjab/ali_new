@@ -107,11 +107,14 @@
         addRow();
     });
 
-    (window.__existingSpecifications || []).forEach(function (spec) {
-        addRow(spec);
-    });
+    // Wait for DOMContentLoaded so the page's seed script has run regardless of push order.
+    document.addEventListener('DOMContentLoaded', function () {
+        (window.__existingSpecifications || []).forEach(function (spec) {
+            addRow(spec);
+        });
 
-    refreshEmptyMessage();
+        refreshEmptyMessage();
+    });
 })();
 </script>
 @endpush

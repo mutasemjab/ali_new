@@ -217,12 +217,14 @@ class StoreController extends Controller
             'name' => 'nullable|string|max:200',
         ]);
 
+        $phone = Client::normalizePhone($request->phone);
+
         $client = Client::firstOrNew([
             'store_id' => $store->id,
-            'phone' => $request->phone,
+            'phone' => $phone,
         ]);
 
-        $client->name = $request->name ?: $client->name ?: $request->phone;
+        $client->name = $request->name ?: $client->name ?: $phone;
 
         if (! $client->exists) {
             $client->number_of_visit = 0;

@@ -52,23 +52,7 @@
         <h2 class="panel-card-title"><i class="bi bi-box-seam"></i> Select Products</h2>
     </div>
     <div class="panel-card-body">
-        @php $selected = old('products', $ad->products->pluck('id')->all()); @endphp
-        @if($products->isEmpty())
-            <p class="text-muted small mb-0">No products added yet. <a href="{{ route('store.products.create') }}">Add a product</a></p>
-        @else
-        <div class="row g-2">
-            @foreach($products as $product)
-            <div class="col-md-4">
-                <label class="d-flex align-items-center gap-2 p-2 rounded border">
-                    <input type="checkbox" name="products[]" value="{{ $product->id }}"
-                           {{ in_array($product->id, $selected) ? 'checked' : '' }}>
-                    <img src="{{ asset($product->image) }}" alt="" style="width:32px;height:32px;object-fit:cover;border-radius:6px;">
-                    <span>{{ $product->name }} — {{ $product->price_usd }}</span>
-                </label>
-            </div>
-            @endforeach
-        </div>
-        @endif
+        @include('store.ads._product-picker', ['checked' => old('products', $ad->products->pluck('id')->all())])
     </div>
 </div>
 @endif

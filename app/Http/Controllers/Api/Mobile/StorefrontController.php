@@ -278,7 +278,7 @@ class StorefrontController extends Controller
         $client = $this->resolveOptionalClient($request);
 
         if (! $client && $request->filled('phone')) {
-            $client = Client::where('store_id', $store->id)->where('phone', $request->phone)->first();
+            $client = Client::where('store_id', $store->id)->where('phone', Client::normalizePhone($request->phone))->first();
         }
 
         return $client;

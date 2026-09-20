@@ -32,7 +32,10 @@ class Ad extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class);
+        return $this->belongsToMany(Product::class)
+            ->withPivot('sort_order')
+            ->orderBy('ad_product.sort_order')
+            ->orderBy('ad_product.id');
     }
 
     public function images()
