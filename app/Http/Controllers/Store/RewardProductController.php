@@ -27,6 +27,7 @@ class RewardProductController extends Controller
             'image' => 'required|image|max:2048',
             'points_required' => 'required|integer|min:1',
             'barcode' => 'required|string|max:100',
+            'redeem_window_minutes' => 'required|integer|min:1',
         ]);
 
         $filename = uploadImage('assets/uploads/reward-products', $request->file('image'));
@@ -36,6 +37,7 @@ class RewardProductController extends Controller
             'image' => 'assets/uploads/reward-products/' . $filename,
             'points_required' => $request->points_required,
             'barcode' => $request->barcode,
+            'redeem_window_minutes' => $request->redeem_window_minutes,
         ]);
 
         return redirect()->route('store.reward-products.index')->with('success', 'Reward added successfully');
@@ -53,12 +55,14 @@ class RewardProductController extends Controller
             'image' => 'nullable|image|max:2048',
             'points_required' => 'required|integer|min:1',
             'barcode' => 'required|string|max:100',
+            'redeem_window_minutes' => 'required|integer|min:1',
         ]);
 
         $data = [
             'name' => $request->name,
             'points_required' => $request->points_required,
             'barcode' => $request->barcode,
+            'redeem_window_minutes' => $request->redeem_window_minutes,
         ];
 
         if ($request->hasFile('image')) {

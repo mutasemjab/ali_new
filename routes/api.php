@@ -46,7 +46,6 @@ Route::prefix('v1/')->middleware('api.locale')->group(function () {
         Route::get('locations', [StorefrontController::class, 'locations'])->name('api.stores.locations');
         Route::get('coupons', [StorefrontController::class, 'coupons'])->name('api.stores.coupons');
         Route::get('rewards', [StorefrontController::class, 'rewards'])->name('api.stores.rewards');
-        Route::post('rewards/{reward}/redeem', [StorefrontController::class, 'redeemReward'])->name('api.stores.rewards.redeem');
         Route::get('careers', [CareerController::class, 'index'])->name('api.stores.careers');
 
         // Phone + OTP auth (Twilio) — no password
@@ -57,6 +56,7 @@ Route::prefix('v1/')->middleware('api.locale')->group(function () {
 
         Route::middleware('auth:sanctum')->group(function () {
             Route::post('coupons/{coupon}/clip', [StorefrontController::class, 'clipCoupon'])->name('api.stores.coupons.clip');
+            Route::post('rewards/{reward}/redeem', [StorefrontController::class, 'redeemReward'])->name('api.stores.rewards.redeem');
             Route::post('careers/{career}/apply', [CareerController::class, 'apply'])->name('api.stores.careers.apply');
         });
     });

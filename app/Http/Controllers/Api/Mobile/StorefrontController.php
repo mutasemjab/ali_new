@@ -238,8 +238,9 @@ class StorefrontController extends Controller
     }
 
     /**
-     * POST /stores/{store}/rewards/{reward}/redeem — spend points on a reward.
-     * Body: phone (tablet kiosk, no login) — or a Bearer token (mobile app).
+     * POST /stores/{store}/rewards/{reward}/redeem (auth:sanctum) — app-only, spend points
+     * on a reward and get back a barcode to show at the register, same shape/semantics as
+     * the coupon clip endpoint: a static barcode plus a live countdown in minutes.
      */
     public function redeemReward(Request $request, Store $store, RewardProduct $reward)
     {
@@ -247,10 +248,21 @@ class StorefrontController extends Controller
             return response()->json(['status' => false, 'message' => 'Reward not found', 'data' => null], 404);
         }
 
-        $client = $this->resolveRewardsClient($request, $store);
+        $client = $request->user();
 
-        if (! $client) {
-            return response()->json(['status' => false, 'message' => 'Client not found', 'data' => null], 404);
+        // A retry/double-tap on an already-active redemption returns the same barcode
+        // and countdown instead of charging points a second time.
+        $activeRedemption = RewardRedemption::where('client_id', $client->id)
+            ->where('reward_product_id', $reward->id)
+            ->latest()
+            ->first();
+
+        if ($activeRedemption && $activeRedemption->minutes_remaining > 0) {
+            return response()->json([
+                'status' => true,
+                'message' => 'Reward already redeemed',
+                'data' => $this->redemptionSummary($activeRedemption, $client),
+            ]);
         }
 
         if ($client->total_points < $reward->points_required) {
@@ -259,18 +271,28 @@ class StorefrontController extends Controller
 
         $client->decrement('total_points', $reward->points_required);
 
-        RewardRedemption::create([
+        $redemption = RewardRedemption::create([
             'store_id' => $store->id,
             'client_id' => $client->id,
             'reward_product_id' => $reward->id,
             'points_spent' => $reward->points_required,
+            'expiration_minutes' => $reward->redeem_window_minutes,
         ]);
 
         return response()->json([
             'status' => true,
             'message' => 'Reward redeemed successfully',
-            'data' => $this->rewardsPayload($store, $client->fresh()),
+            'data' => $this->redemptionSummary($redemption, $client->fresh()),
         ]);
+    }
+
+    private function redemptionSummary(RewardRedemption $redemption, Client $client): array
+    {
+        return [
+            'barcode' => $redemption->rewardProduct->barcode,
+            'minutes_remaining' => $redemption->minutes_remaining,
+            'current_points' => $client->total_points,
+        ];
     }
 
     private function resolveRewardsClient(Request $request, Store $store): ?Client

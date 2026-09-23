@@ -11,11 +11,12 @@ class RewardProduct extends Model
     use HasFactory, BelongsToStore;
 
     protected $fillable = [
-        'store_id', 'name', 'image', 'points_required', 'barcode',
+        'store_id', 'name', 'image', 'points_required', 'barcode', 'redeem_window_minutes',
     ];
 
     protected $casts = [
         'points_required' => 'integer',
+        'redeem_window_minutes' => 'integer',
     ];
 
     public function redemptions()

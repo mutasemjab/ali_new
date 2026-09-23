@@ -46,6 +46,11 @@
                 <label class="form-label">Barcode <span class="text-danger">*</span></label>
                 <input type="text" name="barcode" value="{{ old('barcode', $rewardProduct->barcode) }}" class="form-control" required>
             </div>
+            <div class="col-md-6">
+                <label class="form-label">Redemption Window (minutes) <span class="text-danger">*</span></label>
+                <input type="number" min="1" name="redeem_window_minutes" value="{{ old('redeem_window_minutes', $rewardProduct->redeem_window_minutes) }}" class="form-control" required>
+                <div class="form-text">How long the barcode stays valid after a client redeems this reward.</div>
+            </div>
         </div>
     </div>
 </div>
