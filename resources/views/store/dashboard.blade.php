@@ -17,6 +17,30 @@
     </div>
 @endif
 
+<div class="panel-card mb-3">
+    <div class="panel-card-body">
+        <form method="GET" class="row g-2 align-items-end">
+            <div class="col-6 col-md-3">
+                <label class="form-label small text-muted mb-1">From</label>
+                <input type="date" name="from" value="{{ $from->format('Y-m-d') }}" class="form-control form-control-sm">
+            </div>
+            <div class="col-6 col-md-3">
+                <label class="form-label small text-muted mb-1">To</label>
+                <input type="date" name="to" value="{{ $to->format('Y-m-d') }}" class="form-control form-control-sm">
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn-primary-sm"><i class="bi bi-funnel"></i> Filter</button>
+            </div>
+            <div class="col-auto">
+                <a href="{{ route('store.dashboard') }}" class="btn-outline-sm">This Month</a>
+            </div>
+            <div class="col-12">
+                <p class="text-muted small mb-0 mt-1">Counts below (Clients, SMS Sent, Categories, Products, Ads, Feedback, Recent Messages) reflect this date range. SMS Balance and Subscription always show the current, live status.</p>
+            </div>
+        </form>
+    </div>
+</div>
+
 <div class="row g-3 mb-3">
     <div class="col-md-3">
         <div class="panel-card">
