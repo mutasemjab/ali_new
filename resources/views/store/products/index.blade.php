@@ -96,15 +96,15 @@
                         <td><span class="fw-semibold">{{ $product->name }}</span></td>
                         <td>{{ $product->category->name ?? '—' }}</td>
                         <td>
-                            @if($product->has_active_discount)
+                            @if($product->price_after)
                                 <span class="text-decoration-line-through text-muted">{{ $product->price_usd }}</span>
                             @else
                                 {{ $product->price_usd }}
                             @endif
                         </td>
                         <td>
-                            @if($product->has_active_discount)
-                                <span class="fw-semibold text-success">{{ $product->final_price }}</span>
+                            @if($product->price_after)
+                                <span class="fw-semibold {{ $product->has_active_discount ? 'text-success' : 'text-muted' }}">{{ $product->price_after }}</span>
                             @else
                                 {{ $product->price_usd }}
                             @endif
