@@ -9,6 +9,8 @@ class WeeklyAdController extends Controller
 {
     public function show(string $token)
     {
+        app()->setLocale('en');
+
         $weeklyAd = WeeklyAd::with('store.socials')->where('token', $token)->firstOrFail();
 
         return view('public.weekly-ads.show', compact('weeklyAd'));

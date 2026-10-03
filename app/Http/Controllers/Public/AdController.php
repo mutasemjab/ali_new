@@ -9,6 +9,8 @@ class AdController extends Controller
 {
     public function show(string $token)
     {
+        app()->setLocale('en');
+
         $ad = Ad::with(['products', 'store.socials', 'images'])->where('token', $token)->firstOrFail();
 
         if ($ad->is_expired) {

@@ -27,7 +27,8 @@ Route::group([
     Route::get('store/{store}/privacy', [StoreController::class, 'privacy'])->name('public.stores.privacy');
     Route::get('store/{store}/feedback', [FeedbackController::class, 'create'])->name('public.stores.feedback.create');
     Route::post('store/{store}/feedback', [FeedbackController::class, 'store'])->name('public.stores.feedback.store');
-
-    Route::get('ads/{token}', [AdController::class, 'show'])->name('public.ads.show');
-    Route::get('weekly-ads/{token}', [WeeklyAdController::class, 'show'])->name('public.weekly-ads.show');
 });
+
+// ── Ad / weekly-ad SMS links — always English, no /en/ locale prefix ──
+Route::get('ads/{token}', [AdController::class, 'show'])->name('public.ads.show');
+Route::get('weekly-ads/{token}', [WeeklyAdController::class, 'show'])->name('public.weekly-ads.show');

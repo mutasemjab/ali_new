@@ -6,7 +6,6 @@ use App\Models\Concerns\BelongsToStore;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class WeeklyAd extends Model
 {
@@ -25,7 +24,11 @@ class WeeklyAd extends Model
     {
         static::creating(function (WeeklyAd $weeklyAd) {
             if (empty($weeklyAd->token)) {
-                $weeklyAd->token = Str::random(32);
+                do {
+                    $token = Str::random(8);
+                } while (static::where('token', $token)->exists());
+
+                $weeklyAd->token = $token;
             }
         });
     }
@@ -39,6 +42,6 @@ class WeeklyAd extends Model
 
     public function getPublicUrlAttribute(): string
     {
-        return LaravelLocalization::getLocalizedURL('en', route('public.weekly-ads.show', $this->token));
+        return route('public.weekly-ads.show', $this->token);
     }
 }

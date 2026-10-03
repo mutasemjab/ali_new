@@ -6,7 +6,6 @@ use App\Models\Concerns\BelongsToStore;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class Ad extends Model
 {
@@ -25,7 +24,11 @@ class Ad extends Model
     {
         static::creating(function (Ad $ad) {
             if (empty($ad->token)) {
-                $ad->token = Str::random(32);
+                do {
+                    $token = Str::random(8);
+                } while (static::where('token', $token)->exists());
+
+                $ad->token = $token;
             }
         });
     }
@@ -45,7 +48,7 @@ class Ad extends Model
 
     public function getPublicUrlAttribute(): string
     {
-        return LaravelLocalization::getLocalizedURL('en', route('public.ads.show', $this->token));
+        return route('public.ads.show', $this->token);
     }
 
     public function getCoverImageAttribute(): ?string
