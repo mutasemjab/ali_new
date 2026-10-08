@@ -16,6 +16,10 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\EnrollmentController;
 use App\Http\Controllers\Admin\ExamController;
+use App\Http\Controllers\Admin\LandingHighlightController;
+use App\Http\Controllers\Admin\LandingPlanController;
+use App\Http\Controllers\Admin\LandingSettingController;
+use App\Http\Controllers\Admin\LandingStepController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\PosController;
@@ -79,6 +83,13 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
         Route::put('settings/anti-spam', [AppSettingController::class, 'updateAntiSpam'])->name('admin.settings.anti-spam.update');
         Route::get('settings/client-privacy', [AppSettingController::class, 'editClientPrivacy'])->name('admin.settings.client-privacy.edit');
         Route::put('settings/client-privacy', [AppSettingController::class, 'updateClientPrivacy'])->name('admin.settings.client-privacy.update');
+
+        // ── FlyerAll landing/marketing site ──────────────────────────
+        Route::get('landing-settings', [LandingSettingController::class, 'edit'])->name('admin.landing-settings.edit');
+        Route::put('landing-settings', [LandingSettingController::class, 'update'])->name('admin.landing-settings.update');
+        Route::resource('landing-plans', LandingPlanController::class, ['as' => 'admin'])->except(['show']);
+        Route::resource('landing-steps', LandingStepController::class, ['as' => 'admin'])->except(['show']);
+        Route::resource('landing-highlights', LandingHighlightController::class, ['as' => 'admin'])->except(['show']);
 
     });
 });

@@ -79,6 +79,38 @@
             </li>
         </ul>
 
+        <div class="nav-label">Landing Page</div>
+        <ul>
+            <li class="nav-item">
+                <a href="{{ route('admin.landing-settings.edit') }}"
+                    class="nav-link {{ request()->routeIs('admin.landing-settings.*') ? 'active' : '' }}">
+                    <i class="nav-icon bi bi-sliders"></i>
+                    <span>General Settings</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('admin.landing-plans.index') }}"
+                    class="nav-link {{ request()->routeIs('admin.landing-plans.*') ? 'active' : '' }}">
+                    <i class="nav-icon bi bi-credit-card"></i>
+                    <span>Pricing Plans</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('admin.landing-steps.index') }}"
+                    class="nav-link {{ request()->routeIs('admin.landing-steps.*') ? 'active' : '' }}">
+                    <i class="nav-icon bi bi-list-ol"></i>
+                    <span>How It Works Steps</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('admin.landing-highlights.index') }}"
+                    class="nav-link {{ request()->routeIs('admin.landing-highlights.*') ? 'active' : '' }}">
+                    <i class="nav-icon bi bi-stars"></i>
+                    <span>Feature Highlights</span>
+                </a>
+            </li>
+        </ul>
+
     </nav>
 
     {{-- Sidebar Footer --}}
