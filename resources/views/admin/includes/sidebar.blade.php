@@ -109,6 +109,17 @@
                     <span>Feature Highlights</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="{{ route('admin.landing-plan-inquiries.index') }}"
+                    class="nav-link {{ request()->routeIs('admin.landing-plan-inquiries.*') ? 'active' : '' }}">
+                    <i class="nav-icon bi bi-inbox"></i>
+                    <span>Plan Inquiries</span>
+                    @php $unreadInquiryCount = \App\Models\LandingPlanInquiry::where('is_read', false)->count(); @endphp
+                    @if($unreadInquiryCount)
+                        <span class="pill pill-danger ms-auto">{{ $unreadInquiryCount }}</span>
+                    @endif
+                </a>
+            </li>
         </ul>
 
     </nav>

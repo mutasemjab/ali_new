@@ -26,6 +26,18 @@
 
     .lp-highlight-card { border-radius: 18px; border: 1px solid var(--border); padding: 20px; height: 100%; }
     .lp-highlight-icon { width: 44px; height: 44px; border-radius: 12px; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; margin-bottom: 12px; }
+
+    .lp-plan-cta { cursor: pointer; width: 100%; border: none; }
+
+    .lp-inquiry-modal .modal-content { border-radius: 20px; border: none; overflow: hidden; }
+    .lp-inquiry-modal .modal-header { background: linear-gradient(135deg, var(--c-primary), var(--c-purple)); color: #fff; border: none; padding: 22px 26px; }
+    .lp-inquiry-modal .modal-title { font-weight: 800; }
+    .lp-inquiry-modal .modal-header small { display: block; color: rgba(255,255,255,.85); font-weight: 500; margin-top: 2px; }
+    .lp-inquiry-modal .modal-body { padding: 26px; }
+    .lp-inquiry-modal .form-label { font-weight: 600; font-size: .85rem; }
+    .lp-inquiry-modal .form-control { border-radius: 10px; border-color: var(--border); padding: 10px 14px; }
+    .lp-inquiry-modal .form-control:focus { border-color: var(--c-primary); box-shadow: 0 0 0 3px rgba(37,99,235,.15); }
+    .lp-inquiry-submit { width: 100%; border: none; border-radius: 12px; padding: 12px; font-weight: 700; color: #fff; background: linear-gradient(135deg, var(--c-primary), var(--c-purple)); }
 </style>
 @endpush
 
@@ -33,6 +45,13 @@
 
 <section class="lp-section-tight">
     <div class="container-xl">
+        @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        @endif
+
         <div class="row align-items-center g-5">
             <div class="col-lg-6">
                 <h1 class="lp-h1">
@@ -86,7 +105,11 @@
                     <div class="lp-plan-rate lp-soft-{{ $plan->color }} lp-c-{{ $plan->color }}">{{ $plan->rate_text }}</div>
                     @endif
 
-                    <a href="{{ $setting->cta_url ?: '#' }}" class="lp-plan-cta lp-bg-{{ $plan->color }}">{{ $plan->cta_text }}</a>
+                    <button type="button" class="lp-plan-cta lp-bg-{{ $plan->color }}"
+                        data-bs-toggle="modal" data-bs-target="#planInquiryModal"
+                        data-plan-id="{{ $plan->id }}" data-plan-name="{{ $plan->name }}">
+                        {{ $plan->cta_text }}
+                    </button>
                 </div>
             </div>
             @endforeach
@@ -121,4 +144,80 @@
     </div>
 </section>
 
+<div class="modal fade lp-inquiry-modal" id="planInquiryModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form action="{{ route('landing.plans.inquire') }}" method="POST">
+                @csrf
+                <input type="hidden" name="landing_plan_id" id="inquiryPlanId" value="{{ old('landing_plan_id') }}">
+
+                <div class="modal-header">
+                    <div>
+                        <h5 class="modal-title">Get Started</h5>
+                        <small id="inquiryPlanName">Tell us a bit about your store</small>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    @if($errors->any())
+                    <div class="alert alert-danger small">
+                        <ul class="mb-0 ps-3">
+                            @foreach($errors->all() as $e)<li>{{ $e }}</li>@endforeach
+                        </ul>
+                    </div>
+                    @endif
+
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label">Name <span class="text-danger">*</span></label>
+                            <input type="text" name="name" value="{{ old('name') }}" class="form-control" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Company</label>
+                            <input type="text" name="company" value="{{ old('company') }}" class="form-control">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Email Address <span class="text-danger">*</span></label>
+                            <input type="email" name="email" value="{{ old('email') }}" class="form-control" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Phone <span class="text-danger">*</span></label>
+                            <input type="text" name="phone" value="{{ old('phone') }}" class="form-control" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Message</label>
+                            <textarea name="message" rows="3" class="form-control">{{ old('message') }}</textarea>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="lp-inquiry-submit">Submit <i class="bi bi-arrow-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 @endsection
+
+@push('scripts')
+<script>
+    (function () {
+        var modalEl = document.getElementById('planInquiryModal');
+        var planIdInput = document.getElementById('inquiryPlanId');
+        var planNameLabel = document.getElementById('inquiryPlanName');
+
+        document.querySelectorAll('[data-bs-target="#planInquiryModal"]').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                planIdInput.value = btn.dataset.planId;
+                planNameLabel.textContent = 'Interested in the ' + btn.dataset.planName;
+            });
+        });
+
+        @if($errors->any())
+            new bootstrap.Modal(modalEl).show();
+        @endif
+    })();
+</script>
+@endpush

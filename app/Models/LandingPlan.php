@@ -22,4 +22,9 @@ class LandingPlan extends Model
     {
         return $this->hasMany(LandingPlanFeature::class)->orderBy('sort_order');
     }
+
+    public function inquiries()
+    {
+        return $this->hasMany(LandingPlanInquiry::class);
+    }
 }

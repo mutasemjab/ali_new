@@ -29,13 +29,20 @@
 
         * { box-sizing: border-box; }
 
+        html, body { height: 100%; }
+
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             color: var(--ink);
             margin: 0;
             background: #fff;
             -webkit-font-smoothing: antialiased;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
+
+        main { flex: 1 0 auto; }
 
         a { text-decoration: none; }
 
@@ -144,6 +151,7 @@
 
         .lp-footer a { color: rgba(255, 255, 255, .7); }
         .lp-footer a:hover { color: #fff; }
+        .lp-footer-legal { border-top: 1px solid rgba(255, 255, 255, .12); }
     </style>
 
     @stack('styles')
@@ -185,8 +193,14 @@
             </div>
             <div class="small">&copy; {{ date('Y') }} FlyerAll. All rights reserved.</div>
         </div>
+        <div class="container-xl d-flex flex-wrap gap-3 small lp-footer-legal mt-3 pt-3">
+            <a href="{{ route('landing.privacy-policy') }}">Privacy Policy</a>
+            <a href="{{ route('landing.terms-of-service') }}">Terms of Service</a>
+            <a href="{{ route('landing.anti-spam-policy') }}">Anti-Spam Policy</a>
+        </div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.getElementById('lpNavToggle').addEventListener('click', function () {
             document.getElementById('lpNavLinks').classList.toggle('is-open');

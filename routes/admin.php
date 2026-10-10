@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\EnrollmentController;
 use App\Http\Controllers\Admin\ExamController;
 use App\Http\Controllers\Admin\LandingHighlightController;
 use App\Http\Controllers\Admin\LandingPlanController;
+use App\Http\Controllers\Admin\LandingPlanInquiryController;
 use App\Http\Controllers\Admin\LandingSettingController;
 use App\Http\Controllers\Admin\LandingStepController;
 use App\Http\Controllers\Admin\LoginController;
@@ -90,6 +91,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
         Route::resource('landing-plans', LandingPlanController::class, ['as' => 'admin'])->except(['show']);
         Route::resource('landing-steps', LandingStepController::class, ['as' => 'admin'])->except(['show']);
         Route::resource('landing-highlights', LandingHighlightController::class, ['as' => 'admin'])->except(['show']);
+        Route::resource('landing-plan-inquiries', LandingPlanInquiryController::class, ['as' => 'admin'])->only(['index', 'destroy']);
+        Route::post('landing-plan-inquiries/{landing_plan_inquiry}/toggle', [LandingPlanInquiryController::class, 'toggle'])->name('admin.landing-plan-inquiries.toggle');
 
     });
 });
