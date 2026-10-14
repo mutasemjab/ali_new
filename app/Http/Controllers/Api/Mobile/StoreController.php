@@ -142,6 +142,7 @@ class StoreController extends Controller
 
     /**
      * GET /api/v1/stores/{store}/legal-document?type=privacy_policy|terms_of_service|anti_spam_policy
+     * Each store writes its own copy of these — not shared/global.
      */
     public function legalDocument(Request $request, Store $store)
     {
@@ -169,13 +170,13 @@ class StoreController extends Controller
             'status' => true,
             'message' => 'Document retrieved successfully',
             'data' => [
-                'content' => AppSetting::current()->{$type},
+                'content' => $store->{$type},
             ],
         ]);
     }
 
     /**
-     * GET /api/v1/stores/{store}/privacy
+     * GET /api/v1/stores/{store}/privacy — this store's own privacy policy, not shared/global.
      */
     public function privacy(Store $store)
     {
@@ -193,7 +194,7 @@ class StoreController extends Controller
             'data' => [
                 'store_id' => $store->id,
                 'store_name' => $store->name,
-                'privacy_policy' => AppSetting::current()->privacy_policy,
+                'privacy_policy' => $store->privacy_policy,
             ],
         ]);
     }

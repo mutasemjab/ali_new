@@ -123,24 +123,33 @@ class CouponController extends Controller
         return back()->with('success', 'Coupon deleted');
     }
 
-    public function reorder(Request $request, Coupon $coupon)
+    public function reorder(Request $request)
     {
         $request->validate([
-            'sort_order' => 'required|integer|min:1',
+            'sort_order' => 'required|array',
+            'sort_order.*' => 'required|integer|min:1',
         ]);
 
-        $newOrder = (int) $request->sort_order;
+        DB::transaction(function () use ($request) {
+            foreach ($request->sort_order as $couponId => $newOrder) {
+                $coupon = Coupon::find($couponId);
 
-        DB::transaction(function () use ($coupon, $newOrder) {
-            $existing = Coupon::where('sort_order', $newOrder)
-                ->where('id', '!=', $coupon->id)
-                ->first();
+                if (! $coupon) {
+                    continue;
+                }
 
-            if ($existing) {
-                $existing->update(['sort_order' => $coupon->sort_order]);
+                $newOrder = (int) $newOrder;
+
+                $existing = Coupon::where('sort_order', $newOrder)
+                    ->where('id', '!=', $coupon->id)
+                    ->first();
+
+                if ($existing) {
+                    $existing->update(['sort_order' => $coupon->sort_order]);
+                }
+
+                $coupon->update(['sort_order' => $newOrder]);
             }
-
-            $coupon->update(['sort_order' => $newOrder]);
         });
 
         return back()->with('success', 'Coupon order updated');

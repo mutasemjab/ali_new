@@ -19,6 +19,7 @@ use App\Http\Controllers\Store\QrController;
 use App\Http\Controllers\Store\RewardProductController;
 use App\Http\Controllers\Store\RewardRedemptionController;
 use App\Http\Controllers\Store\SocialController;
+use App\Http\Controllers\Store\StoreLegalController;
 use App\Http\Controllers\Store\WeeklyAdController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -41,14 +42,14 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
 
         Route::resource('products', ProductController::class, ['as' => 'store'])->except(['show']);
         Route::post('products/{product}/toggle', [ProductController::class, 'toggle'])->name('store.products.toggle');
-        Route::post('products/{product}/reorder', [ProductController::class, 'reorder'])->name('store.products.reorder');
+        Route::post('products/reorder', [ProductController::class, 'reorder'])->name('store.products.reorder');
 
         Route::resource('ads', AdController::class, ['as' => 'store'])->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
         Route::get('ads/{ad}/sms', [AdController::class, 'smsCreate'])->name('store.ads.sms.create');
         Route::post('ads/{ad}/sms', [AdController::class, 'smsSend'])->name('store.ads.sms.send');
 
         Route::resource('coupons', CouponController::class, ['as' => 'store'])->except(['show']);
-        Route::post('coupons/{coupon}/reorder', [CouponController::class, 'reorder'])->name('store.coupons.reorder');
+        Route::post('coupons/reorder', [CouponController::class, 'reorder'])->name('store.coupons.reorder');
 
         Route::resource('banners', BannerController::class, ['as' => 'store'])->except(['show']);
 
@@ -80,6 +81,14 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
 
         Route::get('pages', [PageSettingsController::class, 'edit'])->name('store.pages.edit');
         Route::put('pages', [PageSettingsController::class, 'update'])->name('store.pages.update');
+
+        // ── Legal pages — each store writes its own, shown in the mobile app/tablet ──
+        Route::get('legal/privacy', [StoreLegalController::class, 'editPrivacy'])->name('store.legal.privacy.edit');
+        Route::put('legal/privacy', [StoreLegalController::class, 'updatePrivacy'])->name('store.legal.privacy.update');
+        Route::get('legal/terms', [StoreLegalController::class, 'editTerms'])->name('store.legal.terms.edit');
+        Route::put('legal/terms', [StoreLegalController::class, 'updateTerms'])->name('store.legal.terms.update');
+        Route::get('legal/anti-spam', [StoreLegalController::class, 'editAntiSpam'])->name('store.legal.anti-spam.edit');
+        Route::put('legal/anti-spam', [StoreLegalController::class, 'updateAntiSpam'])->name('store.legal.anti-spam.update');
     });
 });
 

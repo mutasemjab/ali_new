@@ -154,6 +154,31 @@
             </li>
         </ul>
 
+        <div class="nav-label">Legal</div>
+        <ul>
+            <li class="nav-item">
+                <a href="{{ route('store.legal.privacy.edit') }}"
+                    class="nav-link {{ request()->routeIs('store.legal.privacy.*') ? 'active' : '' }}">
+                    <i class="nav-icon bi bi-shield-lock"></i>
+                    <span>Privacy Policy</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('store.legal.terms.edit') }}"
+                    class="nav-link {{ request()->routeIs('store.legal.terms.*') ? 'active' : '' }}">
+                    <i class="nav-icon bi bi-file-text"></i>
+                    <span>Terms of Service</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('store.legal.anti-spam.edit') }}"
+                    class="nav-link {{ request()->routeIs('store.legal.anti-spam.*') ? 'active' : '' }}">
+                    <i class="nav-icon bi bi-envelope-slash"></i>
+                    <span>Anti-Spam Policy</span>
+                </a>
+            </li>
+        </ul>
+
     </nav>
 
     {{-- Sidebar Footer --}}

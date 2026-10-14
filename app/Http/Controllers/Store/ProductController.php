@@ -118,24 +118,33 @@ class ProductController extends Controller
         return back()->with('success', $product->active ? 'Product activated' : 'Product deactivated');
     }
 
-    public function reorder(Request $request, Product $product)
+    public function reorder(Request $request)
     {
         $request->validate([
-            'sort_order' => 'required|integer|min:1',
+            'sort_order' => 'required|array',
+            'sort_order.*' => 'required|integer|min:1',
         ]);
 
-        $newOrder = (int) $request->sort_order;
+        DB::transaction(function () use ($request) {
+            foreach ($request->sort_order as $productId => $newOrder) {
+                $product = Product::find($productId);
 
-        DB::transaction(function () use ($product, $newOrder) {
-            $existing = Product::where('sort_order', $newOrder)
-                ->where('id', '!=', $product->id)
-                ->first();
+                if (! $product) {
+                    continue;
+                }
 
-            if ($existing) {
-                $existing->update(['sort_order' => $product->sort_order]);
+                $newOrder = (int) $newOrder;
+
+                $existing = Product::where('sort_order', $newOrder)
+                    ->where('id', '!=', $product->id)
+                    ->first();
+
+                if ($existing) {
+                    $existing->update(['sort_order' => $product->sort_order]);
+                }
+
+                $product->update(['sort_order' => $newOrder]);
             }
-
-            $product->update(['sort_order' => $newOrder]);
         });
 
         return back()->with('success', 'Product order updated');

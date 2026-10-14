@@ -61,10 +61,15 @@
     </div>
 </div>
 
+<form id="product-sort-form" action="{{ route('store.products.reorder') }}" method="POST">@csrf</form>
+
 <div class="panel-card">
-    <div class="panel-card-header d-flex align-items-center justify-content-between">
+    <div class="panel-card-header d-flex align-items-center justify-content-between flex-wrap gap-2">
         <h2 class="panel-card-title"><i class="bi bi-box-seam"></i> Product List</h2>
-        <span class="pill pill-info">{{ $products->total() }} products</span>
+        <div class="d-flex align-items-center gap-2">
+            <span class="pill pill-info">{{ $products->total() }} products</span>
+            <button type="submit" form="product-sort-form" class="btn-primary-sm"><i class="bi bi-save"></i> Save Sort Order</button>
+        </div>
     </div>
     <div class="panel-card-body p-0">
         <div class="table-responsive">
@@ -85,12 +90,8 @@
                     @forelse($products as $product)
                     <tr>
                         <td>
-                            <form action="{{ route('store.products.reorder', $product->id) }}" method="POST">
-                                @csrf
-                                <input type="number" name="sort_order" value="{{ $product->sort_order }}" min="1"
-                                    class="form-control form-control-sm" style="width:70px;"
-                                    onchange="this.form.submit()">
-                            </form>
+                            <input type="number" name="sort_order[{{ $product->id }}]" value="{{ $product->sort_order }}" min="1"
+                                class="form-control form-control-sm" style="width:70px;" form="product-sort-form">
                         </td>
                         <td><img src="{{ asset($product->image) }}" alt="" style="width:150px;height:110px;object-fit:cover;border-radius:6px;"></td>
                         <td><span class="fw-semibold">{{ $product->name }}</span></td>
