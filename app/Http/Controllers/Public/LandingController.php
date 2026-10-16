@@ -95,12 +95,9 @@ class LandingController extends Controller
             'email' => 'required|email|max:200',
             'phone' => 'nullable|string|max:50',
             'message' => 'required|string|max:2000',
-            'consent_non_marketing' => 'accepted',
+            'consent_non_marketing' => 'nullable|boolean',
             'consent_marketing' => 'nullable|boolean',
-            'consent_terms' => 'accepted',
-        ], [
-            'consent_non_marketing.accepted' => 'Please accept the non-marketing SMS consent to continue.',
-            'consent_terms.accepted' => 'Please accept the Privacy Policy and Terms and Conditions to continue.',
+            'consent_terms' => 'nullable|boolean',
         ]);
 
         LandingContactMessage::create([
@@ -108,9 +105,9 @@ class LandingController extends Controller
             'email' => $data['email'],
             'phone' => $data['phone'] ?? null,
             'message' => $data['message'],
-            'consent_non_marketing' => true,
+            'consent_non_marketing' => $request->boolean('consent_non_marketing'),
             'consent_marketing' => $request->boolean('consent_marketing'),
-            'consent_terms' => true,
+            'consent_terms' => $request->boolean('consent_terms'),
         ]);
 
         return redirect()->route('landing.contact')->with('success', "Thanks for reaching out! We'll be in touch shortly.");
