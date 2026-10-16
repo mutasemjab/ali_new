@@ -11,7 +11,8 @@
         </p>
 
         <div class="text-center mt-4">
-            <a href="{{ $setting->cta_url ?: '#' }}" class="lp-btn-cta">{{ $setting->cta_text ?: 'Get Started' }} <i class="bi bi-arrow-right"></i></a>
+            @php $ctaHref = ($setting->cta_url && $setting->cta_url !== '#') ? $setting->cta_url : route('landing.plans'); @endphp
+            <a href="{{ $ctaHref }}" class="lp-btn-cta">{{ $setting->cta_text ?: 'Get Started' }} <i class="bi bi-arrow-right"></i></a>
         </div>
     </div>
 </section>

@@ -66,4 +66,24 @@ class StoreLegalController extends Controller
 
         return redirect()->route('store.legal.anti-spam.edit')->with('success', 'Anti-spam policy updated successfully');
     }
+
+    public function editTabletConsent()
+    {
+        $store = auth('store')->user();
+
+        return view('store.legal.tablet-consent', compact('store'));
+    }
+
+    public function updateTabletConsent(Request $request)
+    {
+        $request->validate([
+            'tablet_consent_text' => 'nullable|string',
+        ]);
+
+        auth('store')->user()->update([
+            'tablet_consent_text' => $request->tablet_consent_text,
+        ]);
+
+        return redirect()->route('store.legal.tablet-consent.edit')->with('success', 'Tablet consent screen updated successfully');
+    }
 }

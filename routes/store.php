@@ -89,6 +89,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
         Route::put('legal/terms', [StoreLegalController::class, 'updateTerms'])->name('store.legal.terms.update');
         Route::get('legal/anti-spam', [StoreLegalController::class, 'editAntiSpam'])->name('store.legal.anti-spam.edit');
         Route::put('legal/anti-spam', [StoreLegalController::class, 'updateAntiSpam'])->name('store.legal.anti-spam.update');
+        Route::get('legal/tablet-consent', [StoreLegalController::class, 'editTabletConsent'])->name('store.legal.tablet-consent.edit');
+        Route::put('legal/tablet-consent', [StoreLegalController::class, 'updateTabletConsent'])->name('store.legal.tablet-consent.update');
     });
 });
 

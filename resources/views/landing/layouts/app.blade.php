@@ -160,6 +160,11 @@
 <body>
 
     <header class="container-xl">
+        @php
+            // Falls back to the Plans page (where "getting started" actually works today)
+            // whenever the admin hasn't set a real CTA link yet, instead of a dead "#".
+            $ctaHref = ($setting->cta_url && $setting->cta_url !== '#') ? $setting->cta_url : route('landing.plans');
+        @endphp
         <nav class="lp-nav">
             <a href="{{ route('landing.home') }}" class="lp-brand">Flyer<span>All</span></a>
 
@@ -172,10 +177,10 @@
                 <li><a href="{{ route('landing.how-it-works') }}" class="{{ request()->routeIs('landing.how-it-works') ? 'active' : '' }}">How It Works</a></li>
                 <li><a href="{{ route('landing.about') }}" class="{{ request()->routeIs('landing.about') ? 'active' : '' }}">About</a></li>
                 <li><a href="{{ route('landing.contact') }}" class="{{ request()->routeIs('landing.contact') ? 'active' : '' }}">Contact</a></li>
-                <li class="d-md-none mt-2"><a href="{{ $setting->cta_url ?: '#' }}" class="lp-btn-cta">{{ $setting->cta_text ?: 'Get Started' }} <i class="bi bi-arrow-right"></i></a></li>
+                <li class="d-md-none mt-2"><a href="{{ $ctaHref }}" class="lp-btn-cta">{{ $setting->cta_text ?: 'Get Started' }} <i class="bi bi-arrow-right"></i></a></li>
             </ul>
 
-            <a href="{{ $setting->cta_url ?: '#' }}" class="lp-btn-cta d-none d-md-inline-flex">{{ $setting->cta_text ?: 'Get Started' }} <i class="bi bi-arrow-right"></i></a>
+            <a href="{{ $ctaHref }}" class="lp-btn-cta d-none d-md-inline-flex">{{ $setting->cta_text ?: 'Get Started' }} <i class="bi bi-arrow-right"></i></a>
         </nav>
     </header>
 

@@ -42,6 +42,7 @@ Route::post('plans/inquire', [LandingController::class, 'storePlanInquiry'])->na
 Route::get('how-it-works', [LandingController::class, 'howItWorks'])->name('landing.how-it-works');
 Route::get('about', [LandingController::class, 'about'])->name('landing.about');
 Route::get('contact', [LandingController::class, 'contact'])->name('landing.contact');
+Route::post('contact', [LandingController::class, 'storeContactMessage'])->name('landing.contact.store');
 Route::get('privacy-policy', [LandingController::class, 'privacyPolicy'])->name('landing.privacy-policy');
 Route::get('terms-of-service', [LandingController::class, 'termsOfService'])->name('landing.terms-of-service');
 Route::get('anti-spam-policy', [LandingController::class, 'antiSpamPolicy'])->name('landing.anti-spam-policy');

@@ -19,7 +19,7 @@ class LandingPageSeeder extends Seeder
             'monthly_fee_label' => 'per month',
             'redeem_banner_text' => 'Redeem rewards only when you are at the store and ready to check out.',
             'cta_text' => 'Get Started',
-            'cta_url' => '#',
+            'cta_url' => route('landing.plans'),
             'about_title' => 'About FlyerAll',
             'about_body' => "FlyerAll helps local stores grow by sending weekly ads and promotions straight to customers' phones, rewarding loyal shoppers with points, and giving every store its own branded app — all from one simple in-store tablet.",
             'contact_email' => 'support@flyerall.net',

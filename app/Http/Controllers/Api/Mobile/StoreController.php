@@ -141,7 +141,7 @@ class StoreController extends Controller
     }
 
     /**
-     * GET /api/v1/stores/{store}/legal-document?type=privacy_policy|terms_of_service|anti_spam_policy
+     * GET /api/v1/stores/{store}/legal-document?type=privacy_policy|terms_of_service|anti_spam_policy|tablet_consent_text
      * Each store writes its own copy of these — not shared/global.
      */
     public function legalDocument(Request $request, Store $store)
@@ -156,7 +156,7 @@ class StoreController extends Controller
 
         $type = $request->query('type');
 
-        $columns = ['privacy_policy', 'terms_of_service', 'anti_spam_policy'];
+        $columns = ['privacy_policy', 'terms_of_service', 'anti_spam_policy', 'tablet_consent_text'];
 
         if (! in_array($type, $columns, true)) {
             return response()->json([

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
 use App\Models\AppSetting;
+use App\Models\LandingContactMessage;
 use App\Models\LandingHighlight;
 use App\Models\LandingPlan;
 use App\Models\LandingPlanInquiry;
@@ -85,6 +86,34 @@ class LandingController extends Controller
         $setting = LandingSetting::current();
 
         return view('landing.contact', compact('setting'));
+    }
+
+    public function storeContactMessage(Request $request)
+    {
+        $data = $request->validate([
+            'name' => 'required|string|max:200',
+            'email' => 'required|email|max:200',
+            'phone' => 'nullable|string|max:50',
+            'message' => 'required|string|max:2000',
+            'consent_non_marketing' => 'accepted',
+            'consent_marketing' => 'nullable|boolean',
+            'consent_terms' => 'accepted',
+        ], [
+            'consent_non_marketing.accepted' => 'Please accept the non-marketing SMS consent to continue.',
+            'consent_terms.accepted' => 'Please accept the Privacy Policy and Terms and Conditions to continue.',
+        ]);
+
+        LandingContactMessage::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'phone' => $data['phone'] ?? null,
+            'message' => $data['message'],
+            'consent_non_marketing' => true,
+            'consent_marketing' => $request->boolean('consent_marketing'),
+            'consent_terms' => true,
+        ]);
+
+        return redirect()->route('landing.contact')->with('success', "Thanks for reaching out! We'll be in touch shortly.");
     }
 
     public function privacyPolicy()

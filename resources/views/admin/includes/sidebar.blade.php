@@ -120,6 +120,17 @@
                     @endif
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="{{ route('admin.landing-contact-messages.index') }}"
+                    class="nav-link {{ request()->routeIs('admin.landing-contact-messages.*') ? 'active' : '' }}">
+                    <i class="nav-icon bi bi-envelope-paper"></i>
+                    <span>Contact Messages</span>
+                    @php $unreadContactCount = \App\Models\LandingContactMessage::where('is_read', false)->count(); @endphp
+                    @if($unreadContactCount)
+                        <span class="pill pill-danger ms-auto">{{ $unreadContactCount }}</span>
+                    @endif
+                </a>
+            </li>
         </ul>
 
     </nav>

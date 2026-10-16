@@ -177,6 +177,13 @@
                     <span>Anti-Spam Policy</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="{{ route('store.legal.tablet-consent.edit') }}"
+                    class="nav-link {{ request()->routeIs('store.legal.tablet-consent.*') ? 'active' : '' }}">
+                    <i class="nav-icon bi bi-tablet"></i>
+                    <span>Tablet Consent Screen</span>
+                </a>
+            </li>
         </ul>
 
     </nav>
