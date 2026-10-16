@@ -66,7 +66,7 @@
                 <div class="lp-consent">
                     <input type="checkbox" name="consent_non_marketing" id="consentNonMarketing" value="1" {{ old('consent_non_marketing') ? 'checked' : '' }}>
                     <label for="consentNonMarketing">
-                        <strong>Non-Marketing Consent</strong>
+                        <strong>Please accept the non-marketing SMS consent to continue.</strong>
                         I agree to receive non-marketing SMS messages from FlyerAll regarding my inquiries, account assistance, platform support, customer sign-up assistance, loyalty program account information, service updates, and customer support communications. Message frequency may vary. Reply "HELP" for assistance or "STOP" to unsubscribe. Standard message and data rates may apply.
                     </label>
                 </div>
@@ -82,7 +82,7 @@
                 <div class="lp-consent">
                     <input type="checkbox" name="consent_terms" id="consentTerms" value="1" {{ old('consent_terms') ? 'checked' : '' }}>
                     <label for="consentTerms">
-                        I agree with the <a href="{{ route('landing.privacy-policy') }}" target="_blank" class="lp-c-primary">Privacy Policy</a> and <a href="{{ route('landing.terms-of-service') }}" target="_blank" class="lp-c-primary">Terms and Conditions</a>.
+                        Please accept the <a href="{{ route('landing.privacy-policy') }}" target="_blank" class="lp-c-primary">Privacy Policy</a> and <a href="{{ route('landing.terms-of-service') }}" target="_blank" class="lp-c-primary">Terms and Conditions</a> to continue.
                     </label>
                 </div>
             </div>
