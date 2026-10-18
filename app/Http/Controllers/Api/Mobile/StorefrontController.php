@@ -393,8 +393,8 @@ class StorefrontController extends Controller
             'price_usd' => $product->price_usd,
             'price_after' => $product->price_after,
             'has_active_discount' => $product->has_active_discount,
-            'discount_from' => $product->discount_from,
-            'discount_to' => $product->discount_to,
+            'discount_from' => optional($product->discount_from)->toDateString(),
+            'discount_to' => optional($product->discount_to)->toDateString(),
             'final_price' => $product->final_price,
         ];
     }
