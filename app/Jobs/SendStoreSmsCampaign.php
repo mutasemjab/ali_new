@@ -29,7 +29,7 @@ class SendStoreSmsCampaign implements ShouldQueue
         $failedCount = 0;
 
         foreach ($storeMessage->recipients()->withoutGlobalScopes()->get() as $recipient) {
-            $ok = $gateway->send($recipient->phone, $storeMessage->content);
+            $ok = $gateway->send($recipient->phone, $storeMessage->content, $store?->twilio_phone_number);
 
             $recipient->update([
                 'status' => $ok ? 'sent' : 'failed',

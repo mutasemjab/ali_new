@@ -11,7 +11,7 @@ class Store extends Authenticatable
 
     protected $fillable = [
         'name', 'email', 'phone', 'password', 'photo', 'activate', 'total_sms',
-        'privacy_policy', 'terms_of_service', 'anti_spam_policy', 'tablet_consent_text', 'facebook_link', 'pin', 'points_per_visit',
+        'privacy_policy', 'terms_of_service', 'anti_spam_policy', 'tablet_consent_text', 'facebook_link', 'pin', 'twilio_phone_number', 'points_per_visit',
         'show_in_store_deals', 'show_social', 'show_qr', 'show_weekly_ads',
         'show_coupons', 'show_location', 'show_rewards',
     ];

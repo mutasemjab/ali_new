@@ -37,6 +37,7 @@ class StoreController extends Controller
             'password' => 'required|string|min:8|confirmed',
             'photo' => 'nullable|image|max:2048',
             'pin' => 'nullable|string|max:10',
+            'twilio_phone_number' => 'nullable|string|max:20',
         ]);
 
         $photoPath = $request->hasFile('photo')
@@ -52,6 +53,7 @@ class StoreController extends Controller
             'activate' => 1,
             'total_sms' => 0,
             'pin' => $request->pin,
+            'twilio_phone_number' => $request->twilio_phone_number,
         ]);
 
         return redirect()->route('admin.stores.index')->with('success', 'Store created successfully');
@@ -79,6 +81,7 @@ class StoreController extends Controller
             'password' => 'nullable|string|min:8|confirmed',
             'photo' => 'nullable|image|max:2048',
             'pin' => 'nullable|string|max:10',
+            'twilio_phone_number' => 'nullable|string|max:20',
         ]);
 
         $data = [
@@ -86,6 +89,7 @@ class StoreController extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
             'pin' => $request->pin,
+            'twilio_phone_number' => $request->twilio_phone_number,
         ];
 
         if ($request->filled('password')) {

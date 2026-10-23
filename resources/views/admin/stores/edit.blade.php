@@ -58,6 +58,11 @@
                 <input type="text" name="pin" value="{{ old('pin', $store->pin) }}" class="form-control" maxlength="10" placeholder="e.g. 1234">
                 <div class="form-text">Given to the store to unlock their tablet kiosk.</div>
             </div>
+            <div class="col-md-6">
+                <label class="form-label">Twilio Phone Number</label>
+                <input type="text" name="twilio_phone_number" value="{{ old('twilio_phone_number', $store->twilio_phone_number) }}" class="form-control" placeholder="e.g. +13098931618">
+                <div class="form-text">The number this store's SMS sends from. Leave empty to use the platform's shared number.</div>
+            </div>
         </div>
     </div>
 </div>

@@ -15,7 +15,7 @@ class TwilioSmsGateway implements SmsGatewayInterface
         $this->client = new Client();
     }
 
-    public function send(string $to, string $message): bool
+    public function send(string $to, string $message, ?string $from = null): bool
     {
         try {
             $response = $this->client->post(
@@ -24,7 +24,7 @@ class TwilioSmsGateway implements SmsGatewayInterface
                     'auth' => [$this->sid, $this->token],
                     'form_params' => [
                         'To' => $to,
-                        'From' => $this->from,
+                        'From' => $from ?: $this->from,
                         'Body' => $message,
                     ],
                 ]
