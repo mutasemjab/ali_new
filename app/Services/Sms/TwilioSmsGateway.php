@@ -15,16 +15,20 @@ class TwilioSmsGateway implements SmsGatewayInterface
         $this->client = new Client();
     }
 
-    public function send(string $to, string $message, ?string $from = null): bool
+    public function send(string $to, string $message, ?string $from = null, ?string $sid = null, ?string $token = null): bool
     {
+        $sid = $sid ?: $this->sid;
+        $token = $token ?: $this->token;
+        $from = $from ?: $this->from;
+
         try {
             $response = $this->client->post(
-                "https://api.twilio.com/2010-04-01/Accounts/{$this->sid}/Messages.json",
+                "https://api.twilio.com/2010-04-01/Accounts/{$sid}/Messages.json",
                 [
-                    'auth' => [$this->sid, $this->token],
+                    'auth' => [$sid, $token],
                     'form_params' => [
                         'To' => $to,
-                        'From' => $from ?: $this->from,
+                        'From' => $from,
                         'Body' => $message,
                     ],
                 ]

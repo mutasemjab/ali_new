@@ -38,6 +38,8 @@ class StoreController extends Controller
             'photo' => 'nullable|image|max:2048',
             'pin' => 'nullable|string|max:10',
             'twilio_phone_number' => 'nullable|string|max:20',
+            'twilio_sid' => 'nullable|string|max:50',
+            'twilio_auth_token' => 'nullable|string|max:200',
         ]);
 
         $photoPath = $request->hasFile('photo')
@@ -54,6 +56,8 @@ class StoreController extends Controller
             'total_sms' => 0,
             'pin' => $request->pin,
             'twilio_phone_number' => $request->twilio_phone_number,
+            'twilio_sid' => $request->twilio_sid,
+            'twilio_auth_token' => $request->twilio_auth_token,
         ]);
 
         return redirect()->route('admin.stores.index')->with('success', 'Store created successfully');
@@ -82,6 +86,8 @@ class StoreController extends Controller
             'photo' => 'nullable|image|max:2048',
             'pin' => 'nullable|string|max:10',
             'twilio_phone_number' => 'nullable|string|max:20',
+            'twilio_sid' => 'nullable|string|max:50',
+            'twilio_auth_token' => 'nullable|string|max:200',
         ]);
 
         $data = [
@@ -90,10 +96,17 @@ class StoreController extends Controller
             'phone' => $request->phone,
             'pin' => $request->pin,
             'twilio_phone_number' => $request->twilio_phone_number,
+            'twilio_sid' => $request->twilio_sid,
         ];
 
         if ($request->filled('password')) {
             $data['password'] = Hash::make($request->password);
+        }
+
+        // Write-only, like the password field: only overwrite the stored (encrypted)
+        // token when a new one is actually typed, so editing other fields doesn't clear it.
+        if ($request->filled('twilio_auth_token')) {
+            $data['twilio_auth_token'] = $request->twilio_auth_token;
         }
 
         if ($request->hasFile('photo')) {

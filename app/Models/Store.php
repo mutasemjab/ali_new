@@ -11,17 +11,19 @@ class Store extends Authenticatable
 
     protected $fillable = [
         'name', 'email', 'phone', 'password', 'photo', 'activate', 'total_sms',
-        'privacy_policy', 'terms_of_service', 'anti_spam_policy', 'tablet_consent_text', 'facebook_link', 'pin', 'twilio_phone_number', 'points_per_visit',
+        'privacy_policy', 'terms_of_service', 'anti_spam_policy', 'tablet_consent_text', 'facebook_link', 'pin',
+        'twilio_phone_number', 'twilio_sid', 'twilio_auth_token', 'points_per_visit',
         'show_in_store_deals', 'show_social', 'show_qr', 'show_weekly_ads',
         'show_coupons', 'show_location', 'show_rewards',
     ];
 
-    protected $hidden = ['password'];
+    protected $hidden = ['password', 'twilio_auth_token'];
 
     protected $casts = [
         'activate' => 'integer',
         'total_sms' => 'integer',
         'points_per_visit' => 'integer',
+        'twilio_auth_token' => 'encrypted',
         'show_in_store_deals' => 'boolean',
         'show_social' => 'boolean',
         'show_qr' => 'boolean',
@@ -30,6 +32,21 @@ class Store extends Authenticatable
         'show_location' => 'boolean',
         'show_rewards' => 'boolean',
     ];
+
+    /**
+     * This store's own Twilio identity — sid, token, and from-number used together as one
+     * set, never mixed with the platform's shared credentials or another store's number.
+     * Returns [sid, token, from], each null when the store doesn't have its own full set
+     * (falls back to the shared .env TWILIO_* credentials at the call site).
+     */
+    public function twilioCredentials(): array
+    {
+        if ($this->twilio_sid && $this->twilio_auth_token && $this->twilio_phone_number) {
+            return [$this->twilio_sid, $this->twilio_auth_token, $this->twilio_phone_number];
+        }
+
+        return [null, null, null];
+    }
 
     public function isActive(): bool
     {

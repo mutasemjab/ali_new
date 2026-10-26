@@ -43,7 +43,9 @@ class OtpService
 
         // Reviewer/test numbers get the fixed code above without an actual SMS being sent.
         if (! $isTestPhone) {
-            $this->gateway->send($phone, "Your verification code is {$code}", $store->twilio_phone_number);
+            [$twilioSid, $twilioToken, $twilioFrom] = $store->twilioCredentials();
+
+            $this->gateway->send($phone, "Your verification code is {$code}", $twilioFrom, $twilioSid, $twilioToken);
         }
 
         return true;

@@ -61,7 +61,21 @@
             <div class="col-md-6">
                 <label class="form-label">Twilio Phone Number</label>
                 <input type="text" name="twilio_phone_number" value="{{ old('twilio_phone_number', $store->twilio_phone_number) }}" class="form-control" placeholder="e.g. +13098931618">
-                <div class="form-text">The number this store's SMS sends from. Leave empty to use the platform's shared number.</div>
+                <div class="form-text">The number this store's SMS sends from.</div>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Twilio Account SID</label>
+                <input type="text" name="twilio_sid" value="{{ old('twilio_sid', $store->twilio_sid) }}" class="form-control" placeholder="e.g. AC...">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Twilio Auth Token</label>
+                <input type="password" name="twilio_auth_token" value="" class="form-control" autocomplete="new-password" placeholder="{{ $store->twilio_auth_token ? '••••••••••••••••' : '' }}">
+                <div class="form-text">
+                    Phone Number, SID, and Auth Token are used together — fill in all three for this store to send from its own Twilio account, or leave all three empty to use the platform's shared account.
+                    @if($store->twilio_auth_token)
+                        A token is already saved for this store — leave blank to keep it, or type a new one to replace it.
+                    @endif
+                </div>
             </div>
         </div>
     </div>
