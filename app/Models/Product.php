@@ -46,4 +46,26 @@ class Product extends Model
     {
         return $this->has_active_discount ? $this->price_after : $this->price_usd;
     }
+
+    /**
+     * A dated special-offer product whose window has closed. Once true, it should stop
+     * showing to customers — but stays untouched in the store panel so it can be reused
+     * for a future offer by just setting new dates.
+     */
+    public function getIsExpiredDealAttribute(): bool
+    {
+        return $this->discount_to && now()->toDateString() > $this->discount_to->toDateString();
+    }
+
+    /**
+     * Excludes expired dated special offers from a product listing, without touching
+     * products that were never dated in the first place.
+     */
+    public function scopeNotExpiredDeal($query)
+    {
+        return $query->where(function ($q) {
+            $q->whereNull('discount_to')
+                ->orWhereDate('discount_to', '>=', now()->toDateString());
+        });
+    }
 }

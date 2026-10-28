@@ -47,6 +47,7 @@ class StorefrontController extends Controller
         $products = Product::with('category')
             ->where('store_id', $store->id)
             ->where('active', true)
+            ->notExpiredDeal()
             ->when($request->category_id, fn ($q, $categoryId) => $q->where('category_id', $categoryId))
             ->when($request->search, fn ($q, $s) => $q->where('name', 'like', "%$s%"))
             ->orderBy('sort_order')
