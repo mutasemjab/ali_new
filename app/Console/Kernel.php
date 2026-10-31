@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Artisan;
 
 class Kernel extends ConsoleKernel
 {
@@ -15,7 +16,13 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('products:deactivate-expired-deals')->hourly();
+        // ->command(...) would spawn a new subprocess via proc_open(), which this host
+        // has disabled. ->call(Artisan::call(...)) runs it in-process instead — same
+        // effect, no proc_open needed.
+        $schedule->call(fn () => Artisan::call('products:deactivate-expired-deals'))
+            ->name('products-deactivate-expired-deals')
+            ->hourly()
+            ->withoutOverlapping();
     }
 
     /**
