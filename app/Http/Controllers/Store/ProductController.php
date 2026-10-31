@@ -13,6 +13,8 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
+        Product::deactivateExpiredDeals();
+
         $products = Product::with('category')
             ->when($request->search, fn ($q, $s) => $q->where('name', 'like', "%$s%"))
             ->when($request->category_id, fn ($q, $categoryId) => $q->where('category_id', $categoryId))

@@ -26,6 +26,18 @@ class SendStoreSmsCampaign implements ShouldQueue
 
         $store = $storeMessage->store()->withoutGlobalScopes()->first();
         [$twilioSid, $twilioToken, $twilioFrom] = $store?->twilioCredentials() ?? [null, null, null];
+
+        // Created up front and updated after every single send (not once at the end) —
+        // so if this run gets interrupted partway through (timeout, worker restart), the
+        // store's balance still accurately reflects exactly what was actually sent so far.
+        $ledger = $store ? StoreSms::create([
+            'store_id' => $store->id,
+            'type' => 'send',
+            'quantity' => 0,
+            'balance_after' => $store->total_sms,
+            'reference' => 'store_message:' . $storeMessage->id,
+        ]) : null;
+
         $sentCount = 0;
         $failedCount = 0;
 
@@ -37,7 +49,21 @@ class SendStoreSmsCampaign implements ShouldQueue
                 'sent_at' => $ok ? now() : null,
             ]);
 
-            $ok ? $sentCount++ : $failedCount++;
+            if ($ok) {
+                $sentCount++;
+
+                if ($store) {
+                    $store->total_sms = max(0, $store->total_sms - 1);
+                    $store->save();
+
+                    $ledger->update([
+                        'quantity' => $ledger->quantity - 1,
+                        'balance_after' => $store->total_sms,
+                    ]);
+                }
+            } else {
+                $failedCount++;
+            }
         }
 
         $storeMessage->update([
@@ -45,19 +71,5 @@ class SendStoreSmsCampaign implements ShouldQueue
             'failed_count' => $failedCount,
             'status' => $failedCount === 0 ? 'sent' : ($sentCount === 0 ? 'failed' : 'sent'),
         ]);
-
-        if ($sentCount > 0 && $store) {
-            $balanceAfter = max(0, $store->total_sms - $sentCount);
-
-            StoreSms::create([
-                'store_id' => $store->id,
-                'type' => 'send',
-                'quantity' => -$sentCount,
-                'balance_after' => $balanceAfter,
-                'reference' => 'store_message:' . $storeMessage->id,
-            ]);
-
-            $store->update(['total_sms' => $balanceAfter]);
-        }
     }
 }

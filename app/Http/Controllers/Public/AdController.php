@@ -11,7 +11,11 @@ class AdController extends Controller
     {
         app()->setLocale('en');
 
-        $ad = Ad::with(['products', 'store.socials', 'images'])->where('token', $token)->firstOrFail();
+        $ad = Ad::with([
+            'products' => fn ($q) => $q->where('active', true)->notExpiredDeal(),
+            'store.socials',
+            'images',
+        ])->where('token', $token)->firstOrFail();
 
         if ($ad->is_expired) {
             return view('public.ads.expired', ['ad' => $ad, 'reason' => 'expired']);

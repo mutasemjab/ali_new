@@ -44,6 +44,8 @@ class StorefrontController extends Controller
      */
     public function products(Request $request, Store $store)
     {
+        Product::deactivateExpiredDeals($store->id);
+
         $products = Product::with('category')
             ->where('store_id', $store->id)
             ->where('active', true)

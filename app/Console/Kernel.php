@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('sms:expire-balances')->daily();
+        $schedule->command('products:deactivate-expired-deals')->hourly();
     }
 
     /**

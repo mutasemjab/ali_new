@@ -68,4 +68,24 @@ class Product extends Model
                 ->orWhereDate('discount_to', '>=', now()->toDateString());
         });
     }
+
+    /**
+     * Flips the ON/OFF switch itself to OFF for any still-active product whose dated
+     * offer has closed, so the store panel reflects it, not just query-time filtering.
+     * Safe to call often — only touches rows that actually need it. Returns how many
+     * were flipped.
+     *
+     * Pass $storeId when calling from a context with no tenant bound (e.g. the mobile
+     * API) to avoid sweeping every store's products on every request. Omit it inside
+     * the store panel, where the tenant global scope already restricts it for you,
+     * or from a scheduled command, where sweeping every store is exactly the point.
+     */
+    public static function deactivateExpiredDeals(?int $storeId = null): int
+    {
+        return static::when($storeId, fn ($q) => $q->where('store_id', $storeId))
+            ->where('active', true)
+            ->whereNotNull('discount_to')
+            ->whereDate('discount_to', '<', now()->toDateString())
+            ->update(['active' => false]);
+    }
 }
