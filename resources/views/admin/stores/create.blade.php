@@ -72,6 +72,11 @@
                 <input type="password" name="twilio_auth_token" value="" class="form-control" autocomplete="new-password">
                 <div class="form-text">Phone Number, SID, and Auth Token are used together — fill in all three for this store to send from its own Twilio account, or leave all three empty to use the platform's shared account.</div>
             </div>
+            <div class="col-md-6">
+                <label class="form-label">Subdomain</label>
+                <input type="text" name="subdomain" value="{{ old('subdomain') }}" class="form-control" maxlength="63" placeholder="e.g. laesperanzamarket">
+                <div class="form-text">Used for this store's ad/weekly-ad SMS links, e.g. "laesperanzamarket.flyerall.net". Leave empty to use the shared flyerall.net domain.</div>
+            </div>
         </div>
     </div>
 </div>

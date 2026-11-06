@@ -77,6 +77,11 @@
                     @endif
                 </div>
             </div>
+            <div class="col-md-6">
+                <label class="form-label">Subdomain</label>
+                <input type="text" name="subdomain" value="{{ old('subdomain', $store->subdomain) }}" class="form-control" maxlength="63" placeholder="e.g. laesperanzamarket">
+                <div class="form-text">Used for this store's ad/weekly-ad SMS links, e.g. "laesperanzamarket.flyerall.net". Leave empty to use the shared flyerall.net domain.</div>
+            </div>
         </div>
     </div>
 </div>

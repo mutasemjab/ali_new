@@ -12,7 +12,7 @@ class Store extends Authenticatable
     protected $fillable = [
         'name', 'email', 'phone', 'password', 'photo', 'activate', 'total_sms',
         'privacy_policy', 'terms_of_service', 'anti_spam_policy', 'tablet_consent_text', 'facebook_link', 'pin',
-        'twilio_phone_number', 'twilio_sid', 'twilio_auth_token', 'points_per_visit',
+        'twilio_phone_number', 'twilio_sid', 'twilio_auth_token', 'subdomain', 'points_per_visit',
         'show_in_store_deals', 'show_social', 'show_qr', 'show_weekly_ads',
         'show_coupons', 'show_location', 'show_rewards',
     ];
@@ -46,6 +46,23 @@ class Store extends Authenticatable
         }
 
         return [null, null, null];
+    }
+
+    /**
+     * This store's own subdomain base ("https://laesperanzamarket.flyerall.net"), used to
+     * build its ad/weekly-ad public links. Null when the store has no subdomain configured
+     * yet, so callers fall back to the normal shared-domain URL.
+     */
+    public function publicLinkBaseUrl(): ?string
+    {
+        if (empty($this->subdomain)) {
+            return null;
+        }
+
+        $scheme = parse_url(config('app.url'), PHP_URL_SCHEME) ?: 'https';
+        $host = parse_url(config('app.url'), PHP_URL_HOST) ?: config('app.url');
+
+        return "{$scheme}://{$this->subdomain}.{$host}";
     }
 
     public function isActive(): bool

@@ -42,6 +42,12 @@ class WeeklyAd extends Model
 
     public function getPublicUrlAttribute(): string
     {
+        $base = $this->store?->publicLinkBaseUrl();
+
+        if ($base) {
+            return $base . route('public.weekly-ads.show', $this->token, false);
+        }
+
         return route('public.weekly-ads.show', $this->token);
     }
 }

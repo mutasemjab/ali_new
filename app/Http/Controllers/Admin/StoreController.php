@@ -40,6 +40,7 @@ class StoreController extends Controller
             'twilio_phone_number' => 'nullable|string|max:20',
             'twilio_sid' => 'nullable|string|max:50',
             'twilio_auth_token' => 'nullable|string|max:200',
+            'subdomain' => 'nullable|string|max:63|alpha_dash|unique:stores,subdomain',
         ]);
 
         $photoPath = $request->hasFile('photo')
@@ -58,6 +59,7 @@ class StoreController extends Controller
             'twilio_phone_number' => $request->twilio_phone_number,
             'twilio_sid' => $request->twilio_sid,
             'twilio_auth_token' => $request->twilio_auth_token,
+            'subdomain' => $request->subdomain,
         ]);
 
         return redirect()->route('admin.stores.index')->with('success', 'Store created successfully');
@@ -88,6 +90,7 @@ class StoreController extends Controller
             'twilio_phone_number' => 'nullable|string|max:20',
             'twilio_sid' => 'nullable|string|max:50',
             'twilio_auth_token' => 'nullable|string|max:200',
+            'subdomain' => 'nullable|string|max:63|alpha_dash|unique:stores,subdomain,' . $store->id,
         ]);
 
         $data = [
@@ -97,6 +100,7 @@ class StoreController extends Controller
             'pin' => $request->pin,
             'twilio_phone_number' => $request->twilio_phone_number,
             'twilio_sid' => $request->twilio_sid,
+            'subdomain' => $request->subdomain,
         ];
 
         if ($request->filled('password')) {

@@ -48,6 +48,12 @@ class Ad extends Model
 
     public function getPublicUrlAttribute(): string
     {
+        $base = $this->store?->publicLinkBaseUrl();
+
+        if ($base) {
+            return $base . route('public.ads.show', $this->token, false);
+        }
+
         return route('public.ads.show', $this->token);
     }
 
