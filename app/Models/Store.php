@@ -65,6 +65,25 @@ class Store extends Authenticatable
         return "{$scheme}://{$this->subdomain}.{$host}";
     }
 
+    /**
+     * The store whose subdomain matches the current request's host (e.g. visiting
+     * "laesperanzamarket.flyerall.net" resolves the "laesperanzamarket" store). Null when
+     * the request is on the root domain or no store has claimed that subdomain.
+     */
+    public static function resolveFromSubdomain(): ?self
+    {
+        $host = request()->getHost();
+        $rootHost = parse_url(config('app.url'), PHP_URL_HOST) ?: '';
+
+        if (empty($rootHost) || $host === $rootHost || ! str_ends_with($host, '.' . $rootHost)) {
+            return null;
+        }
+
+        $slug = substr($host, 0, -(strlen($rootHost) + 1));
+
+        return static::where('subdomain', $slug)->first();
+    }
+
     public function isActive(): bool
     {
         return (int) $this->activate === 1;

@@ -13,4 +13,18 @@ class StoreController extends Controller
 
         return view('public.privacy', compact('store', 'privacyPolicy'));
     }
+
+    public function termsOfService(Store $store)
+    {
+        $termsOfService = $store->terms_of_service;
+
+        return view('public.terms', compact('store', 'termsOfService'));
+    }
+
+    public function antiSpamPolicy(Store $store)
+    {
+        $antiSpamPolicy = $store->anti_spam_policy;
+
+        return view('public.anti-spam', compact('store', 'antiSpamPolicy'));
+    }
 }

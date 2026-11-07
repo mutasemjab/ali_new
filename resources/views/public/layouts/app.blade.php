@@ -428,6 +428,27 @@
             flex-direction: column;
             gap: 14px;
         }
+
+        .public-footer-legal {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 14px;
+            margin-top: 32px;
+            padding-top: 18px;
+            border-top: 1px solid var(--border);
+            font-size: .82rem;
+        }
+
+        .public-footer-legal a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        .public-footer-legal a:hover {
+            color: var(--ink);
+            text-decoration: underline;
+        }
     </style>
 
     @stack('styles')
@@ -456,6 +477,14 @@
         <div class="public-content">
             @yield('content')
         </div>
+
+        @isset($store)
+            <div class="public-footer-legal">
+                <a href="{{ route('public.stores.privacy', $store) }}">Privacy Policy</a>
+                <a href="{{ route('public.stores.terms', $store) }}">Terms of Service</a>
+                <a href="{{ route('public.stores.anti-spam', $store) }}">Anti-Spam Policy</a>
+            </div>
+        @endisset
 
     </div>
 

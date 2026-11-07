@@ -198,10 +198,17 @@
             </div>
             <div class="small">&copy; {{ date('Y') }} FlyerAll. All rights reserved.</div>
         </div>
+        @php $subdomainStore = \App\Models\Store::resolveFromSubdomain(); @endphp
         <div class="container-xl d-flex flex-wrap gap-3 small lp-footer-legal mt-3 pt-3">
-            <a href="{{ route('landing.privacy-policy') }}">Privacy Policy</a>
-            <a href="{{ route('landing.terms-of-service') }}">Terms of Service</a>
-            <a href="{{ route('landing.anti-spam-policy') }}">Anti-Spam Policy</a>
+            @if($subdomainStore)
+                <a href="{{ route('public.stores.privacy', $subdomainStore) }}">Privacy Policy</a>
+                <a href="{{ route('public.stores.terms', $subdomainStore) }}">Terms of Service</a>
+                <a href="{{ route('public.stores.anti-spam', $subdomainStore) }}">Anti-Spam Policy</a>
+            @else
+                <a href="{{ route('landing.privacy-policy') }}">Privacy Policy</a>
+                <a href="{{ route('landing.terms-of-service') }}">Terms of Service</a>
+                <a href="{{ route('landing.anti-spam-policy') }}">Anti-Spam Policy</a>
+            @endif
         </div>
     </footer>
 

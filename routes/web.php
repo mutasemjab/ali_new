@@ -26,6 +26,8 @@ Route::group([
 ], function () {
 
     Route::get('store/{store}/privacy', [StoreController::class, 'privacy'])->name('public.stores.privacy');
+    Route::get('store/{store}/terms', [StoreController::class, 'termsOfService'])->name('public.stores.terms');
+    Route::get('store/{store}/anti-spam', [StoreController::class, 'antiSpamPolicy'])->name('public.stores.anti-spam');
     Route::get('store/{store}/feedback', [FeedbackController::class, 'create'])->name('public.stores.feedback.create');
     Route::post('store/{store}/feedback', [FeedbackController::class, 'store'])->name('public.stores.feedback.store');
 });
