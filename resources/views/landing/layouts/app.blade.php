@@ -169,9 +169,13 @@
 
     <header class="container-xl">
         @php
-            // Falls back to the Plans page (where "getting started" actually works today)
-            // whenever the admin hasn't set a real CTA link yet, instead of a dead "#".
-            $ctaHref = ($setting->cta_url && $setting->cta_url !== '#') ? $setting->cta_url : route('landing.plans');
+            // $setting (LandingSetting) is only passed on the generic marketing pages —
+            // store-site pages don't use it, so this stays unset (and unused) there.
+            if (! $subdomainStore) {
+                // Falls back to the Plans page (where "getting started" actually works
+                // today) whenever the admin hasn't set a real CTA link yet, instead of "#".
+                $ctaHref = ($setting->cta_url && $setting->cta_url !== '#') ? $setting->cta_url : route('landing.plans');
+            }
         @endphp
         <nav class="lp-nav">
             @if($subdomainStore)
