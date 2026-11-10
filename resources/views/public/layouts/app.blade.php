@@ -479,10 +479,23 @@
         </div>
 
         @isset($store)
+            @php
+                // Use the short, id-less subdomain links only when we're actually being
+                // viewed on this store's own subdomain — a store without one configured
+                // (still on the shared flyerall.net/ads/... link) falls back to the
+                // id-based route, which works regardless of domain.
+                $onOwnSubdomain = $store->subdomain && optional(\App\Models\Store::resolveFromSubdomain())->is($store);
+            @endphp
             <div class="public-footer-legal">
-                <a href="{{ route('public.stores.privacy', $store) }}">Privacy Policy</a>
-                <a href="{{ route('public.stores.terms', $store) }}">Terms of Service</a>
-                <a href="{{ route('public.stores.anti-spam', $store) }}">Anti-Spam Policy</a>
+                @if($onOwnSubdomain)
+                    <a href="{{ route('public.store.legal.privacy') }}">Privacy Policy</a>
+                    <a href="{{ route('public.store.legal.terms') }}">Terms of Service</a>
+                    <a href="{{ route('public.store.legal.anti-spam') }}">Anti-Spam Policy</a>
+                @else
+                    <a href="{{ route('public.stores.privacy', $store) }}">Privacy Policy</a>
+                    <a href="{{ route('public.stores.terms', $store) }}">Terms of Service</a>
+                    <a href="{{ route('public.stores.anti-spam', $store) }}">Anti-Spam Policy</a>
+                @endif
             </div>
         @endisset
 

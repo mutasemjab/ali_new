@@ -1,10 +1,14 @@
+{{-- Reuse $store when the controller already resolved it (the store-site pages do);
+     only hit the database again for marketing pages that don't pass it (features,
+     plans, how-it-works, legal) but might still be viewed on a store's subdomain. --}}
+@php $subdomainStore = $store ?? \App\Models\Store::resolveFromSubdomain(); @endphp
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'FlyerAll') — FlyerAll</title>
+    <title>@yield('title', $subdomainStore ? $subdomainStore->name : 'FlyerAll') — {{ $subdomainStore ? $subdomainStore->name : 'FlyerAll' }}</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -137,6 +141,10 @@
         .lp-c-success { color: var(--c-success); } .lp-bg-success { background: var(--c-success); } .lp-grad-success { background: linear-gradient(135deg, var(--c-success), #22c55e); }
         .lp-c-warning { color: var(--c-warning); } .lp-bg-warning { background: var(--c-warning); } .lp-grad-warning { background: linear-gradient(135deg, var(--c-warning), #facc15); }
 
+        /* ── Shared contact-style card (contact info, socials, locations) ───── */
+        .lp-contact-card { border-radius: 20px; border: 1px solid var(--border); padding: 28px; display: flex; align-items: center; gap: 16px; }
+        .lp-contact-icon { width: 48px; height: 48px; border-radius: 12px; background: var(--c-primary); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; overflow: hidden; }
+
         .lp-soft-primary { background: rgba(37, 99, 235, .1); } .lp-soft-danger { background: rgba(225, 29, 72, .1); }
         .lp-soft-purple { background: rgba(124, 58, 237, .1); } .lp-soft-orange { background: rgba(249, 115, 22, .1); }
         .lp-soft-success { background: rgba(22, 163, 74, .1); } .lp-soft-warning { background: rgba(234, 179, 8, .1); }
@@ -166,21 +174,34 @@
             $ctaHref = ($setting->cta_url && $setting->cta_url !== '#') ? $setting->cta_url : route('landing.plans');
         @endphp
         <nav class="lp-nav">
-            <a href="{{ route('landing.home') }}" class="lp-brand">Flyer<span>All</span></a>
+            @if($subdomainStore)
+                <a href="{{ route('store-site.home') }}" class="lp-brand">{{ $subdomainStore->name }}</a>
+            @else
+                <a href="{{ route('landing.home') }}" class="lp-brand">Flyer<span>All</span></a>
+            @endif
 
             <button type="button" class="lp-nav-toggle" id="lpNavToggle"><i class="bi bi-list"></i></button>
 
             <ul class="lp-nav-links" id="lpNavLinks">
-                <li><a href="{{ route('landing.home') }}" class="{{ request()->routeIs('landing.home') ? 'active' : '' }}">Home</a></li>
-                <li><a href="{{ route('landing.features') }}" class="{{ request()->routeIs('landing.features') ? 'active' : '' }}">Features</a></li>
-                <li><a href="{{ route('landing.plans') }}" class="{{ request()->routeIs('landing.plans') ? 'active' : '' }}">Plans</a></li>
-                <li><a href="{{ route('landing.how-it-works') }}" class="{{ request()->routeIs('landing.how-it-works') ? 'active' : '' }}">How It Works</a></li>
-                <li><a href="{{ route('landing.about') }}" class="{{ request()->routeIs('landing.about') ? 'active' : '' }}">About</a></li>
-                <li><a href="{{ route('landing.contact') }}" class="{{ request()->routeIs('landing.contact') ? 'active' : '' }}">Contact</a></li>
-                <li class="d-md-none mt-2"><a href="{{ $ctaHref }}" class="lp-btn-cta">{{ $setting->cta_text ?: 'Get Started' }} <i class="bi bi-arrow-right"></i></a></li>
+                @if($subdomainStore)
+                    <li><a href="{{ route('store-site.home') }}" class="{{ request()->routeIs('store-site.home') ? 'active' : '' }}">Home</a></li>
+                    <li><a href="{{ route('landing.how-it-works') }}" class="{{ request()->routeIs('landing.how-it-works') ? 'active' : '' }}">How It Works</a></li>
+                    <li><a href="{{ route('store-site.about') }}" class="{{ request()->routeIs('store-site.about') ? 'active' : '' }}">About</a></li>
+                    <li><a href="{{ route('store-site.contact') }}" class="{{ request()->routeIs('store-site.contact') ? 'active' : '' }}">Contact</a></li>
+                @else
+                    <li><a href="{{ route('landing.home') }}" class="{{ request()->routeIs('landing.home') ? 'active' : '' }}">Home</a></li>
+                    <li><a href="{{ route('landing.features') }}" class="{{ request()->routeIs('landing.features') ? 'active' : '' }}">Features</a></li>
+                    <li><a href="{{ route('landing.plans') }}" class="{{ request()->routeIs('landing.plans') ? 'active' : '' }}">Plans</a></li>
+                    <li><a href="{{ route('landing.how-it-works') }}" class="{{ request()->routeIs('landing.how-it-works') ? 'active' : '' }}">How It Works</a></li>
+                    <li><a href="{{ route('landing.about') }}" class="{{ request()->routeIs('landing.about') ? 'active' : '' }}">About</a></li>
+                    <li><a href="{{ route('landing.contact') }}" class="{{ request()->routeIs('landing.contact') ? 'active' : '' }}">Contact</a></li>
+                    <li class="d-md-none mt-2"><a href="{{ $ctaHref }}" class="lp-btn-cta">{{ $setting->cta_text ?: 'Get Started' }} <i class="bi bi-arrow-right"></i></a></li>
+                @endif
             </ul>
 
-            <a href="{{ $ctaHref }}" class="lp-btn-cta d-none d-md-inline-flex">{{ $setting->cta_text ?: 'Get Started' }} <i class="bi bi-arrow-right"></i></a>
+            @unless($subdomainStore)
+                <a href="{{ $ctaHref }}" class="lp-btn-cta d-none d-md-inline-flex">{{ $setting->cta_text ?: 'Get Started' }} <i class="bi bi-arrow-right"></i></a>
+            @endunless
         </nav>
     </header>
 
@@ -190,20 +211,24 @@
 
     <footer class="lp-footer">
         <div class="container-xl d-flex flex-wrap align-items-center justify-content-between gap-3">
-            <div class="fw-bold text-white">FlyerAll</div>
+            <div class="fw-bold text-white">{{ $subdomainStore ? $subdomainStore->name : 'FlyerAll' }}</div>
             <div class="d-flex gap-3 small">
-                <a href="{{ route('landing.about') }}">About</a>
-                <a href="{{ route('landing.contact') }}">Contact</a>
-                <a href="{{ route('landing.plans') }}">Plans</a>
+                @if($subdomainStore)
+                    <a href="{{ route('store-site.about') }}">About</a>
+                    <a href="{{ route('store-site.contact') }}">Contact</a>
+                @else
+                    <a href="{{ route('landing.about') }}">About</a>
+                    <a href="{{ route('landing.contact') }}">Contact</a>
+                    <a href="{{ route('landing.plans') }}">Plans</a>
+                @endif
             </div>
-            <div class="small">&copy; {{ date('Y') }} FlyerAll. All rights reserved.</div>
+            <div class="small">&copy; {{ date('Y') }} {{ $subdomainStore ? $subdomainStore->name : 'FlyerAll' }}. All rights reserved.</div>
         </div>
-        @php $subdomainStore = \App\Models\Store::resolveFromSubdomain(); @endphp
         <div class="container-xl d-flex flex-wrap gap-3 small lp-footer-legal mt-3 pt-3">
             @if($subdomainStore)
-                <a href="{{ route('public.stores.privacy', $subdomainStore) }}">Privacy Policy</a>
-                <a href="{{ route('public.stores.terms', $subdomainStore) }}">Terms of Service</a>
-                <a href="{{ route('public.stores.anti-spam', $subdomainStore) }}">Anti-Spam Policy</a>
+                <a href="{{ route('public.store.legal.privacy') }}">Privacy Policy</a>
+                <a href="{{ route('public.store.legal.terms') }}">Terms of Service</a>
+                <a href="{{ route('public.store.legal.anti-spam') }}">Anti-Spam Policy</a>
             @else
                 <a href="{{ route('landing.privacy-policy') }}">Privacy Policy</a>
                 <a href="{{ route('landing.terms-of-service') }}">Terms of Service</a>

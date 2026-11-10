@@ -3,9 +3,6 @@
 
 @push('styles')
 <style>
-    .lp-contact-card { border-radius: 20px; border: 1px solid var(--border); padding: 28px; display: flex; align-items: center; gap: 16px; }
-    .lp-contact-icon { width: 48px; height: 48px; border-radius: 12px; background: var(--c-primary); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
-
     .lp-contact-form { border-radius: 22px; border: 1px solid var(--border); padding: 30px; box-shadow: 0 16px 40px -28px rgba(15,23,42,.35); }
     .lp-contact-form .form-label { font-weight: 600; font-size: .88rem; }
     .lp-contact-form .form-control { border-radius: 10px; border-color: var(--border); padding: 11px 14px; }
