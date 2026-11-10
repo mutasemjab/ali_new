@@ -66,11 +66,11 @@ class Store extends Authenticatable
     }
 
     /**
-     * The store whose subdomain matches the current request's host (e.g. visiting
-     * "laesperanzamarket.flyerall.net" resolves the "laesperanzamarket" store). Null when
-     * the request is on the root domain or no store has claimed that subdomain.
+     * The subdomain slug of the current request's host (e.g. "laesperanzamarket" for
+     * "laesperanzamarket.flyerall.net"), with no lookup against the stores table. Null on
+     * the root domain itself, or any host that isn't a direct subdomain of it.
      */
-    public static function resolveFromSubdomain(): ?self
+    public static function subdomainSlugFromHost(): ?string
     {
         $host = request()->getHost();
         $rootHost = parse_url(config('app.url'), PHP_URL_HOST) ?: '';
@@ -79,9 +79,19 @@ class Store extends Authenticatable
             return null;
         }
 
-        $slug = substr($host, 0, -(strlen($rootHost) + 1));
+        return substr($host, 0, -(strlen($rootHost) + 1));
+    }
 
-        return static::where('subdomain', $slug)->first();
+    /**
+     * The store whose subdomain matches the current request's host (e.g. visiting
+     * "laesperanzamarket.flyerall.net" resolves the "laesperanzamarket" store). Null when
+     * the request is on the root domain or no store has claimed that subdomain.
+     */
+    public static function resolveFromSubdomain(): ?self
+    {
+        $slug = static::subdomainSlugFromHost();
+
+        return $slug ? static::where('subdomain', $slug)->first() : null;
     }
 
     public function isActive(): bool
