@@ -15,6 +15,7 @@ class Store extends Authenticatable
         'twilio_phone_number', 'twilio_sid', 'twilio_auth_token', 'subdomain', 'points_per_visit',
         'show_in_store_deals', 'show_social', 'show_qr', 'show_weekly_ads',
         'show_coupons', 'show_location', 'show_rewards',
+        'hero_title', 'hero_subtitle', 'hero_image', 'about_title', 'about_body',
     ];
 
     protected $hidden = ['password', 'twilio_auth_token'];
@@ -152,6 +153,11 @@ class Store extends Authenticatable
     public function weeklyAds()
     {
         return $this->hasMany(WeeklyAd::class);
+    }
+
+    public function landingSteps()
+    {
+        return $this->hasMany(StoreLandingStep::class)->orderBy('sort_order');
     }
 
     public function socials()

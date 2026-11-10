@@ -52,6 +52,7 @@ Route::get('weekly-ads/{token}', [WeeklyAdController::class, 'show'])->name('pub
 // it must come after this group or it would win the match before this one is ever tried.
 Route::domain('{subdomain}.' . parse_url(config('app.url'), PHP_URL_HOST))->group(function () {
     Route::get('/', [StoreSiteController::class, 'home'])->name('store-site.home');
+    Route::get('how-it-works', [StoreSiteController::class, 'howItWorks'])->name('store-site.how-it-works');
     Route::get('about', [StoreSiteController::class, 'about'])->name('store-site.about');
     Route::get('contact', [StoreSiteController::class, 'contact'])->name('store-site.contact');
     Route::post('contact', [StoreSiteController::class, 'storeFeedback'])->name('store-site.contact.store');

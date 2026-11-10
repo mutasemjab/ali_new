@@ -152,6 +152,13 @@
                     <span>Public Page</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="{{ route('store.website.edit') }}"
+                    class="nav-link {{ request()->routeIs('store.website.*') ? 'active' : '' }}">
+                    <i class="nav-icon bi bi-globe"></i>
+                    <span>Website</span>
+                </a>
+            </li>
         </ul>
 
         <div class="nav-label">Legal</div>

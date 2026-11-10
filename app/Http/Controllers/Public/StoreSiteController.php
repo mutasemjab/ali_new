@@ -18,8 +18,9 @@ class StoreSiteController extends Controller
     public function home()
     {
         $store = $this->currentStore();
+        $steps = $store->landingSteps;
 
-        return view('landing.store-home', compact('store'));
+        return view('landing.store-home', compact('store', 'steps'));
     }
 
     public function about()
@@ -27,6 +28,14 @@ class StoreSiteController extends Controller
         $store = $this->currentStore();
 
         return view('landing.store-about', compact('store'));
+    }
+
+    public function howItWorks()
+    {
+        $store = $this->currentStore();
+        $steps = $store->landingSteps;
+
+        return view('landing.store-how-it-works', compact('store', 'steps'));
     }
 
     public function contact()

@@ -21,6 +21,7 @@ use App\Http\Controllers\Store\RewardRedemptionController;
 use App\Http\Controllers\Store\SocialController;
 use App\Http\Controllers\Store\StoreLegalController;
 use App\Http\Controllers\Store\WeeklyAdController;
+use App\Http\Controllers\Store\WebsiteSettingsController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -81,6 +82,13 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
 
         Route::get('pages', [PageSettingsController::class, 'edit'])->name('store.pages.edit');
         Route::put('pages', [PageSettingsController::class, 'update'])->name('store.pages.update');
+
+        // ── This store's own public "website" (home hero, about, how-it-works steps) ──
+        Route::get('website', [WebsiteSettingsController::class, 'edit'])->name('store.website.edit');
+        Route::put('website', [WebsiteSettingsController::class, 'update'])->name('store.website.update');
+        Route::post('website/steps', [WebsiteSettingsController::class, 'storeStep'])->name('store.website.steps.store');
+        Route::put('website/steps/{step}', [WebsiteSettingsController::class, 'updateStep'])->name('store.website.steps.update');
+        Route::delete('website/steps/{step}', [WebsiteSettingsController::class, 'destroyStep'])->name('store.website.steps.destroy');
 
         // ── Legal pages — each store writes its own, shown in the mobile app/tablet ──
         Route::get('legal/privacy', [StoreLegalController::class, 'editPrivacy'])->name('store.legal.privacy.edit');

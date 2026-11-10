@@ -189,7 +189,7 @@
             <ul class="lp-nav-links" id="lpNavLinks">
                 @if($subdomainStore)
                     <li><a href="{{ route('store-site.home') }}" class="{{ request()->routeIs('store-site.home') ? 'active' : '' }}">Home</a></li>
-                    <li><a href="{{ route('landing.how-it-works') }}" class="{{ request()->routeIs('landing.how-it-works') ? 'active' : '' }}">How It Works</a></li>
+                    <li><a href="{{ route('store-site.how-it-works') }}" class="{{ request()->routeIs('store-site.how-it-works') ? 'active' : '' }}">How It Works</a></li>
                     <li><a href="{{ route('store-site.about') }}" class="{{ request()->routeIs('store-site.about') ? 'active' : '' }}">About</a></li>
                     <li><a href="{{ route('store-site.contact') }}" class="{{ request()->routeIs('store-site.contact') ? 'active' : '' }}">Contact</a></li>
                 @else
